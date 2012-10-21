@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>The Collection</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+        body {
+            padding-top: 60px;
+            padding-bottom: 40px;
+        }
+        .sidebar-nav {
+            padding: 9px 0;
+        }
+    </style>
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="../assets/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
+</head>
+
+<body>
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container-fluid">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="#">Save The Children</a>
+            <div class="nav-collapse collapse">
+                <p class="navbar-text pull-right">
+                    Logged in as <a href="#" class="navbar-link">Username</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span2">
+            <div class="well sidebar-nav">
+                <ul class="nav nav-list">
+                    <li class="nav-header">Actions Menu</li>
+                    <li><a href="#">Dashboard</a></li>
+                    <li class="active"><a href="#">Donations</a></li>
+                    <li><a href="#">Promises</a></li>
+                    <li><a href="#">User Settings</a></li>
+                    <li class="nav-header">Admin Menu</li>
+                    <li><a href="#">Users</a></li>
+                    <li><a href="#">Members</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="span10">
+            <form class="form-horizontal">
+                <legend>Donations Search</legend>
+
+                <div class="span4">
+
+                    <div class="control-group">
+                        <label class="control-label" for="memberID">Member ID</label>
+                        <div class="controls">
+                            <input id="memberID" type="text" class="input-medium" />
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="name">Name</label>
+                        <div class="controls">
+                            <input id="name" type="text" class="input-medium"/>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="collector">Collector</label>
+                        <div class="controls">
+                            <select id="collector">
+                                <option>Collector 1</option>
+                                <option>Collector 2</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="name">Organisation</label>
+                        <div class="controls">
+                            <select id="organisation">
+                                <option value="abc">ABC</option>
+                                <option value="mcdonalds">McDonalds</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="span6">
+                    <div class="control-group">
+                        <label class="control-label" for="receipt">Receipt</label>
+                        <div class="controls">
+                            <input id="receipt" type="text" class="input-medium" />
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="name">DDT</label>
+                        <div class="controls">
+                            <input id="ddt" type="text" class="input-medium"/>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="dateFrom">Date</label>
+                        <div class="controls controls-row">
+                            <input id="dateFrom" type="date" placeholder="From" class="input-small"/>
+                            <input id="dateTo" type="text" placeholder="To" class="input-small" />
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="span10">
+                    <div class="controls controls-row pull-right">
+                        <input type="button" class="btn" name="newDonation" value="New Donation" />
+                        <input type="button" class="btn btn-primary" name="search" value="Search" />
+                    </div>
+
+                </div>
+
+
+                <div class="span10">
+                    <h3>Results</h3>
+                    <hr />
+
+                    <table id="searchResults" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Member</th>
+                                <th>Record No</th>
+                                <th>Total</th>
+                                <th class="span1">&nbsp;</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Name 1</td>
+                                <td>#7767-90</td>
+                                <td>#1001</td>
+                                <td>$1,200.88</td>
+                                <td><a class="btn btn-mini" href="#" title="Edit"><i class="icon-edit"></i></a>
+                                    <a class="btn btn-mini" href="#" title="Delete"><i class="icon-trash"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Name 2</td>
+                                <td>#7767-90</td>
+                                <td>#1001</td>
+                                <td>$1,200.88</td>
+                                <td><a class="btn btn-mini" href="#"><i class="icon-edit"></i></a>
+                                    <a class="btn btn-mini" href="#"><i class="icon-trash"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Name 2</td>
+                                <td>#7767-90</td>
+                                <td>#1001</td>
+                                <td>$1,200.88</td>
+                                <td><a class="btn btn-mini" href="#"><i class="icon-edit"></i></a>
+                                    <a class="btn btn-mini" href="#"><i class="icon-trash"></i></a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="pull-right">
+                        <div class="btn-group">
+                            <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="#">
+                                Export
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">CSV</a></li>
+                                <li><a href="#">Excel</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="pagination pagination-centered">
+                        <ul>
+                            <li><a href="#"><i class="icon-chevron-left" ></i></a></li>
+                            <li><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#"><i class="icon-chevron-right"></i></a></li>
+                        </ul>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+    <hr>
+
+    <footer>
+        <p>&copy;</p>
+    </footer>
+
+</div>
+
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="js/jquery-1.8.2.js"></script>
+<script src="js/bootstrap.js"></script>
+
+</body>
+</html>
