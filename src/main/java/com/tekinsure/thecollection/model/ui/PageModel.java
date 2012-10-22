@@ -1,4 +1,4 @@
-package com.tekinsure.thecollection.model;
+package com.tekinsure.thecollection.model.ui;
 
 /**
  * Created with IntelliJ IDEA.

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>The Collection</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+        body {
+            padding-top: 60px;
+            padding-bottom: 40px;
+        }
+        .sidebar-nav {
+            padding: 9px 0;
+        }
+    </style>
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="../assets/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
+</head>
+
+<body>
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container-fluid">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="#">Save The Children</a>
+            <div class="nav-collapse collapse">
+                <p class="navbar-text pull-right">
+                    Logged in as <a href="#" class="navbar-link">Username</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span2">
+            <div class="well sidebar-nav">
+                <ul class="nav nav-list">
+                    <li class="nav-header">Actions Menu</li>
+                    <li><a href="#">Dashboard</a></li>
+                    <li class="active"><a href="DonationSearchPage.html">Donations</a></li>
+                    <li><a href="PromisesSearchPage.html">Promises</a></li>
+                    <li><a href="#">User Settings</a></li>
+                    <li class="nav-header">Admin Menu</li>
+                    <li><a href="UserSearchPage.html">Users</a></li>
+                    <li><a href="MemberSearchPage.html">Members</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="span10">
+            <form class="form-horizontal">
+                <legend>Donor Details</legend>
+
+                <div class="span10">
+                    <div class="control-group">
+                        <div class="controls">
+                            <div class="input-append">
+                                <input wicket:id="memberSearch" type="text" class="input-xxlarge" placeholder="Member search" />
+                                <button type="submit" class="btn">Find</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="span4">
+
+                    <div class="control-group">
+                        <label class="control-label" for="memberID">Member ID</label>
+                        <div class="controls">
+                            <input wicket:id="memberID" type="text" class="input-medium" />
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="orgChapter">Org Chapter</label>
+                        <div class="controls">
+                            <input wicket:id="orgChapter" type="text" class="input-medium"/>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="ddRef">DD Ref</label>
+                        <div class="controls">
+                            <input wicket:id="ddRef" type="text" class="input-medium" />
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="span6">
+                    <div class="control-group">
+                        <label class="control-label" for="address1">Address</label>
+                        <div class="controls">
+                            <input wicket:id="address1" type="text" class="input-large" />
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <div class="controls">
+                            <input wicket:id="address2" type="text" class="input-large"/>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="suburb">Suburb</label>
+                        <div class="controls">
+                            <input wicket:id="suburb" type="text" class="input-medium" />
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="state">State</label>
+                        <div class="controls">
+                            <input wicket:id="state" type="text" class="input-small" />
+                        </div>
+                    </div>
+
+                </div>
+
+                <legend>Donation Details</legend>
+
+                <div class="span4">
+
+                    <div class="control-group">
+                        <label class="control-label" for="date">Date</label>
+                        <div class="controls">
+                            <input wicket:id="date" type="text" class="input-medium" />
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="span4">
+                    <div class="control-group">
+                        <label class="control-label" for="receiptNo">Receipt No</label>
+                        <div class="controls">
+                            <input wicket:id="receiptNo" type="text" class="input-medium"/>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="total">Total</label>
+                        <div class="controls">
+                            <input wicket:id="total" type="text" class="input-medium" />
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="span10">
+                    <div class="controls controls-row pull-right">
+                        <a href="DonationSearchPage.html" class="btn" id="cancel">Cancel</a>
+                        <input type="button" class="btn btn-success" name="search" value="Save" />
+                    </div>
+
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+
+    <hr>
+
+    <footer>
+        <p>&copy;</p>
+    </footer>
+
+</div>
+
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="js/jquery-1.8.2.js"></script>
+<script src="js/bootstrap.js"></script>
+
+</body>
+</html>

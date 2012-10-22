@@ -1,5 +1,6 @@
 package com.tekinsure.thecollection;
 
+import com.tekinsure.thecollection.pages.DonationNewPage;
 import com.tekinsure.thecollection.pages.DonationSearchPage;
 import org.apache.wicket.Page;
 import org.apache.wicket.core.request.mapper.MountedMapper;
@@ -36,8 +37,9 @@ public class CollectionApplication extends WebApplication {
 
 
         // Mount the pages to paths
-        mount(new MountedMapper("/donation.page", DonationSearchPage.class));
         //mount(new QueryStringUrlCodingStrategy("/search", TransactionSearch.class));
+        mount(new MountedMapper("/DonationSearchPage.html", DonationSearchPage.class));
+        mount(new MountedMapper("/DonationNewPage.html", DonationNewPage.class));
 
     }
 

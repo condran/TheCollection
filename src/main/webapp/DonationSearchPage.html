@@ -59,12 +59,12 @@
                 <ul class="nav nav-list">
                     <li class="nav-header">Actions Menu</li>
                     <li><a href="#">Dashboard</a></li>
-                    <li class="active"><a href="#">Donations</a></li>
-                    <li><a href="#">Promises</a></li>
+                    <li class="active"><a href="DonationSearchPage.html">Donations</a></li>
+                    <li><a href="PromisesSearchPage.html">Promises</a></li>
                     <li><a href="#">User Settings</a></li>
                     <li class="nav-header">Admin Menu</li>
-                    <li><a href="#">Users</a></li>
-                    <li><a href="#">Members</a></li>
+                    <li><a href="UserSearchPage.html">Users</a></li>
+                    <li><a href="MemberSearchPage.html">Members</a></li>
                 </ul>
             </div>
         </div>
@@ -78,14 +78,14 @@
                     <div class="control-group">
                         <label class="control-label" for="memberID">Member ID</label>
                         <div class="controls">
-                            <input id="memberID" type="text" class="input-medium" />
+                            <input wicket:id="memberID" type="text" class="input-medium" />
                         </div>
                     </div>
 
                     <div class="control-group">
                         <label class="control-label" for="name">Name</label>
                         <div class="controls">
-                            <input id="name" type="text" class="input-medium"/>
+                            <input wicket:id="name" type="text" class="input-medium"/>
                         </div>
                     </div>
 
@@ -114,22 +114,22 @@
                     <div class="control-group">
                         <label class="control-label" for="receipt">Receipt</label>
                         <div class="controls">
-                            <input id="receipt" type="text" class="input-medium" />
+                            <input wicket:id="receipt" type="text" class="input-medium" />
                         </div>
                     </div>
 
                     <div class="control-group">
                         <label class="control-label" for="name">DDT</label>
                         <div class="controls">
-                            <input id="ddt" type="text" class="input-medium"/>
+                            <input wicket:id="ddt" type="text" class="input-medium"/>
                         </div>
                     </div>
 
                     <div class="control-group">
                         <label class="control-label" for="dateFrom">Date</label>
                         <div class="controls controls-row">
-                            <input id="dateFrom" type="date" placeholder="From" class="input-small"/>
-                            <input id="dateTo" type="text" placeholder="To" class="input-small" />
+                            <input wicket:id="dateFrom" type="text" placeholder="From" class="input-small"/>
+                            <input wicket:id="dateTo" type="text" placeholder="To" class="input-small" />
                         </div>
                     </div>
 
@@ -137,7 +137,7 @@
 
                 <div class="span10">
                     <div class="controls controls-row pull-right">
-                        <input type="button" class="btn" name="newDonation" value="New Donation" />
+                        <a href="DonationNewPage.html" class="btn" id="newDonation">New Donation</a>
                         <input type="button" class="btn btn-primary" name="search" value="Search" />
                     </div>
 
@@ -145,8 +145,7 @@
 
 
                 <div class="span10">
-                    <h3>Results</h3>
-                    <hr />
+                    <legend>Results</legend>
 
                     <table id="searchResults" class="table table-striped">
                         <thead>
