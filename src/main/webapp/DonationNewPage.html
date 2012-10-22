@@ -70,7 +70,7 @@
         </div>
 
         <div class="span10">
-            <form class="form-horizontal">
+            <form wicket:id="form" class="form-horizontal">
                 <legend>Donor Details</legend>
 
                 <div class="span10">
@@ -173,7 +173,7 @@
                 <div class="span10">
                     <div class="controls controls-row pull-right">
                         <a href="DonationSearchPage.html" class="btn" id="cancel">Cancel</a>
-                        <input type="button" class="btn btn-success" name="search" value="Save" />
+                        <input wicket:id="save" type="submit" class="btn btn-success" value="Save" />
                     </div>
 
                 </div>

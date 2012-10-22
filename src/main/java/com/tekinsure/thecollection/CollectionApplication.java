@@ -1,5 +1,6 @@
 package com.tekinsure.thecollection;
 
+import com.tekinsure.thecollection.data.CollectionDatabase;
 import com.tekinsure.thecollection.pages.DonationNewPage;
 import com.tekinsure.thecollection.pages.DonationSearchPage;
 import org.apache.wicket.Page;
@@ -7,6 +8,8 @@ import org.apache.wicket.core.request.mapper.MountedMapper;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.settings.IResourceSettings;
 import org.apache.wicket.util.lang.PackageName;
+
+import java.sql.DatabaseMetaData;
 
 /**
  * Created with IntelliJ IDEA.
@@ -43,5 +46,9 @@ public class CollectionApplication extends WebApplication {
 
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        CollectionDatabase.getInstance().shutdown();
+    }
 }

@@ -1,9 +1,14 @@
 package com.tekinsure.thecollection.pages;
 
+import com.tekinsure.thecollection.data.CollectionDatabase;
 import com.tekinsure.thecollection.model.data.Donation;
 import com.tekinsure.thecollection.model.ui.DonationNew;
+import org.apache.wicket.markup.html.form.Button;
+import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.PropertyModel;
+
+import javax.persistence.EntityTransaction;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,15 +20,36 @@ import org.apache.wicket.model.PropertyModel;
 public class DonationNewPage extends BasePage {
 
     private DonationNew donationNew = new DonationNew();
+    private Form form;
 
     public DonationNewPage() {
 
         setupUserInterfaceFields();
+
+        Button saveButton = new Button("save") {
+            @Override
+            public void onSubmit() {
+                CollectionDatabase.getInstance().connectDatabase();
+                EntityTransaction transaction = CollectionDatabase.getInstance().getEntityManager().getTransaction();
+                transaction.begin();
+
+                CollectionDatabase.getInstance().getEntityManager().persist(donationNew.getDonation());
+
+                transaction.commit();
+            }
+        };
+        form.add(saveButton);
     }
 
     private void setupUserInterfaceFields() {
 
-        addTextField("memberSearch", new PropertyModel<String>(donationNew, "donation.memberSearch"));
+        form = new Form("form");
+        form.setOutputMarkupId(true);
+        add(form);
+        setMarkupContainer(form);
+
+
+        addTextField("memberSearch", new PropertyModel<String>(donationNew, "memberSearch"));
         addTextField("memberID", new PropertyModel<String>(donationNew, "donation.memberID"));
         addTextField("orgChapter", new PropertyModel<String>(donationNew, "donation.orgChapter"));
         addTextField("ddRef", new PropertyModel<String>(donationNew, "donation.directDebitRef"));
@@ -34,7 +60,6 @@ public class DonationNewPage extends BasePage {
         addTextField("address2", new PropertyModel<String>(donationNew, "member.address2"));
         addTextField("suburb", new PropertyModel<String>(donationNew, "member.suburb"));
         addTextField("state", new PropertyModel<String>(donationNew, "member.state"));
-
 
     }
 }
