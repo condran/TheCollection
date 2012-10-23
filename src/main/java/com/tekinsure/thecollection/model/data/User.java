@@ -6,11 +6,7 @@ import java.io.Serializable;
 import java.sql.Date;
 
 /**
- * Created with IntelliJ IDEA.
- * User: paul
- * Date: 22/10/12
- * Time: 8:19 PM
- * To change this template use File | Settings | File Templates.
+ * User database entity model.
  */
 @Entity
 public class User implements Serializable {

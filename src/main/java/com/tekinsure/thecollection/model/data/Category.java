@@ -1,16 +1,16 @@
 package com.tekinsure.thecollection.model.data;
 
+import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
- * Created with IntelliJ IDEA.
- * User: paul
- * Date: 22/10/12
- * Time: 7:15 PM
- * To change this template use File | Settings | File Templates.
+ * Category database entity model.
  */
+@Entity
+@Table(name = "DonationCategory")
 public class Category implements Serializable {
 
     @Id

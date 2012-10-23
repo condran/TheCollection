@@ -1,10 +1,12 @@
 package com.tekinsure.thecollection.data;
 
+import com.tekinsure.thecollection.AppProperties;
 import org.apache.log4j.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.spi.PersistenceProvider;
 
 /**
  * This class manages the database connection, saving, updating, and searching entities.
@@ -46,17 +48,22 @@ public class CollectionDatabase {
     /**
      * Will connect to the database if no connection is present
      */
-    public void connectDatabase() {
+    public void connectDatabase(String persistenceUnitName) {
 
         if (entityManager == null) {
             try {
-                entityManagerFactory = Persistence.createEntityManagerFactory("collection.odb");
+                String persistenceUnit = persistenceUnitName == null ? AppProperties.getInstance().getDatabaseConfig() : persistenceUnitName;
+                entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnit);
                 entityManager = entityManagerFactory.createEntityManager();
             }
             catch (Exception e) {
                 log.error("Could not connect to the database.", e);
             }
         }
+    }
+
+    public void connectDatabase() {
+        connectDatabase(null);
     }
 
     public void shutdown() {
@@ -67,5 +74,6 @@ public class CollectionDatabase {
             entityManagerFactory.close();
         }
     }
+
 
 }

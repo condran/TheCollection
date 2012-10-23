@@ -8,14 +8,13 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.PropertyModel;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
 /**
- * Created with IntelliJ IDEA.
- * User: paul
- * Date: 22/10/12
- * Time: 8:10 PM
- * To change this template use File | Settings | File Templates.
+ * The new donation page controller. Handles creating and updating new donations.
+ *
+ * @author Paul Condran
  */
 public class DonationNewPage extends BasePage {
 
@@ -30,12 +29,16 @@ public class DonationNewPage extends BasePage {
             @Override
             public void onSubmit() {
                 CollectionDatabase.getInstance().connectDatabase();
-                EntityTransaction transaction = CollectionDatabase.getInstance().getEntityManager().getTransaction();
+                EntityManager em = CollectionDatabase.getInstance().getEntityManager();
+                EntityTransaction transaction = em.getTransaction();
                 transaction.begin();
 
-                CollectionDatabase.getInstance().getEntityManager().persist(donationNew.getDonation());
+                em.persist(donationNew.getDonation());
+                em.flush();
 
                 transaction.commit();
+
+                getRequestCycle().setResponsePage(DonationSearchPage.class);
             }
         };
         form.add(saveButton);

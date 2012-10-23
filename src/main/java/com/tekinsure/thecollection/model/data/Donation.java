@@ -5,20 +5,17 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
- * Created with IntelliJ IDEA.
- * User: paul
- * Date: 22/10/12
- * Time: 6:35 PM
- * To change this template use File | Settings | File Templates.
+ * Donation database entity model.
  */
 @Entity
+@Table(name = "Donation")
 public class Donation implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     private String memberID;
@@ -39,6 +36,7 @@ public class Donation implements Serializable {
 
     private BigDecimal total;
 
+    @ElementCollection
     private List<Category> categoryList;
 
     public Long getId() {
