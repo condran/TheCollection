@@ -2,6 +2,10 @@
 # Project files
 *.iml
 .idea
+.project
+.settings
+.classpath
+
 
 # Java files
 *.class
