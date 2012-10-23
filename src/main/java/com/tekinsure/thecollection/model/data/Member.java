@@ -22,9 +22,9 @@ public class Member implements Serializable {
 
     private String name;
 
-    private Date startDate;
+    private Date dateFrom;
 
-    private Date endDate;
+	private Date dateTo;
 
     private String emailAddress;
 
@@ -32,7 +32,7 @@ public class Member implements Serializable {
 
     private String contactNo;
 
-    private String orgChapter;
+    private String organisation;
 
     private Integer yearOfBirth;
 
@@ -72,22 +72,6 @@ public class Member implements Serializable {
         this.name = name;
     }
 
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
-
     public String getEmailAddress() {
         return emailAddress;
     }
@@ -112,12 +96,12 @@ public class Member implements Serializable {
         this.contactNo = contactNo;
     }
 
-    public String getOrgChapter() {
-        return orgChapter;
+    public String getOrganisation() {
+        return organisation;
     }
 
-    public void setOrgChapter(String orgChapter) {
-        this.orgChapter = orgChapter;
+    public void setOrganisation(String orgChapter) {
+        this.organisation = orgChapter;
     }
 
     public Integer getYearOfBirth() {
@@ -175,4 +159,20 @@ public class Member implements Serializable {
     public void setPostcode(String postcode) {
         this.postcode = postcode;
     }
+    public Date getDateFrom() {
+		return dateFrom;
+	}
+
+	public void setDateFrom(Date dateFrom) {
+		this.dateFrom = dateFrom;
+	}
+
+	public Date getDateTo() {
+		return dateTo;
+	}
+
+	public void setDateTo(Date dateTo) {
+		this.dateTo = dateTo;
+	}
+
 }
