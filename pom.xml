@@ -10,14 +10,6 @@
     <name>The Collection</name>
     <url>http://maven.apache.org</url>
 
-    <repositories>
-        <repository>
-            <id>objectdb</id>
-            <name>ObjectDB Repository</name>
-            <url>http://m2.objectdb.com</url>
-        </repository>
-    </repositories>
-
     <dependencies>
         <!-- Wicket & UI Dependencies -->
         <dependency>
@@ -26,14 +18,13 @@
             <version>6.1.1</version>
         </dependency>
 
-        <!-- Persistence Dependencies -->
-        <!--dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-api</artifactId>
-            <version>6.0</version>
-            <scope>provided</scope>
-        </dependency-->
+        <dependency>
+            <groupId>org.apache.wicket</groupId>
+            <artifactId>wicket-extensions</artifactId>
+            <version>6.1.1</version>
+        </dependency>
 
+        <!-- Persistence Dependencies -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
