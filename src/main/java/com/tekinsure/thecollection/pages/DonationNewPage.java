@@ -14,6 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
+import com.tekinsure.thecollection.components.CollectionUtil;
+import org.apache.wicket.markup.html.form.DropDownChoice;
+
+
+
 /**
  * The new donation page controller. Handles creating and updating new donations.
  *
@@ -28,6 +34,9 @@ public class DonationNewPage extends BasePage {
     public DonationNewPage() {
 
         setupUserInterfaceFields();
+
+        final DropDownChoice organisation = addDropdownField("orgChapter",
+                new PropertyModel<String>(donationNew, "donation.orgChapter"), CollectionUtil.listOrganisations());
 
         listCategories();
 
@@ -69,6 +78,8 @@ public class DonationNewPage extends BasePage {
         // Category repeater
         RepeatingView categoryListView = new RepeatingView("categoryList");
         categoryListView.newChildId();
+
+
     }
 
     private void listCategories() {
