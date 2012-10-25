@@ -7,11 +7,11 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
- * Category database entity model.
+ * DonationCategory database entity model.
  */
 @Entity
 @Table(name = "DonationCategory")
-public class Category implements Serializable {
+public class DonationCategory implements Serializable {
 
     @Id
     private String categoryName;

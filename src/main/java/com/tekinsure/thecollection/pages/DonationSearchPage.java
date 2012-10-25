@@ -81,14 +81,7 @@ public class DonationSearchPage extends BasePage {
                 Root<Donation> donationRoot = query.from(Donation.class);
                 query.select(donationRoot);
 
-                List<Predicate> predicateList = new ArrayList<Predicate>();
-
-                if (StringUtils.isNotBlank(donationSearch.getMemberID())) {
-                    Predicate memberID = builder.like(
-                            builder.upper(donationRoot.<String>get("memberID")), "%" + donationSearch.getMemberID() + "%");
-                    predicateList.add(memberID);
-                }
-
+                List<Predicate> predicateList = donationSearch.listPredicates(donationRoot, builder);
 
                 if (!predicateList.isEmpty()) {
                     Predicate[] predicates = predicateList.toArray(new Predicate[predicateList.size()]);

@@ -6,7 +6,7 @@
     <persistence-unit name="hsqldb-sql" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
         <class>com.tekinsure.thecollection.model.data.Donation</class>
-        <class>com.tekinsure.thecollection.model.data.Category</class>
+        <class>com.tekinsure.thecollection.model.data.DonationCategory</class>
         <class>com.tekinsure.thecollection.model.data.Member</class>
         <class>com.tekinsure.thecollection.model.data.User</class>
         <properties>

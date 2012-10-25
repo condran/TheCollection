@@ -37,7 +37,7 @@ public class Donation implements Serializable {
     private BigDecimal total;
 
     @ElementCollection
-    private List<Category> categoryList;
+    private List<DonationCategory> categoryList;
 
     public Long getId() {
         return id;
@@ -119,14 +119,14 @@ public class Donation implements Serializable {
         this.total = total;
     }
 
-    public List<Category> getCategoryList() {
+    public List<DonationCategory> getCategoryList() {
         if (categoryList == null) {
-            categoryList = new ArrayList<Category>();
+            categoryList = new ArrayList<DonationCategory>();
         }
         return categoryList;
     }
 
-    public void setCategoryList(List<Category> categoryList) {
-        this.categoryList = categoryList;
+    public void setCategoryList(List<DonationCategory> donationCategoryList) {
+        this.categoryList = donationCategoryList;
     }
 }

@@ -1,6 +1,14 @@
 package com.tekinsure.thecollection.model.ui;
 
-import org.hibernate.engine.query.spi.HQLQueryPlan;
+import com.tekinsure.thecollection.model.data.Donation;
+import org.apache.commons.lang3.StringUtils;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,8 +22,8 @@ public class DonationSearch {
     private String memberID;
     private String name;
     private String receipt;
-    private String dateFrom;
-    private String dateTo;
+    private Date dateFrom;
+    private Date dateTo;
     private String ddt;
     private String collector;
     private String organisation;
@@ -44,19 +52,19 @@ public class DonationSearch {
         this.receipt = receipt;
     }
 
-    public String getDateFrom() {
+    public Date getDateFrom() {
         return dateFrom;
     }
 
-    public void setDateFrom(String dateFrom) {
+    public void setDateFrom(Date dateFrom) {
         this.dateFrom = dateFrom;
     }
 
-    public String getDateTo() {
+    public Date getDateTo() {
         return dateTo;
     }
 
-    public void setDateTo(String dateTo) {
+    public void setDateTo(Date dateTo) {
         this.dateTo = dateTo;
     }
 
@@ -82,5 +90,45 @@ public class DonationSearch {
 
     public void setOrganisation(String organisation) {
         this.organisation = organisation;
+    }
+
+
+    public List<Predicate> listPredicates(Root<Donation> donationRoot, CriteriaBuilder builder) {
+        List<Predicate> predicateList = new ArrayList<Predicate>();
+
+        if (StringUtils.isNotBlank(getMemberID())) {
+            Predicate memberID = builder.like(
+                    builder.lower(donationRoot.<String>get("memberID")), "%" + getMemberID().toLowerCase() + "%");
+            predicateList.add(memberID);
+        }
+
+        if (StringUtils.isNotBlank(getName())) {
+            Predicate memberID = builder.like(builder.lower(donationRoot.<String>get("name")), "%" + getName().toLowerCase() + "%");
+            predicateList.add(memberID);
+        }
+
+        if (StringUtils.isNotBlank(getReceipt())) {
+            Predicate memberID = builder.like(
+                    builder.lower(donationRoot.<String>get("receiptNo")), "%" + getReceipt().toLowerCase() + "%");
+            predicateList.add(memberID);
+        }
+
+        if (StringUtils.isNotBlank(getDdt())) {
+            Predicate memberID = builder.like(
+                    builder.lower(donationRoot.<String>get("directDebitRef")), "%" + getDdt().toLowerCase() + "%");
+            predicateList.add(memberID);
+        }
+
+        if (getDateFrom() != null) {
+            Predicate memberID = builder.greaterThanOrEqualTo(donationRoot.<Date>get("date"), getDateFrom());
+            predicateList.add(memberID);
+        }
+
+        if (getDateTo() != null) {
+            Predicate memberID = builder.lessThanOrEqualTo(donationRoot.<Date>get("date"), getDateTo());
+            predicateList.add(memberID);
+        }
+
+        return predicateList;
     }
 }

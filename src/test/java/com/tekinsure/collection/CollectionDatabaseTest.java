@@ -2,15 +2,12 @@ package com.tekinsure.collection;
 
 import com.tekinsure.thecollection.data.CollectionDatabase;
 import com.tekinsure.thecollection.model.data.*;
-import com.tekinsure.thecollection.pages.DonationSearchPage;
 import org.junit.Test;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.Formatter;
 import java.util.List;
 
 /**
@@ -51,18 +48,18 @@ public class CollectionDatabaseTest {
         CollectionDatabase database = CollectionDatabase.getInstance();
         database.connectDatabase("hsqldb-test");
 
-        Category category = new Category();
-        category.setAmount(new BigDecimal(100.00));
-        category.setCategoryName("Category 1");
+        DonationCategory donationCategory = new DonationCategory();
+        donationCategory.setAmount(new BigDecimal(100.00));
+        donationCategory.setCategoryName("DonationCategory 1");
 
         EntityManager em = database.getEntityManager();
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
-        em.persist(category);
+        em.persist(donationCategory);
         em.flush();
         transaction.commit();
 
-        Query q = em.createQuery("from Category where categoryName = 'Category 1'");
+        Query q = em.createQuery("from DonationCategory where categoryName = 'DonationCategory 1'");
         q.setMaxResults(1);
 
         List list = q.getResultList();
