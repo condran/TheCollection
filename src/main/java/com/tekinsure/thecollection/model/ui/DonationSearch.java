@@ -1,5 +1,7 @@
 package com.tekinsure.thecollection.model.ui;
 
+import org.hibernate.engine.query.spi.HQLQueryPlan;
+
 /**
  * Created with IntelliJ IDEA.
  * User: paul
