@@ -1,5 +1,6 @@
 package com.tekinsure.thecollection.pages;
 
+import com.tekinsure.thecollection.components.CollectionDataTable;
 import com.tekinsure.thecollection.data.CollectionDatabase;
 import com.tekinsure.thecollection.model.data.Donation;
 import com.tekinsure.thecollection.model.ui.DonationSearch;
@@ -57,11 +58,11 @@ public class DonationSearchPage extends BasePage {
 
     private List<Donation> recentDonations() {
         List<Donation> donationList = new ArrayList<Donation>();
-        CollectionDatabase.getInstance().connectDatabase();
-        EntityManager em = CollectionDatabase.getInstance().getEntityManager();
+        CollectionDatabase db = CollectionDatabase.getInstance();
+        EntityManager em = db.getEntityManager();
 
         Query q = em.createQuery("from Donation order by date desc");
-        q.setMaxResults(5);
+        q.setMaxResults(10);
 
         List list = q.getResultList();
         if (!list.isEmpty()) {
@@ -71,6 +72,12 @@ public class DonationSearchPage extends BasePage {
         return donationList;
     }
 
+    /**
+     * Performs the search for donations
+     */
+    private void performDonationSearch() {
+
+    }
 
     private void setupResultsTable() {
 
@@ -102,7 +109,7 @@ public class DonationSearchPage extends BasePage {
             }
         };
 
-        dataTable = new DefaultDataTable("searchResults", columns, dataProvider, 10);
+        dataTable = new CollectionDataTable("searchResults", columns, dataProvider, 5);
         add(dataTable);
 
     }

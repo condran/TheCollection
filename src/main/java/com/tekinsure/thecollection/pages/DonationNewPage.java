@@ -28,15 +28,9 @@ public class DonationNewPage extends BasePage {
         Button saveButton = new Button("save") {
             @Override
             public void onSubmit() {
-                CollectionDatabase.getInstance().connectDatabase();
-                EntityManager em = CollectionDatabase.getInstance().getEntityManager();
-                EntityTransaction transaction = em.getTransaction();
-                transaction.begin();
+                CollectionDatabase db =  CollectionDatabase.getInstance();
 
-                em.persist(donationNew.getDonation());
-                em.flush();
-
-                transaction.commit();
+                db.persist(donationNew.getDonation());
 
                 getRequestCycle().setResponsePage(DonationSearchPage.class);
             }
@@ -65,4 +59,12 @@ public class DonationNewPage extends BasePage {
         addTextField("state", new PropertyModel<String>(donationNew, "member.state"));
 
     }
+
+    /**
+     * Queries the Member database to fill out the member details
+     */
+    private void performMemberQuery() {
+
+    }
+
 }

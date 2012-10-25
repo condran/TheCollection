@@ -5,11 +5,13 @@ import org.apache.log4j.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.spi.PersistenceProvider;
 
 /**
  * This class manages the database connection, saving, updating, and searching entities.
+ * A very simple singleton implementation for ease of prototyping.
  *
  */
 public class CollectionDatabase {
@@ -23,9 +25,15 @@ public class CollectionDatabase {
     public static CollectionDatabase getInstance() {
         if (instance == null) {
             instance = new CollectionDatabase();
+        }
+        if (instance.getEntityManagerFactory() == null || instance.getEntityManager() == null) {
             instance.connectDatabase();
         }
         return instance;
+    }
+
+    private CollectionDatabase() {
+
     }
 
     public EntityManagerFactory getEntityManagerFactory() {
@@ -52,8 +60,10 @@ public class CollectionDatabase {
 
         if (entityManager == null) {
             try {
-                String persistenceUnit = persistenceUnitName == null ? AppProperties.getInstance().getDatabaseConfig() : persistenceUnitName;
-                entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnit);
+                if (entityManagerFactory == null) {
+                    String persistenceUnit = persistenceUnitName == null ? AppProperties.getInstance().getDatabaseConfig() : persistenceUnitName;
+                    entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnit);
+                }
                 entityManager = entityManagerFactory.createEntityManager();
             }
             catch (Exception e) {
@@ -66,12 +76,31 @@ public class CollectionDatabase {
         connectDatabase(null);
     }
 
+    /**
+     * Will save an object to the database
+     *
+     * @param object
+     */
+    public void persist(Object object) {
+        connectDatabase();
+        EntityTransaction transaction = getEntityManager().getTransaction();
+        transaction.begin();
+
+        getEntityManager().persist(object);
+        getEntityManager().flush();
+
+        transaction.commit();
+    }
+
+
     public void shutdown() {
         if (entityManager != null) {
             entityManager.close();
+            entityManager = null;
         }
         if (entityManagerFactory != null) {
             entityManagerFactory.close();
+            entityManager = null;
         }
     }
 
