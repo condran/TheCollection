@@ -25,8 +25,8 @@ public class DonationSearch {
     private Date dateFrom;
     private Date dateTo;
     private String ddt;
-    private String collector;
-    private String organisation;
+    private OptionItem collector;
+    private OptionItem organisation;
 
     public String getMemberID() {
         return memberID;
@@ -76,19 +76,19 @@ public class DonationSearch {
         this.ddt = ddt;
     }
 
-    public String getCollector() {
+    public OptionItem getCollector() {
         return collector;
     }
 
-    public void setCollector(String collector) {
+    public void setCollector(OptionItem collector) {
         this.collector = collector;
     }
 
-    public String getOrganisation() {
+    public OptionItem getOrganisation() {
         return organisation;
     }
 
-    public void setOrganisation(String organisation) {
+    public void setOrganisation(OptionItem organisation) {
         this.organisation = organisation;
     }
 

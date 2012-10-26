@@ -1,20 +1,19 @@
 package com.tekinsure.thecollection.pages;
 
 import com.tekinsure.thecollection.components.CollectionDataTable;
+import com.tekinsure.thecollection.components.CollectionUtil;
 import com.tekinsure.thecollection.data.CollectionDatabase;
 import com.tekinsure.thecollection.model.data.Donation;
 import com.tekinsure.thecollection.model.ui.DonationSearch;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.DataTable;
-import org.apache.wicket.extensions.markup.html.repeater.data.table.DefaultDataTable;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
 import org.apache.wicket.extensions.markup.html.repeater.util.SortableDataProvider;
+import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.TextField;
-import org.apache.wicket.markup.repeater.data.GridView;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
@@ -25,7 +24,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -69,6 +67,35 @@ public class DonationSearchPage extends BasePage {
         addTextField("ddt", new PropertyModel<String>(donationSearch, "ddt"));
         addTextField("dateFrom", new PropertyModel<String>(donationSearch, "dateFrom"));
         addTextField("dateTo", new PropertyModel<String>(donationSearch, "dateTo"));
+
+        final DropDownChoice organisation = addDropdownField("organisation",
+                new PropertyModel<String>(donationSearch, "organisation"), CollectionUtil.listEmptyList());
+
+
+        DropDownChoice collector = addDropdownField("collector", new PropertyModel<String>(donationSearch, "collector"),
+                CollectionUtil.listCollectors());
+        // Logic to determine list based on collector
+        collector.add(new AjaxFormComponentUpdatingBehavior("onchange") {
+            @Override
+            protected void onUpdate(AjaxRequestTarget target) {
+
+                if (donationSearch.getCollector() != null) {
+                    if ("CL01".equals(donationSearch.getCollector().getCode())) {
+                        organisation.setChoices(CollectionUtil.listOrganisations());
+                    }
+                    else {
+                        organisation.setChoices(CollectionUtil.listOrganisations2());
+                    }
+                } else {
+                    organisation.setChoices(CollectionUtil.listEmptyList());
+                }
+
+
+                target.add(organisation);
+            }
+        });
+
+
 
         // Hook into the search behaviour
         form.add(new AjaxButton("search") {
