@@ -68,6 +68,7 @@ public class CollectionDatabase {
             }
             catch (Exception e) {
                 log.error("Could not connect to the database.", e);
+                e.printStackTrace();
             }
         }
     }
@@ -100,7 +101,7 @@ public class CollectionDatabase {
         }
         if (entityManagerFactory != null) {
             entityManagerFactory.close();
-            entityManager = null;
+            entityManagerFactory = null;
         }
     }
 
