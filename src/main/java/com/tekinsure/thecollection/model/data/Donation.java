@@ -36,7 +36,8 @@ public class Donation implements Serializable {
 
     private BigDecimal total;
 
-    @ElementCollection
+//    @ElementCollection
+    @OneToMany(mappedBy = "donation", cascade = {CascadeType.ALL})  
     private List<DonationCategory> categoryList;
 
     public Long getId() {
