@@ -19,6 +19,7 @@ public class CollectionDatabase {
 
     private EntityManagerFactory entityManagerFactory = null;
     private EntityManager entityManager = null;
+    private String currentlyConnectedUnitName = null;
 
     private static CollectionDatabase instance;
 
@@ -57,6 +58,13 @@ public class CollectionDatabase {
      * Will connect to the database if no connection is present
      */
     public void connectDatabase(String persistenceUnitName) {
+        // If the request is to connect to a different database then, 
+        // shutdown current one and start again
+        if (persistenceUnitName != null &&
+                !persistenceUnitName.equals(currentlyConnectedUnitName))
+        {
+            shutdown();
+        }
 
         if (entityManager == null) {
             try {
@@ -65,6 +73,7 @@ public class CollectionDatabase {
                     entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnit);
                 }
                 entityManager = entityManagerFactory.createEntityManager();
+                currentlyConnectedUnitName = persistenceUnitName;
             }
             catch (Exception e) {
                 log.error("Could not connect to the database.", e);
