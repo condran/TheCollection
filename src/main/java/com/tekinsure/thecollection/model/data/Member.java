@@ -20,7 +20,7 @@ public class Member implements Serializable {
 
     private Date dateFrom;
 
-	private Date dateTo;
+    private Date dateTo;
 
     private String emailAddress;
 
