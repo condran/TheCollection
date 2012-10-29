@@ -1,5 +1,6 @@
 package com.tekinsure.thecollection.pages;
 
+import com.tekinsure.thecollection.components.CollectionUtil;
 import com.tekinsure.thecollection.data.CollectionDatabase;
 import com.tekinsure.thecollection.model.data.Donation;
 import com.tekinsure.thecollection.model.ui.DonationNew;
@@ -10,6 +11,7 @@ import org.apache.wicket.model.PropertyModel;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import org.apache.wicket.markup.html.form.DropDownChoice;
 
 /**
  * The new donation page controller. Handles creating and updating new donations.
@@ -24,6 +26,8 @@ public class DonationNewPage extends BasePage {
     public DonationNewPage() {
 
         setupUserInterfaceFields();
+        final DropDownChoice organisation = addDropdownField("orgChapter",
+                new PropertyModel<String>(donationNew, "donation.orgChapter"), CollectionUtil.listOrganisations());
 
         Button saveButton = new Button("save") {
             @Override
@@ -48,7 +52,6 @@ public class DonationNewPage extends BasePage {
 
         addTextField("memberSearch", new PropertyModel<String>(donationNew, "memberSearch"));
         addTextField("memberID", new PropertyModel<String>(donationNew, "donation.memberID"));
-        addTextField("orgChapter", new PropertyModel<String>(donationNew, "donation.orgChapter"));
         addTextField("ddRef", new PropertyModel<String>(donationNew, "donation.directDebitRef"));
         addTextField("receiptNo", new PropertyModel<String>(donationNew, "donation.receiptNo"));
         addTextField("total", new PropertyModel<String>(donationNew, "donation.total"));

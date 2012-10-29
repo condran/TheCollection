@@ -1,5 +1,14 @@
 package com.tekinsure.thecollection.model.ui;
 
+import com.tekinsure.thecollection.model.data.Member;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Created with IntelliJ IDEA.
  * User: paul
@@ -11,8 +20,8 @@ public class MemberSearch {
 
     private String memberID;
     private String name;
-    private String dateFrom;
-    private String dateTo;
+    private Date dateFrom;
+    private Date dateTo;
     private String suburb;
     private String organisation;
 
@@ -32,28 +41,28 @@ public class MemberSearch {
         this.name = name;
     }
 
-    public String getDateFrom() {
+    public Date getDateFrom() {
         return dateFrom;
     }
 
-    public void setDateFrom(String dateFrom) {
+    public void setDateFrom(Date dateFrom) {
         this.dateFrom = dateFrom;
     }
 
-    public String getDateTo() {
+    public Date getDateTo() {
         return dateTo;
     }
 
-    public void setDateTo(String dateTo) {
+    public void setDateTo(Date dateTo) {
         this.dateTo = dateTo;
     }
 
-    public String getDdt() {
+    public String getSuburb() {
         return suburb;
     }
 
-    public void setDdt(String ddt) {
-        this.suburb = ddt;
+    public void setSuburb(String suburb) {
+        this.suburb = suburb;
     }
 
     public String getOrganisation() {
@@ -62,5 +71,43 @@ public class MemberSearch {
 
     public void setOrganisation(String organisation) {
         this.organisation = organisation;
+    }
+    
+        public List<Predicate> listPredicates(Root<Member> memberRoot, CriteriaBuilder builder) {
+        List<Predicate> predicateList = new ArrayList<Predicate>();
+
+        if (StringUtils.isNotBlank(getMemberID())) {
+            Predicate memberID = builder.like(
+                    builder.lower(memberRoot.<String>get("memberID")), "%" + getMemberID().toLowerCase() + "%");
+            predicateList.add(memberID);
+        }
+
+        if (StringUtils.isNotBlank(getName())) {
+            Predicate memberID = builder.like(builder.lower(memberRoot.<String>get("name")), "%" + getName().toLowerCase() + "%");
+            predicateList.add(memberID);
+        }
+
+        if (getDateFrom() != null) {
+            Predicate memberID = builder.greaterThanOrEqualTo(memberRoot.<Date>get("dateFrom"), getDateFrom());
+            predicateList.add(memberID);
+        }
+
+        if (getDateTo() != null) {
+            Predicate memberID = builder.lessThanOrEqualTo(memberRoot.<Date>get("dateTo"), getDateTo());
+            predicateList.add(memberID);
+        }
+
+        if (StringUtils.isNotBlank(getOrganisation())) {
+            Predicate memberID = builder.like(
+                    builder.lower(memberRoot.<String>get("organisation")), "%" + getOrganisation().toLowerCase() + "%");
+            predicateList.add(memberID);
+        }
+
+        if (StringUtils.isNotBlank(getSuburb())) {
+            Predicate memberID = builder.like(
+                    builder.lower(memberRoot.<String>get("suburb")), "%" + getSuburb().toLowerCase() + "%");
+            predicateList.add(memberID);
+        }
+        return predicateList;
     }
 }

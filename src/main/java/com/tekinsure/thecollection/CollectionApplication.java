@@ -3,6 +3,8 @@ package com.tekinsure.thecollection;
 import com.tekinsure.thecollection.data.CollectionDatabase;
 import com.tekinsure.thecollection.pages.DonationNewPage;
 import com.tekinsure.thecollection.pages.DonationSearchPage;
+import com.tekinsure.thecollection.pages.MemberNewPage;
+import com.tekinsure.thecollection.pages.MemberSearchPage;
 import org.apache.wicket.Page;
 import org.apache.wicket.core.request.mapper.MountedMapper;
 import org.apache.wicket.protocol.http.WebApplication;
@@ -43,6 +45,8 @@ public class CollectionApplication extends WebApplication {
         //mount(new QueryStringUrlCodingStrategy("/search", TransactionSearch.class));
         mount(new MountedMapper("/DonationSearchPage.html", DonationSearchPage.class));
         mount(new MountedMapper("/DonationNewPage.html", DonationNewPage.class));
+        mount(new MountedMapper("/MemberSearchPage.html", MemberSearchPage.class));
+        mount(new MountedMapper("/MemberNewPage.html", MemberNewPage.class));
 
     }
 
