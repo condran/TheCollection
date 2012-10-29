@@ -48,22 +48,35 @@ public class CollectionDatabaseTest {
         CollectionDatabase database = CollectionDatabase.getInstance();
         database.connectDatabase("hsqldb-test");
 
+        Donation donation = new Donation();
+        donation.setName("test");
+        donation.setTotal(new BigDecimal(123.45));
+        donation.setMemberID("Member1");
+        donation.setReceiptNo("R-756");
+        donation.setDate(new java.sql.Date(new java.util.Date().getTime()));
+        
+        List<DonationCategory> list = donation.getCategoryList();
+        
         DonationCategory donationCategory = new DonationCategory();
         donationCategory.setAmount(new BigDecimal(100.00));
         donationCategory.setCategoryName("DonationCategory 1");
-
+        list.add(donationCategory);
+        
         EntityManager em = database.getEntityManager();
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
-        em.persist(donationCategory);
+        em.persist(donation);
         em.flush();
         transaction.commit();
 
-        Query q = em.createQuery("from DonationCategory where categoryName = 'DonationCategory 1'");
+        Query q = em.createQuery("from Donation order by date desc");
         q.setMaxResults(1);
 
-        List list = q.getResultList();
-        assert(list.size() == 1);
+        List<Donation> resultlist = q.getResultList();
+        donation = resultlist.get(0);
+        List<DonationCategory> dcList = donation.getCategoryList();
+        assert(dcList.get(0).getCategoryName().equals( "DonationCategory 1"));
+        assert(dcList.size() == 1);
 
         database.shutdown();
     }
