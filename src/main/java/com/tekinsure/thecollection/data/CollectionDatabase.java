@@ -94,6 +94,11 @@ public class CollectionDatabase {
     public void persist(Object object) {
         connectDatabase();
         EntityTransaction transaction = getEntityManager().getTransaction();
+        if (transaction.isActive())
+        {
+            transaction.rollback();
+        }
+        
         transaction.begin();
 
         getEntityManager().persist(object);
