@@ -1,5 +1,6 @@
 package com.tekinsure.thecollection.pages;
 
+import com.tekinsure.thecollection.components.ChoicePropertyModel;
 import com.tekinsure.thecollection.model.ui.OptionItem;
 import org.apache.wicket.Component;
 import org.apache.wicket.MarkupContainer;
@@ -8,9 +9,9 @@ import org.apache.wicket.markup.html.form.ChoiceRenderer;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -71,9 +72,9 @@ public class BasePage extends WebPage {
      * @param optionList   The list of options to display
      * @return
      */
-    public DropDownChoice addDropdownField(String id, IModel model, List<OptionItem> optionList) {
+    public DropDownChoice addDropdownField(String id, final PropertyModel model, List<OptionItem> optionList) {
         ChoiceRenderer choiceRenderer = new ChoiceRenderer("description", "code");
-        DropDownChoice field = new DropDownChoice(id, model, optionList, choiceRenderer);
+        DropDownChoice field = new DropDownChoice(id, new ChoicePropertyModel(model, optionList), optionList, choiceRenderer);
         addField(field);
         return field;
     }

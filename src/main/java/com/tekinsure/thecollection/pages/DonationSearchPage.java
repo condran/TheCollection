@@ -80,7 +80,7 @@ public class DonationSearchPage extends BasePage {
             protected void onUpdate(AjaxRequestTarget target) {
 
                 if (donationSearch.getCollector() != null) {
-                    if ("CL01".equals(donationSearch.getCollector().getCode())) {
+                    if ("CL01".equals(donationSearch.getCollector())) {
                         organisation.setChoices(CollectionUtil.listOrganisations());
                     }
                     else {

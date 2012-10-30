@@ -1,6 +1,5 @@
 package com.tekinsure.thecollection.model.ui;
 
-import com.tekinsure.thecollection.model.data.Donation;
 import com.tekinsure.thecollection.model.data.Member;
 
 /**
