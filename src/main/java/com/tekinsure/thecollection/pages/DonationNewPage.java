@@ -102,3 +102,4 @@ public class DonationNewPage extends BasePage {
     }
 
 }
+

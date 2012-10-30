@@ -3,7 +3,6 @@ package com.tekinsure.thecollection.model.data;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.io.Serializable;
-import java.sql.Date;
 
 /**
  * User database entity model.

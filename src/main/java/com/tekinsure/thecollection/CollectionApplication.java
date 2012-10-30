@@ -8,10 +8,6 @@ import com.tekinsure.thecollection.pages.MemberSearchPage;
 import org.apache.wicket.Page;
 import org.apache.wicket.core.request.mapper.MountedMapper;
 import org.apache.wicket.protocol.http.WebApplication;
-import org.apache.wicket.settings.IResourceSettings;
-import org.apache.wicket.util.lang.PackageName;
-
-import java.sql.DatabaseMetaData;
 
 /**
  * Created with IntelliJ IDEA.
