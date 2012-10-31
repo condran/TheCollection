@@ -52,7 +52,6 @@ public class DonationNewPage extends BasePage {
 
         addTextField("memberSearch", new PropertyModel<String>(donationNew, "memberSearch"));
         addTextField("memberID", new PropertyModel<String>(donationNew, "donation.memberID"));
-        addTextField("orgChapter", new PropertyModel<String>(donationNew, "donation.orgChapter"));
         addTextField("ddRef", new PropertyModel<String>(donationNew, "donation.directDebitRef"));
         addTextField("receiptNo", new PropertyModel<String>(donationNew, "donation.receiptNo"));
         addTextField("total", new PropertyModel<String>(donationNew, "donation.total"));
@@ -77,7 +76,10 @@ public class DonationNewPage extends BasePage {
 
         // Category repeater
         RepeatingView categoryListView = new RepeatingView("categoryList");
-        categoryListView.newChildId();
+
+        categoryListView.add(new CategoryPanel(categoryListView.newChildId(), null, CollectionUtil.listCategories()));
+
+        form.add(categoryListView);
 
 
     }
