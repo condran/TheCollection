@@ -1,15 +1,21 @@
 package com.tekinsure.thecollection.pages;
 
 import com.tekinsure.thecollection.data.CollectionDatabase;
+import com.tekinsure.thecollection.functional.Function1Void;
+import com.tekinsure.thecollection.functional.Function2Void;
 import com.tekinsure.thecollection.model.data.Category;
 import com.tekinsure.thecollection.model.data.DonationCategory;
 import com.tekinsure.thecollection.model.ui.DonationNew;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.repeater.RepeatingView;
 import org.apache.wicket.model.PropertyModel;
 
 import javax.persistence.Query;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +36,7 @@ public class DonationNewPage extends BasePage {
     private DonationNew donationNew = new DonationNew();
     private Form form;
     private List<Category> availableCategories = new ArrayList<Category>();
+    private TextField totalField;
 
     public DonationNewPage() {
 
@@ -54,7 +61,7 @@ public class DonationNewPage extends BasePage {
         addTextField("memberID", new PropertyModel<String>(donationNew, "donation.memberID"));
         addTextField("ddRef", new PropertyModel<String>(donationNew, "donation.directDebitRef"));
         addTextField("receiptNo", new PropertyModel<String>(donationNew, "donation.receiptNo"));
-        addTextField("total", new PropertyModel<String>(donationNew, "donation.total"));
+        totalField = addTextField("total", new PropertyModel<String>(donationNew, "donation.total"));
         addTextField("date", new PropertyModel<String>(donationNew, "donation.date"));
         addTextField("address1", new PropertyModel<String>(donationNew, "member.address1"));
         addTextField("address2", new PropertyModel<String>(donationNew, "member.address2"));
@@ -75,13 +82,44 @@ public class DonationNewPage extends BasePage {
 
 
         // Category repeater
-        RepeatingView categoryListView = new RepeatingView("categoryList");
+        final RepeatingView categoryListView = new RepeatingView("categoryList");
+        categoryListView.setOutputMarkupId(true);
 
-        categoryListView.add(new CategoryPanel(categoryListView.newChildId(), null, CollectionUtil.listCategories()));
+        final WebMarkupContainer categoryListContainer = new WebMarkupContainer("categoryListContainer");
+        categoryListContainer.setOutputMarkupId(true);
+        categoryListContainer.add(categoryListView);
+        form.add(categoryListContainer);
 
-        form.add(categoryListView);
 
+        Function2Void<AjaxRequestTarget, DonationCategory> addFunction = new Function2Void<AjaxRequestTarget, DonationCategory>() {
+            @Override
+            public void apply(AjaxRequestTarget target, DonationCategory donationCategory) {
+                // This executes the add method
+                if (donationCategory.getAmount() != null || !donationCategory.getAmount().equals(BigDecimal.ZERO)) {
 
+                    if (!donationNew.getDonation().getCategoryList().contains(donationCategory)) {
+                        donationNew.getDonation().getCategoryList().add(donationCategory);
+                        categoryListView.add(new CategoryPanel(categoryListView.newChildId(), null, CollectionUtil.listCategories(), this));
+                        totalCategories();
+                        target.add(totalField);
+                        target.add(categoryListContainer);
+                    }
+                }
+            }
+        };
+
+        categoryListView.add(new CategoryPanel(categoryListView.newChildId(), null, CollectionUtil.listCategories(), addFunction));
+
+    }
+
+    private void totalCategories() {
+        BigDecimal total = BigDecimal.ZERO;
+        for (DonationCategory dc : donationNew.getDonation().getCategoryList()) {
+            if (dc.getAmount() != null) {
+                total = total.add(dc.getAmount());
+            }
+        }
+        donationNew.getDonation().setTotal(total);
     }
 
     private void listCategories() {

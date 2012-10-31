@@ -24,12 +24,6 @@
             <version>6.1.1</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.functionaljava</groupId>
-            <artifactId>functionaljava</artifactId>
-            <version>3.0</version>
-        </dependency>
-
         <!-- Persistence Dependencies -->
         <dependency>
             <groupId>org.hibernate</groupId>
