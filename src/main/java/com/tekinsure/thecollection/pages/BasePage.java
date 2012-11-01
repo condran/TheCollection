@@ -1,6 +1,5 @@
 package com.tekinsure.thecollection.pages;
 
-import com.tekinsure.thecollection.components.ChoicePropertyModel;
 import com.tekinsure.thecollection.model.ui.OptionItem;
 import org.apache.wicket.Component;
 import org.apache.wicket.MarkupContainer;
@@ -8,10 +7,11 @@ import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -59,6 +59,12 @@ public class BasePage extends WebPage {
      */
     public TextField addTextField(String id, IModel model) {
         TextField field = new TextField(id, model);
+        addField(field);
+        return field;
+    }
+
+    public TextArea addTextArea(String id, IModel model) {
+        TextArea field = new TextArea(id, model);
         addField(field);
         return field;
     }

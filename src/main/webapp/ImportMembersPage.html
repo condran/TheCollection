@@ -63,58 +63,27 @@
                     <li><a href="PromisesSearchPage.html">Promises</a></li>
                     <li><a href="#">User Settings</a></li>
                     <li class="nav-header">Admin Menu</li>
-                    <li class="active"><a href="UserSearchPage.html">Users</a></li>
+                    <li><a href="UserSearchPage.html">Users</a></li>
                     <li><a href="MemberSearchPage.html">Members</a></li>
                     <li><a href="ImportDonationsPage.html">Import Donations</a></li>
-                    <li><a href="ImportMembersPage.html">Import Members</a></li>
+                    <li class="active"><a href="ImportMembersPage.html">Import Members</a></li>
                 </ul>
             </div>
         </div>
 
         <div class="span10">
-            <form wicket:id="form" class="form-horizontal">
-                <legend>User Details</legend>
+           <div wicket:id="feedback"></div>
+
+           <form wicket:id="form" class="form-horizontal">
+                <legend>Import existing Spreadsheets with members details</legend>
+
 
                 <div class="span4">
 
                     <div class="control-group">
-                        <label class="control-label" for="userID">User ID</label>
+                        <label class="control-label" for="userID">Select File</label>
                         <div class="controls">
-                            <input wicket:id="userID" type="text" class="input-medium" />
-                        </div>
-                    </div>
-
-                    <div class="control-group">
-                        <label class="control-label" for="name">Name</label>
-                        <div class="controls">
-                            <input wicket:id="name" type="text" class="input-medium"/>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="span6">
-                    <div class="control-group">
-                        <label class="control-label" for="name">UserType</label>
-                        <div class="controls">
-                            <select id="organisation">
-                                <option value="all">All</option>
-                                <option value="collector">Collector</option>
-                                <option value="admin">Admin</option>
-                                <option value="finance">Finance</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label" for="emailAddress">Email</label>
-                        <div class="controls">
-                            <input wicket:id="emailAddress" type="text" class="input-small" />
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label" for="mobileNo">MobileNo</label>
-                        <div class="controls">
-                            <input wicket:id="mobileNo" type="text" class="input-small" />
+                            <input wicket:id="fileUpload" type="file" class="input-medium" />
                         </div>
                     </div>
 
@@ -122,8 +91,8 @@
 
                 <div class="span10">
                     <div class="controls controls-row pull-right">
-                        <a href="UserSearchPage.html" class="btn" id="cancel">Cancel</a>
-                        <input wicket:id="save" type="submit" class="btn btn-success" value="Save" />
+                        <a href="DonationSearchPage.html" class="btn" id="cancel">Cancel</a>
+                        <input wicket:id="upload" type="submit" class="btn btn-success" value="Upload" />
                     </div>
 
                 </div>

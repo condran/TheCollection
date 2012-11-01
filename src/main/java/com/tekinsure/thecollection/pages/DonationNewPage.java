@@ -1,30 +1,17 @@
 package com.tekinsure.thecollection.pages;
 
+import com.tekinsure.thecollection.components.CollectionUtil;
 import com.tekinsure.thecollection.data.CollectionDatabase;
-import com.tekinsure.thecollection.functional.Function1Void;
-import com.tekinsure.thecollection.functional.Function2Void;
-import com.tekinsure.thecollection.model.data.Category;
-import com.tekinsure.thecollection.model.data.DonationCategory;
+import com.tekinsure.thecollection.model.data.Donation;
 import com.tekinsure.thecollection.model.ui.DonationNew;
-import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
-import org.apache.wicket.markup.repeater.RepeatingView;
 import org.apache.wicket.model.PropertyModel;
 
-import javax.persistence.Query;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
-
-
-import com.tekinsure.thecollection.components.CollectionUtil;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import org.apache.wicket.markup.html.form.DropDownChoice;
-
-
 
 /**
  * The new donation page controller. Handles creating and updating new donations.
@@ -35,13 +22,10 @@ public class DonationNewPage extends BasePage {
 
     private DonationNew donationNew = new DonationNew();
     private Form form;
-    private List<Category> availableCategories = new ArrayList<Category>();
-    private TextField totalField;
 
     public DonationNewPage() {
 
         setupUserInterfaceFields();
-
         final DropDownChoice organisation = addDropdownField("orgChapter",
                 new PropertyModel<String>(donationNew, "donation.orgChapter"), CollectionUtil.listOrganisations());
 
@@ -63,11 +47,12 @@ public class DonationNewPage extends BasePage {
         addTextField("receiptNo", new PropertyModel<String>(donationNew, "donation.receiptNo"));
         totalField = addTextField("total", new PropertyModel<String>(donationNew, "donation.total"));
         addTextField("date", new PropertyModel<String>(donationNew, "donation.date"));
+        addTextArea("details", new PropertyModel<String>(donationNew, "donation.details"));
         addTextField("address1", new PropertyModel<String>(donationNew, "member.address1"));
         addTextField("address2", new PropertyModel<String>(donationNew, "member.address2"));
         addTextField("suburb", new PropertyModel<String>(donationNew, "member.suburb"));
         addTextField("state", new PropertyModel<String>(donationNew, "member.state"));
-
+        
         Button saveButton = new Button("save") {
             @Override
             public void onSubmit() {
@@ -153,4 +138,3 @@ public class DonationNewPage extends BasePage {
     }
 
 }
-

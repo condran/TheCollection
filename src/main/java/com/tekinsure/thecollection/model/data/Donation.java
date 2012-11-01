@@ -35,6 +35,8 @@ public class Donation implements Serializable {
     private Date date;
 
     private BigDecimal total;
+    
+    private String details;
 
 //    @ElementCollection
     @OneToMany(mappedBy = "donation", cascade = {CascadeType.ALL})  
@@ -129,5 +131,19 @@ public class Donation implements Serializable {
 
     public void setCategoryList(List<DonationCategory> donationCategoryList) {
         this.categoryList = donationCategoryList;
+    }
+
+    /**
+     * @return the details
+     */
+    public String getDetails() {
+        return details;
+    }
+
+    /**
+     * @param details the details to set
+     */
+    public void setDetails(String details) {
+        this.details = details;
     }
 }

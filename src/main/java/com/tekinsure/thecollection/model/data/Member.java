@@ -18,6 +18,8 @@ public class Member implements Serializable {
 
     private String name;
 
+    private String familyName;
+
     private Date dateFrom;
 
     private Date dateTo;
@@ -170,5 +172,19 @@ public class Member implements Serializable {
 	public void setDateTo(Date dateTo) {
 		this.dateTo = dateTo;
 	}
+
+    /**
+     * @return the familyName
+     */
+    public String getFamilyName() {
+        return familyName;
+    }
+
+    /**
+     * @param familyName the familyName to set
+     */
+    public void setFamilyName(String familyName) {
+        this.familyName = familyName;
+    }
 
 }

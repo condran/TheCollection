@@ -106,7 +106,6 @@ public class CollectionDatabase {
         transaction.commit();
     }
 
-
     public void shutdown() {
         if (entityManager != null) {
             entityManager.close();

@@ -26,6 +26,7 @@ public class CollectionDatabaseTest {
         donation.setMemberID("Member1");
         donation.setReceiptNo("R-756");
         donation.setDate(new java.sql.Date(new java.util.Date().getTime()));
+        donation.setDetails("Some details re the donation");
 
         EntityManager em = database.getEntityManager();
         EntityTransaction transaction = em.getTransaction();
@@ -54,6 +55,7 @@ public class CollectionDatabaseTest {
         donation.setMemberID("Member1");
         donation.setReceiptNo("R-756");
         donation.setDate(new java.sql.Date(new java.util.Date().getTime()));
+        donation.setDetails("Some details re the donation");
         
         List<DonationCategory> list = donation.getCategoryList();
         
