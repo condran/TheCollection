@@ -1,5 +1,6 @@
 package com.tekinsure.thecollection.pages;
 
+import com.tekinsure.thecollection.components.ChoicePropertyModel;
 import com.tekinsure.thecollection.model.ui.OptionItem;
 import org.apache.wicket.Component;
 import org.apache.wicket.MarkupContainer;
@@ -9,6 +10,7 @@ import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import java.util.Arrays;

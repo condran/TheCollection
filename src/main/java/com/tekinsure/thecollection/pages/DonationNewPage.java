@@ -2,16 +2,28 @@ package com.tekinsure.thecollection.pages;
 
 import com.tekinsure.thecollection.components.CollectionUtil;
 import com.tekinsure.thecollection.data.CollectionDatabase;
+import com.tekinsure.thecollection.functional.Function2Void;
+import com.tekinsure.thecollection.model.data.Category;
 import com.tekinsure.thecollection.model.data.Donation;
+import com.tekinsure.thecollection.model.data.DonationCategory;
 import com.tekinsure.thecollection.model.ui.DonationNew;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.repeater.RepeatingView;
 import org.apache.wicket.model.PropertyModel;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
+
 import org.apache.wicket.markup.html.form.DropDownChoice;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The new donation page controller. Handles creating and updating new donations.
@@ -22,6 +34,8 @@ public class DonationNewPage extends BasePage {
 
     private DonationNew donationNew = new DonationNew();
     private Form form;
+    private TextField totalField;
+    private List<Category> availableCategories = new ArrayList<Category>();
 
     public DonationNewPage() {
 
