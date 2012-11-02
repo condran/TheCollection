@@ -9,6 +9,7 @@
 
     <!-- Le styles -->
     <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/datepicker.css" rel="stylesheet">
     <style type="text/css">
         body {
             padding-top: 60px;
@@ -130,8 +131,10 @@
                     <div class="control-group">
                         <label class="control-label" for="dateFrom">Date</label>
                         <div class="controls controls-row">
-                            <input wicket:id="dateFrom" type="text" placeholder="From" class="input-small"/>
-                            <input wicket:id="dateTo" type="text" placeholder="To" class="input-small" />
+                            <input wicket:id="dateFrom" type="text" placeholder="From" class="input-small datepicker"
+                                   data-date-format="dd/mm/yyyy" />
+                            <input wicket:id="dateTo" type="text" placeholder="To" class="input-small datepicker"
+                                   data-date-format="dd/mm/yyyy" />
                         </div>
                     </div>
 
@@ -217,8 +220,11 @@
 <!-- Le javascript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="js/jquery-1.8.2.js"></script>
+<script src="js/jquery-1.8.2.min.js"></script>
 <script src="js/bootstrap.js"></script>
-
+<script src="js/bootstrap-datepicker.js"></script>
+<script>
+    $(".datepicker").datepicker();
+</script>
 </body>
 </html>

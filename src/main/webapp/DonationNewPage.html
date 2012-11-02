@@ -149,7 +149,7 @@
                     <div class="control-group">
                         <label class="control-label" for="date">Date</label>
                         <div class="controls">
-                            <input wicket:id="date" type="text" class="input-medium" />
+                            <input wicket:id="date" type="text" class="input-medium datepicker" />
                         </div>
                     </div>
 
@@ -208,8 +208,11 @@
 <!-- Le javascript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="js/jquery-1.8.2.js"></script>
+<script src="js/jquery-1.8.2.min.js"></script>
 <script src="js/bootstrap.js"></script>
-
+<script src="js/bootstrap-datepicker.js"></script>
+<script>
+    $(".datepicker").datepicker();
+</script>
 </body>
 </html>
