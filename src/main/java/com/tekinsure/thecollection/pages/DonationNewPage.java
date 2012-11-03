@@ -10,6 +10,7 @@ import com.tekinsure.thecollection.model.data.Member;
 import com.tekinsure.thecollection.model.ui.DonationNew;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
@@ -23,6 +24,7 @@ import org.apache.wicket.markup.html.form.DropDownChoice;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -55,13 +57,40 @@ public class DonationNewPage extends BasePage {
         setMarkupContainer(form);
 
 
+        // Create the member search field & add two behaviours.
         TextField memberSearch = addTextField("memberSearch", new PropertyModel<String>(donationNew, "memberSearch"));
+
+        // First behaviour will perform the type-ahead lookups
         memberSearch.add(new BootstrapTypeAheadBehaviour() {
 
             public List<String> getChoices(String search) {
                 return searchMembers(search);
             }
         });
+
+        // Second behaviour will match the selected item and populate the member fields.
+        memberSearch.add(new AjaxFormComponentUpdatingBehavior("onchange") {
+            @Override
+            protected void onUpdate(AjaxRequestTarget target) {
+                // Populate the member fields
+                Member member = findMember(donationNew.getMemberSearch());
+
+                if (member != null) {
+                    donationNew.setMember(member);
+                    if (StringUtils.isNotBlank(member.getMemberID())) {
+                        donationNew.getDonation().setMemberID(member.getMemberID());
+                    }
+                    if (StringUtils.isNotBlank(member.getDirectDebitRef())) {
+                        donationNew.getDonation().setDirectDebitRef(member.getDirectDebitRef());
+                    }
+                    if (StringUtils.isNotBlank(member.getOrganisation())) {
+                        donationNew.getDonation().setOrgChapter(member.getOrganisation());
+                    }
+                    updateComponent(target, Arrays.asList("memberID", "ddRef", "address1", "address2", "suburb", "state"));
+                }
+            }
+        });
+
         addTextField("memberID", new PropertyModel<String>(donationNew, "donation.memberID"));
         addTextField("ddRef", new PropertyModel<String>(donationNew, "donation.directDebitRef"));
         addTextField("receiptNo", new PropertyModel<String>(donationNew, "donation.receiptNo"));
@@ -179,6 +208,18 @@ public class DonationNewPage extends BasePage {
         Query q = db.getEntityManager().createQuery("from Member");
 
         return q.getResultList();
+    }
+
+    /**
+     * Finds the exact member based on type ahead query
+     * @param memberSearch
+     * @return
+     */
+    private Member findMember(String memberSearch) {
+        //TODO: Example testing code needs to perform real search based on query
+        CollectionDatabase db = CollectionDatabase.getInstance();
+        Query q = db.getEntityManager().createQuery("from Member");
+        return (Member) q.getResultList().get(0);
     }
 
 }

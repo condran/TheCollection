@@ -4,6 +4,7 @@ import com.tekinsure.thecollection.components.ChoicePropertyModel;
 import com.tekinsure.thecollection.model.ui.OptionItem;
 import org.apache.wicket.Component;
 import org.apache.wicket.MarkupContainer;
+import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
 import org.apache.wicket.markup.html.form.DropDownChoice;
@@ -14,7 +15,9 @@ import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Base Page
@@ -25,6 +28,7 @@ import java.util.List;
 public class BasePage extends WebPage {
 
     private MarkupContainer markupContainer = null;
+    private Map<String, Component> fieldMap = new HashMap<String, Component>();
 
     public BasePage() {
 
@@ -48,6 +52,25 @@ public class BasePage extends WebPage {
             markupContainer.add(field);
         } else {
             add(field);
+        }
+        fieldMap.put(field.getId(), field);
+    }
+
+    public void updateComponent(AjaxRequestTarget target, String id) {
+        updateComponent(target, Arrays.asList(id));
+    }
+
+    /**
+     * Finds the component and adds it to the Ajax Target so the field can be updated
+     * @param target   the AjaxRequestTarget object
+     * @param ids      a list of field ids
+     */
+    public void updateComponent(AjaxRequestTarget target, List<String> ids) {
+        for (String id : ids) {
+            Component c = fieldMap.get(id);
+            if (c != null) {
+                target.add(c);
+            }
         }
     }
 
