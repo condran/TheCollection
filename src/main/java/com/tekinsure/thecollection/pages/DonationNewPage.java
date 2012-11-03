@@ -1,12 +1,14 @@
 package com.tekinsure.thecollection.pages;
 
+import com.tekinsure.thecollection.components.BootstrapTypeAheadBehaviour;
 import com.tekinsure.thecollection.components.CollectionUtil;
 import com.tekinsure.thecollection.data.CollectionDatabase;
 import com.tekinsure.thecollection.functional.Function2Void;
 import com.tekinsure.thecollection.model.data.Category;
-import com.tekinsure.thecollection.model.data.Donation;
 import com.tekinsure.thecollection.model.data.DonationCategory;
+import com.tekinsure.thecollection.model.data.Member;
 import com.tekinsure.thecollection.model.ui.DonationNew;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.Button;
@@ -15,8 +17,6 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.repeater.RepeatingView;
 import org.apache.wicket.model.PropertyModel;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 
 import org.apache.wicket.markup.html.form.DropDownChoice;
@@ -55,7 +55,13 @@ public class DonationNewPage extends BasePage {
         setMarkupContainer(form);
 
 
-        addTextField("memberSearch", new PropertyModel<String>(donationNew, "memberSearch"));
+        TextField memberSearch = addTextField("memberSearch", new PropertyModel<String>(donationNew, "memberSearch"));
+        memberSearch.add(new BootstrapTypeAheadBehaviour() {
+
+            public List<String> getChoices(String search) {
+                return searchMembers(search);
+            }
+        });
         addTextField("memberID", new PropertyModel<String>(donationNew, "donation.memberID"));
         addTextField("ddRef", new PropertyModel<String>(donationNew, "donation.directDebitRef"));
         addTextField("receiptNo", new PropertyModel<String>(donationNew, "donation.receiptNo"));
@@ -144,11 +150,35 @@ public class DonationNewPage extends BasePage {
         return false;
     }
 
+    private List<String> searchMembers(String search) {
+        List<String> results = new ArrayList<String>();
+
+        List<Member> members = performMemberQuery(search);
+        if (members != null) {
+            for (Member member : members) {
+                StringBuilder result = new StringBuilder();
+
+                CollectionUtil.appendIfNotBlank(result, member.getName(), "%s ");
+                CollectionUtil.appendIfNotBlank(result, member.getFamilyName(), "%s ");
+                CollectionUtil.appendIfNotBlank(result, member.getMemberID(), "[%s]");
+
+                results.add(result.toString());
+            }
+        }
+
+        return results;
+    }
+
+
     /**
      * Queries the Member database to fill out the member details
      */
-    private void performMemberQuery() {
+    private List<Member> performMemberQuery(String search) {
 
+        CollectionDatabase db = CollectionDatabase.getInstance();
+        Query q = db.getEntityManager().createQuery("from Member");
+
+        return q.getResultList();
     }
 
 }

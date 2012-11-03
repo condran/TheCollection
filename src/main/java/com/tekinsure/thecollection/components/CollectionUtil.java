@@ -1,6 +1,8 @@
 package com.tekinsure.thecollection.components;
 
+import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
 import com.tekinsure.thecollection.model.ui.OptionItem;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,5 +50,29 @@ public class CollectionUtil {
     }
 
 
+    /**
+     * Calls appendIfNotBlank with the formatter of "%s "
+     */
+    public static StringBuilder appendIfNoBlank(StringBuilder builder, String value) {
+        return appendIfNotBlank(builder, value, "%s ");
+    }
 
+    /**
+     * If the value is not null or blank, appends to the string builder using a format
+     * @param builder  a StringBuilder object
+     * @param value    the value to append
+     * @param format   see String.format
+     * @return
+     */
+    public static StringBuilder appendIfNotBlank(StringBuilder builder, String value, String format) {
+        if (StringUtils.isNotBlank(value)) {
+            if (StringUtils.isNotBlank(format)) {
+               builder.append(String.format(format,value));
+            }
+            else {
+                builder.append(value);
+            }
+        }
+        return builder;
+    }
 }
