@@ -61,15 +61,15 @@ public class DataImportTest {
         CollectionDatabase database = CollectionDatabase.getInstance();
         database.connectDatabase("hsqldb-test");
         
-//        File directory = new File (".");
-// try {
-// System.out.println ("Current directory's canonical path: " 
-//  + directory.getCanonicalPath()); 
-//   System.out.println ("Current directory's absolute  path: " 
-//  + directory.getAbsolutePath());
-// }catch(Exception e) {
-// System.out.println("Exceptione is ="+e.getMessage());
-//  }
+        File directory = new File (".");
+ try {
+ System.out.println ("Current directory's canonical path: " 
+  + directory.getCanonicalPath()); 
+   System.out.println ("Current directory's absolute  path: " 
+  + directory.getAbsolutePath());
+ }catch(Exception e) {
+ System.out.println("Exceptione is ="+e.getMessage());
+  }
 
         
         ImportMembers di = new ImportMembers();
@@ -82,7 +82,7 @@ public class DataImportTest {
             ee.printStackTrace();
         }
         EntityManager em = database.getEntityManager();
-        Query q = em.createQuery("from Members");
+        Query q = em.createQuery("from Member");
          q.setMaxResults(1);
 
         List list = q.getResultList();

@@ -28,7 +28,7 @@ public class ImportDonationsPage extends BasePage {
 
     private FileUploadField fileUpload;
     
-    private OptionItem organisation;
+    private String organisation;
     
     private Form form;
 
@@ -52,7 +52,7 @@ public class ImportDonationsPage extends BasePage {
 
                         try {
                                 ImportDonations di = new ImportDonations();
-                                di.organisation = getOrganisation().getCode();
+                                di.organisation = getOrganisation();
                                 di.processWorksheet(uploadedFile.getInputStream());
                                 info("saved file: " + uploadedFile.getClientFileName());
                         } catch (Exception e) {
@@ -88,14 +88,14 @@ public class ImportDonationsPage extends BasePage {
     /**
      * @return the organisation
      */
-    public OptionItem getOrganisation() {
+    public String getOrganisation() {
         return organisation;
     }
 
     /**
      * @param organisation the organisation to set
      */
-    public void setOrganisation(OptionItem organisation) {
+    public void setOrganisation(String organisation) {
         this.organisation = organisation;
     }
 

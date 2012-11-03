@@ -61,7 +61,7 @@ public class ImportDonations {
             value = cell.getStringCellValue();
             break;
         }
-        return StringUtils.deleteWhitespace(value);
+        return StringUtils.trimToEmpty(value);
     }
         protected BigDecimal getCellValueAsDecimal(Cell cell) {
         BigDecimal d = null;

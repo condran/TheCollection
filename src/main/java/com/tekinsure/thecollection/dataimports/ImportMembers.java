@@ -122,7 +122,7 @@ public class ImportMembers {
 
         //    Family Code:	
         val = getCellValueAsString(row.getCell(1));
-        member.setOrganisation(val);
+        member.setFamilyName(val);
 
 //    DDRef
         val = getCellValueAsString(row.getCell(3));
@@ -192,7 +192,7 @@ public class ImportMembers {
         Workbook wb = WorkbookFactory.create(inputStream);
         Sheet sheet = wb.getSheetAt(0);
 
-        int rowIndex = 1;
+        int rowIndex = 0;
         while (true) {
 //            output("processing Row = " + rowIndex);
             Row row = sheet.getRow(rowIndex);

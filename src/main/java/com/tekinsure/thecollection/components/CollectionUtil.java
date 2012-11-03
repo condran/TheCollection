@@ -1,6 +1,6 @@
 package com.tekinsure.thecollection.components;
 
-import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
+
 import com.tekinsure.thecollection.model.ui.OptionItem;
 import org.apache.commons.lang3.StringUtils;
 
@@ -35,9 +35,9 @@ public class CollectionUtil {
 
     public static List<OptionItem> listOrganisations() {
         List<OptionItem> list = new ArrayList<OptionItem>();
-        list.add(new OptionItem("ORG01", "American Express"));
-        list.add(new OptionItem("ORG02", "McDonalds"));
-        list.add(new OptionItem("ORG03", "Woolworths"));
+        list.add(new OptionItem("ORG 1", "American Express"));
+        list.add(new OptionItem("ORG 2", "McDonalds"));
+        list.add(new OptionItem("ORG 3", "Woolworths"));
         return list;
     }
 

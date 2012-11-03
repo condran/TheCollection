@@ -86,7 +86,7 @@ public class DonationNewPage extends BasePage {
                     if (StringUtils.isNotBlank(member.getOrganisation())) {
                         donationNew.getDonation().setOrgChapter(member.getOrganisation());
                     }
-                    updateComponent(target, Arrays.asList("memberID", "ddRef", "address1", "address2", "suburb", "state"));
+                    updateComponent(target, Arrays.asList("memberID", "ddRef", "address1", "address2", "suburb", "state", "orgChapter"));
                 }
             }
         });
@@ -203,11 +203,21 @@ public class DonationNewPage extends BasePage {
      * Queries the Member database to fill out the member details
      */
     private List<Member> performMemberQuery(String search) {
+        
+        try {
+       
 
         CollectionDatabase db = CollectionDatabase.getInstance();
-        Query q = db.getEntityManager().createQuery("from Member");
+        String query = "from Member where memberID='"+search+"' or name like '%"+search+"%'";
+        Query q = db.getEntityManager().createQuery(query);
 
         return q.getResultList();
+        
+        } catch (Exception ee)
+        {
+            ee.printStackTrace();
+            return null;
+        }
     }
 
     /**
@@ -216,9 +226,11 @@ public class DonationNewPage extends BasePage {
      * @return
      */
     private Member findMember(String memberSearch) {
-        //TODO: Example testing code needs to perform real search based on query
+
+        String memberID = StringUtils.substringBetween(memberSearch, "[", "]");
+        if (memberID == null) { return null; }
         CollectionDatabase db = CollectionDatabase.getInstance();
-        Query q = db.getEntityManager().createQuery("from Member");
+        Query q = db.getEntityManager().createQuery("from Member where memberID='"+memberID+"'");
         return (Member) q.getResultList().get(0);
     }
 

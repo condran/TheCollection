@@ -131,7 +131,7 @@ public class DonationSearchPage extends BasePage {
         EntityManager em = db.getEntityManager();
 
         Query q = em.createQuery("from Donation order by date desc");
-        q.setMaxResults(10);
+        q.setMaxResults(50);
 
         List list = q.getResultList();
         if (!list.isEmpty()) {
@@ -161,7 +161,7 @@ public class DonationSearchPage extends BasePage {
             @Override
             public Iterator iterator(long l, long l1) {
                 List newList = new ArrayList();
-                for (long i = l; i < l+l1; i++) {
+                for (long i = l; i < l+size(); i++) {
                     newList.add(searchResults.get((int)i));
                 }
                 return newList.iterator();
@@ -178,7 +178,7 @@ public class DonationSearchPage extends BasePage {
             }
         };
 
-        dataTable = new CollectionDataTable("searchResults", columns, dataProvider, 5);
+        dataTable = new CollectionDataTable("searchResults", columns, dataProvider, 50);
         dataTable.setOutputMarkupId(true);
         form.add(dataTable);
 
