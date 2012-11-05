@@ -1,5 +1,6 @@
 package com.tekinsure.thecollection.pages;
 
+import com.tekinsure.thecollection.components.BootstrapFeedbackPanel;
 import com.tekinsure.thecollection.components.BootstrapTypeAheadBehaviour;
 import com.tekinsure.thecollection.components.CollectionUtil;
 import com.tekinsure.thecollection.data.CollectionDatabase;
@@ -11,10 +12,12 @@ import com.tekinsure.thecollection.model.ui.DonationNew;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
+import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.repeater.RepeatingView;
 import org.apache.wicket.model.PropertyModel;
 
@@ -38,6 +41,7 @@ public class DonationNewPage extends BasePage {
     private Form form;
     private TextField totalField;
     private List<Category> availableCategories = new ArrayList<Category>();
+    private FeedbackPanel feedbackPanel;
 
     public DonationNewPage() {
 
@@ -56,6 +60,8 @@ public class DonationNewPage extends BasePage {
         add(form);
         setMarkupContainer(form);
 
+        add(feedbackPanel = new BootstrapFeedbackPanel("feedbackPanel"));
+        feedbackPanel.setOutputMarkupId(true);
 
         // Create the member search field & add two behaviours.
         TextField memberSearch = addTextField("memberSearch", new PropertyModel<String>(donationNew, "memberSearch"));
@@ -102,14 +108,16 @@ public class DonationNewPage extends BasePage {
         addTextField("suburb", new PropertyModel<String>(donationNew, "member.suburb"));
         addTextField("state", new PropertyModel<String>(donationNew, "member.state"));
         
-        Button saveButton = new Button("save") {
+        Button saveButton = new AjaxButton("save") {
             @Override
-            public void onSubmit() {
-                CollectionDatabase db =  CollectionDatabase.getInstance();
+            protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+                if(validateForm(target)) {
+                    CollectionDatabase db =  CollectionDatabase.getInstance();
 
-                db.persist(donationNew.getDonation());
+                    db.persist(donationNew.getDonation());
 
-                getRequestCycle().setResponsePage(DonationSearchPage.class);
+                    getRequestCycle().setResponsePage(DonationSearchPage.class);
+                }
             }
         };
         form.add(saveButton);
@@ -144,6 +152,29 @@ public class DonationNewPage extends BasePage {
 
         categoryListView.add(new CategoryPanel(categoryListView.newChildId(), null, CollectionUtil.listCategories(), addFunction));
 
+    }
+
+    private boolean validateForm(AjaxRequestTarget target) {
+        boolean valid = true;
+        if (StringUtils.isBlank(donationNew.getDonation().getMemberID())) {
+            error("Member ID is required");
+            valid = false;
+        }
+        if (StringUtils.isBlank(donationNew.getDonation().getName())) {
+            error("Member Name is required");
+            valid = false;
+        }
+        if (donationNew.getDonation().getDate() == null) {
+            error("Date is required");
+            valid = false;
+        }
+        if (donationNew.getDonation().getCategoryList().isEmpty()) {
+            error("One or more category entries are required");
+            valid = false;
+        }
+
+        target.add(feedbackPanel);
+        return valid;
     }
 
     private void totalCategories() {
