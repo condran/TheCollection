@@ -102,6 +102,7 @@ public class DonationNewPage extends BasePage {
         addTextField("receiptNo", new PropertyModel<String>(donationNew, "donation.receiptNo"));
         totalField = addTextField("total", new PropertyModel<String>(donationNew, "donation.total"));
         addTextField("date", new PropertyModel<String>(donationNew, "donation.date"));
+        addTextField("name", new PropertyModel<String>(donationNew, "donation.name"));
         addTextArea("details", new PropertyModel<String>(donationNew, "donation.details"));
         addTextField("address1", new PropertyModel<String>(donationNew, "member.address1"));
         addTextField("address2", new PropertyModel<String>(donationNew, "member.address2"));

@@ -2,18 +2,21 @@ package com.tekinsure.thecollection.pages;
 
 import com.tekinsure.thecollection.components.CollectionDataTable;
 import com.tekinsure.thecollection.components.CollectionUtil;
+import com.tekinsure.thecollection.components.ViewEditDelColumn;
 import com.tekinsure.thecollection.data.CollectionDatabase;
 import com.tekinsure.thecollection.model.data.Donation;
 import com.tekinsure.thecollection.model.ui.DonationSearch;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
+import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.DataTable;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
 import org.apache.wicket.extensions.markup.html.repeater.util.SortableDataProvider;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.link.AbstractLink;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
@@ -156,6 +159,58 @@ public class DonationSearchPage extends BasePage {
         columns.add(new PropertyColumn<String, String>(new Model<String>("Member"), "memberID", "memberID"));
         columns.add(new PropertyColumn<String, String>(new Model<String>("Record No"), "receiptNo", "receiptNo"));
         columns.add(new PropertyColumn(new Model<String>("Total"), "total", "total"));
+        columns.add(new ViewEditDelColumn(new Model<String>(""), null) {
+            @Override
+            public AbstractLink createViewLink(String id, IModel rowModel) {
+                final Donation donation = (Donation) rowModel.getObject();
+                AbstractLink viewLink = new AjaxSubmitLink(id) {
+                    /**
+                     * Override this method to provide special submit handling in a multi-button form. This method
+                     * will be called <em>before</em> the form's onSubmit method.
+                     */
+                    @Override
+                    protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+
+                    }
+                };
+                // Don't show a view link for now.
+                //viewLink.setVisible(false);
+
+                return viewLink;
+            }
+
+            @Override
+            public AbstractLink createEditLink(String id, IModel rowModel) {
+                final Donation donation = (Donation) rowModel.getObject();
+                AbstractLink editLink = new AjaxSubmitLink(id) {
+                    /**
+                     * Override this method to provide special submit handling in a multi-button form. This method
+                     * will be called <em>before</em> the form's onSubmit method.
+                     */
+                    @Override
+                    protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+
+                    }
+                };
+                return editLink;
+            }
+
+            @Override
+            public AbstractLink createDeleteLink(String id, IModel rowModel) {
+                final Donation donation = (Donation) rowModel.getObject();
+                AbstractLink delLink = new AjaxSubmitLink(id) {
+                    /**
+                     * Override this method to provide special submit handling in a multi-button form. This method
+                     * will be called <em>before</em> the form's onSubmit method.
+                     */
+                    @Override
+                    protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+
+                    }
+                };
+                return delLink;
+            }
+        });
 
         SortableDataProvider dataProvider = new SortableDataProvider() {
             @Override
