@@ -164,10 +164,6 @@ public class DonationSearchPage extends BasePage {
             public AbstractLink createViewLink(String id, IModel rowModel) {
                 final Donation donation = (Donation) rowModel.getObject();
                 AbstractLink viewLink = new AjaxSubmitLink(id) {
-                    /**
-                     * Override this method to provide special submit handling in a multi-button form. This method
-                     * will be called <em>before</em> the form's onSubmit method.
-                     */
                     @Override
                     protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
 
@@ -183,13 +179,11 @@ public class DonationSearchPage extends BasePage {
             public AbstractLink createEditLink(String id, IModel rowModel) {
                 final Donation donation = (Donation) rowModel.getObject();
                 AbstractLink editLink = new AjaxSubmitLink(id) {
-                    /**
-                     * Override this method to provide special submit handling in a multi-button form. This method
-                     * will be called <em>before</em> the form's onSubmit method.
-                     */
                     @Override
                     protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
-
+                        DonationNewPage donationNewPage = new DonationNewPage();
+                        donationNewPage.setEditMode(donation);
+                        getRequestCycle().setResponsePage(donationNewPage);
                     }
                 };
                 return editLink;
@@ -199,10 +193,6 @@ public class DonationSearchPage extends BasePage {
             public AbstractLink createDeleteLink(String id, IModel rowModel) {
                 final Donation donation = (Donation) rowModel.getObject();
                 AbstractLink delLink = new AjaxSubmitLink(id) {
-                    /**
-                     * Override this method to provide special submit handling in a multi-button form. This method
-                     * will be called <em>before</em> the form's onSubmit method.
-                     */
                     @Override
                     protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
 

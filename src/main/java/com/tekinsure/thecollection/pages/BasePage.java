@@ -60,6 +60,10 @@ public class BasePage extends WebPage {
         updateComponent(target, Arrays.asList(id));
     }
 
+    public Component getField(String id) {
+        return fieldMap.get(id);
+    }
+
     /**
      * Finds the component and adds it to the Ajax Target so the field can be updated
      * @param target   the AjaxRequestTarget object

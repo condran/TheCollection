@@ -6,6 +6,7 @@ import com.tekinsure.thecollection.components.CollectionUtil;
 import com.tekinsure.thecollection.data.CollectionDatabase;
 import com.tekinsure.thecollection.functional.Function2Void;
 import com.tekinsure.thecollection.model.data.Category;
+import com.tekinsure.thecollection.model.data.Donation;
 import com.tekinsure.thecollection.model.data.DonationCategory;
 import com.tekinsure.thecollection.model.data.Member;
 import com.tekinsure.thecollection.model.ui.DonationNew;
@@ -43,6 +44,7 @@ public class DonationNewPage extends BasePage {
     private List<Category> availableCategories = new ArrayList<Category>();
     private FeedbackPanel feedbackPanel;
 
+
     public DonationNewPage() {
 
         setupUserInterfaceFields();
@@ -51,6 +53,12 @@ public class DonationNewPage extends BasePage {
 
         listCategories();
 
+    }
+
+    public void setEditMode(Donation donation) {
+        Member member = findMember(donation.getMemberID());
+        donationNew.setMember(member);
+        donationNew.setDonation(donation);
     }
 
     private void setupUserInterfaceFields() {
