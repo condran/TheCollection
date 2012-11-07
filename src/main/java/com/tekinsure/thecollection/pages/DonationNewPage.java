@@ -146,7 +146,7 @@ public class DonationNewPage extends BasePage {
             @Override
             public void apply(AjaxRequestTarget target, DonationCategory donationCategory) {
                 // This executes the add method
-                if (donationCategory.getAmount() != null || !donationCategory.getAmount().equals(BigDecimal.ZERO)) {
+                if (donationCategory.getAmount() != null && !donationCategory.getAmount().equals(BigDecimal.ZERO)) {
 
                     if (!donationNew.getDonation().getCategoryList().contains(donationCategory)) {
                         donationNew.getDonation().getCategoryList().add(donationCategory);

@@ -1,5 +1,7 @@
 package com.tekinsure.thecollection.pages;
 
+import com.tekinsure.thecollection.UIConstants;
+import com.tekinsure.thecollection.components.CollectionDataProvider;
 import com.tekinsure.thecollection.components.CollectionDataTable;
 import com.tekinsure.thecollection.components.CollectionUtil;
 import com.tekinsure.thecollection.components.ViewEditDelColumn;
@@ -134,7 +136,7 @@ public class DonationSearchPage extends BasePage {
         EntityManager em = db.getEntityManager();
 
         Query q = em.createQuery("from Donation order by date desc");
-        q.setMaxResults(50);
+        q.setMaxResults(UIConstants.MAX_RECENT_RESULTS);
 
         List list = q.getResultList();
         if (!list.isEmpty()) {
@@ -202,28 +204,9 @@ public class DonationSearchPage extends BasePage {
             }
         });
 
-        SortableDataProvider dataProvider = new SortableDataProvider() {
-            @Override
-            public Iterator iterator(long l, long l1) {
-                List newList = new ArrayList();
-                for (long i = l; i < l+size(); i++) {
-                    newList.add(searchResults.get((int)i));
-                }
-                return newList.iterator();
-            }
+        CollectionDataProvider<Donation> dataProvider = new CollectionDataProvider<Donation>(searchResults);
 
-            @Override
-            public long size() {
-                return searchResults.size();
-            }
-
-            @Override
-            public IModel model(Object o) {
-                return new Model((Donation)o);
-            }
-        };
-
-        dataTable = new CollectionDataTable("searchResults", columns, dataProvider, 50);
+        dataTable = new CollectionDataTable("searchResults", columns, dataProvider, UIConstants.MAX_RESULTS_PER_PAGE);
         dataTable.setOutputMarkupId(true);
         form.add(dataTable);
 
