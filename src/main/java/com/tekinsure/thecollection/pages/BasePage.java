@@ -1,6 +1,7 @@
 package com.tekinsure.thecollection.pages;
 
 import com.tekinsure.thecollection.SessionBean;
+import com.tekinsure.thecollection.UIConstants;
 import com.tekinsure.thecollection.components.ChoicePropertyModel;
 import com.tekinsure.thecollection.components.MenuPanel;
 import com.tekinsure.thecollection.model.ui.OptionItem;
@@ -8,6 +9,7 @@ import org.apache.wicket.Component;
 import org.apache.wicket.MarkupContainer;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.TextField;
@@ -42,7 +44,12 @@ public class BasePage extends WebPage {
         super.onBeforeRender();
         // Add common page components, such as the menu and user links
         if (addCommonComponents) {
+            // Navigation menu
             add(new MenuPanel("menu"));
+            // Footer & Copyright
+            Label footer = new Label("footer", UIConstants.FOOTER_TEXT);
+            footer.setEscapeModelStrings(false);
+            add(footer);
         }
     }
 
