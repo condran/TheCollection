@@ -54,22 +54,23 @@
 
 <div class="container-fluid">
     <div class="row-fluid">
-        <div class="span2">
+        <div wicket:id="menu" class="span2">
             <div class="well sidebar-nav">
                 <ul class="nav nav-list">
                     <li class="nav-header">Actions Menu</li>
                     <li><a href="#">Dashboard</a></li>
-                    <li><a href="DonationSearchPage.html">Donations</a></li>
+                    <li class="active"><a href="DonationSearchPage.html">Donations</a></li>
                     <li><a href="PromisesSearchPage.html">Promises</a></li>
                     <li><a href="#">User Settings</a></li>
                     <li class="nav-header">Admin Menu</li>
-                    <li class="active"><a href="UserSearchPage.html">Users</a></li>
+                    <li><a href="UserSearchPage.html">Users</a></li>
                     <li><a href="MemberSearchPage.html">Members</a></li>
                     <li><a href="ImportDonationsPage.html">Import Donations</a></li>
                     <li><a href="ImportMembersPage.html">Import Members</a></li>
                 </ul>
             </div>
         </div>
+
 
         <div class="span10">
             <form wicket:id="form" class="form-horizontal">

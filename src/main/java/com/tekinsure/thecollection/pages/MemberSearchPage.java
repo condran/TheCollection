@@ -7,6 +7,7 @@ import com.tekinsure.thecollection.model.data.Member;
 import com.tekinsure.thecollection.model.ui.MemberSearch;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
+import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.DataTable;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
@@ -30,6 +31,7 @@ import java.util.List;
 /**
  * @author Paul Condran
  */
+@AuthorizeInstantiation("admin")
 public class MemberSearchPage extends BasePage {
 
     private MemberSearch memberSearch = new MemberSearch();

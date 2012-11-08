@@ -3,6 +3,7 @@ package com.tekinsure.thecollection.pages;
 import com.tekinsure.thecollection.components.CollectionUtil;
 import com.tekinsure.thecollection.data.CollectionDatabase;
 import com.tekinsure.thecollection.model.ui.MemberNew;
+import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
@@ -15,6 +16,7 @@ import java.util.Date;
  *
  * @author Paul Condran
  */
+@AuthorizeInstantiation("admin")
 public class MemberNewPage extends BasePage {
 
     private MemberNew memberNew = new MemberNew();

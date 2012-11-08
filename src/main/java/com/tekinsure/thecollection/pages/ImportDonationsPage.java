@@ -6,6 +6,8 @@ import com.tekinsure.thecollection.dataimports.ImportDonations;
 import com.tekinsure.thecollection.model.ui.MemberNew;
 import com.tekinsure.thecollection.model.ui.OptionItem;
 import java.util.Date;
+
+import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
@@ -24,6 +26,7 @@ import org.apache.wicket.markup.html.form.DropDownChoice;
  *
  * @author Paul Condran
  */
+@AuthorizeInstantiation("admin")
 public class ImportDonationsPage extends BasePage {
 
     private FileUploadField fileUpload;

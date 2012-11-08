@@ -1,6 +1,8 @@
 package com.tekinsure.thecollection.pages;
 
+import com.tekinsure.thecollection.SessionBean;
 import com.tekinsure.thecollection.components.ChoicePropertyModel;
+import com.tekinsure.thecollection.components.MenuPanel;
 import com.tekinsure.thecollection.model.ui.OptionItem;
 import org.apache.wicket.Component;
 import org.apache.wicket.MarkupContainer;
@@ -77,5 +79,9 @@ public class BasePanel extends Panel {
         DropDownChoice field = new DropDownChoice(id, new ChoicePropertyModel(model, optionList), optionList, choiceRenderer);
         addField(field);
         return field;
+    }
+
+    public SessionBean getSessionBean() {
+        return (SessionBean)getSession();
     }
 }

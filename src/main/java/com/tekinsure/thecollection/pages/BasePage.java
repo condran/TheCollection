@@ -1,6 +1,8 @@
 package com.tekinsure.thecollection.pages;
 
+import com.tekinsure.thecollection.SessionBean;
 import com.tekinsure.thecollection.components.ChoicePropertyModel;
+import com.tekinsure.thecollection.components.MenuPanel;
 import com.tekinsure.thecollection.model.ui.OptionItem;
 import org.apache.wicket.Component;
 import org.apache.wicket.MarkupContainer;
@@ -29,9 +31,19 @@ public class BasePage extends WebPage {
 
     private MarkupContainer markupContainer = null;
     private Map<String, Component> fieldMap = new HashMap<String, Component>();
+    private boolean addCommonComponents = true;
 
     public BasePage() {
+        getSessionBean().setActivePageName(this.getClass().getSimpleName());
+    }
 
+    @Override
+    protected void onBeforeRender() {
+        super.onBeforeRender();
+        // Add common page components, such as the menu and user links
+        if (addCommonComponents) {
+            add(new MenuPanel("menu"));
+        }
     }
 
     public BasePage(PageParameters parameters) {
@@ -41,12 +53,12 @@ public class BasePage extends WebPage {
     public MarkupContainer getMarkupContainer() {
         return markupContainer;
     }
-
     public void setMarkupContainer(MarkupContainer markupContainer) {
         this.markupContainer = markupContainer;
     }
 
     private void addField(Component field) {
+
         field.setOutputMarkupId(true);
         if (markupContainer != null) {
             markupContainer.add(field);
@@ -112,5 +124,17 @@ public class BasePage extends WebPage {
         DropDownChoice field = new DropDownChoice(id, new ChoicePropertyModel(model, optionList), optionList, choiceRenderer);
         addField(field);
         return field;
+    }
+
+    public boolean isAddCommonComponents() {
+        return addCommonComponents;
+    }
+
+    public void setAddCommonComponents(boolean addCommonComponents) {
+        this.addCommonComponents = addCommonComponents;
+    }
+
+    public SessionBean getSessionBean() {
+        return (SessionBean)getSession();
     }
 }

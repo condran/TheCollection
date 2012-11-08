@@ -1,24 +1,18 @@
 package com.tekinsure.thecollection;
 
 import com.tekinsure.thecollection.data.CollectionDatabase;
-import com.tekinsure.thecollection.pages.DonationNewPage;
-import com.tekinsure.thecollection.pages.DonationSearchPage;
-import com.tekinsure.thecollection.pages.ImportDonationsPage;
-import com.tekinsure.thecollection.pages.ImportMembersPage;
-import com.tekinsure.thecollection.pages.MemberNewPage;
-import com.tekinsure.thecollection.pages.MemberSearchPage;
+import com.tekinsure.thecollection.pages.*;
 import org.apache.wicket.Page;
+import org.apache.wicket.authroles.authentication.AbstractAuthenticatedWebSession;
+import org.apache.wicket.authroles.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.core.request.mapper.MountedMapper;
+import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.protocol.http.WebApplication;
 
 /**
- * Created with IntelliJ IDEA.
- * User: paul
- * Date: 21/10/12
- * Time: 9:33 AM
- * To change this template use File | Settings | File Templates.
+ * The wicket application configuration for The Collection site
  */
-public class CollectionApplication extends WebApplication {
+public class CollectionApplication extends AuthenticatedWebApplication {
 
 
     @Override
@@ -38,6 +32,7 @@ public class CollectionApplication extends WebApplication {
         getRequestCycleSettings().setResponseRequestEncoding("UTF-8");
         getMarkupSettings().setDefaultMarkupEncoding("UTF-8");
 
+        getMarkupSettings().setStripWicketTags(true);
 
         // Mount the pages to paths
         //mount(new QueryStringUrlCodingStrategy("/search", TransactionSearch.class));
@@ -47,7 +42,18 @@ public class CollectionApplication extends WebApplication {
         mount(new MountedMapper("/MemberNewPage.html", MemberNewPage.class));
         mount(new MountedMapper("/ImportDonationsPage.html", ImportDonationsPage.class));
         mount(new MountedMapper("/ImportMembersPage.html", ImportMembersPage.class));
+        mount(new MountedMapper("/index.html", LoginPage.class));
 
+    }
+
+    @Override
+    protected Class<? extends AbstractAuthenticatedWebSession> getWebSessionClass() {
+        return SessionBean.class;
+    }
+
+    @Override
+    protected Class<? extends WebPage> getSignInPageClass() {
+        return LoginPage.class;
     }
 
     @Override
