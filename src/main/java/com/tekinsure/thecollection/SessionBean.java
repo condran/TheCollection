@@ -13,6 +13,7 @@ public class SessionBean extends AuthenticatedWebSession {
 
     private Roles roles = new Roles();
     private String activePageName = "";
+    private String userName = "";
 
 
     /**
@@ -46,6 +47,9 @@ public class SessionBean extends AuthenticatedWebSession {
             roles.add(UIConstants.ADMIN_ROLE);
         }
         roles.add(UIConstants.USER_ROLE);
+
+        this.userName = username;
+
         return true;
     }
 
@@ -59,5 +63,13 @@ public class SessionBean extends AuthenticatedWebSession {
 
     public void setActivePageName(String activePageName) {
         this.activePageName = activePageName;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

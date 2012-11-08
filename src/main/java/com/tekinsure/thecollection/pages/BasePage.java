@@ -8,6 +8,7 @@ import com.tekinsure.thecollection.model.ui.OptionItem;
 import org.apache.wicket.Component;
 import org.apache.wicket.MarkupContainer;
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
@@ -50,6 +51,15 @@ public class BasePage extends WebPage {
             Label footer = new Label("footer", UIConstants.FOOTER_TEXT);
             footer.setEscapeModelStrings(false);
             add(footer);
+            // User Link
+            AjaxLink userLink = new AjaxLink("userLink") {
+                @Override
+                public void onClick(AjaxRequestTarget ajaxRequestTarget) {
+                    // Do nothing for now
+                }
+            };
+            userLink.add(new Label("userName", getSessionBean().getUserName()));
+            add(userLink);
         }
     }
 
