@@ -46,11 +46,11 @@ public class BasePage extends WebPage {
         // Add common page components, such as the menu and user links
         if (addCommonComponents) {
             // Navigation menu
-            add(new MenuPanel("menu"));
+            addOrReplace(new MenuPanel("menu"));
             // Footer & Copyright
             Label footer = new Label("footer", UIConstants.FOOTER_TEXT);
             footer.setEscapeModelStrings(false);
-            add(footer);
+            addOrReplace(footer);
             // User Link
             AjaxLink userLink = new AjaxLink("userLink") {
                 @Override
@@ -58,8 +58,8 @@ public class BasePage extends WebPage {
                     // Do nothing for now
                 }
             };
-            userLink.add(new Label("userName", getSessionBean().getUserName()));
-            add(userLink);
+            userLink.addOrReplace(new Label("userName", getSessionBean().getUserName()));
+            addOrReplace(userLink);
         }
     }
 
