@@ -30,6 +30,7 @@ import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.resource.ContentDisposition;
 import org.apache.wicket.request.resource.ResourceStreamResource;
 import org.apache.wicket.util.time.Duration;
+import org.hibernate.Hibernate;
 import org.supercsv.cellprocessor.FmtBool;
 import org.supercsv.cellprocessor.FmtDate;
 import org.supercsv.cellprocessor.FmtNumber;
@@ -269,6 +270,9 @@ public class DonationSearchPage extends BasePage {
         List list = q.getResultList();
         if (!list.isEmpty()) {
             donationList = list;
+        }
+        for (Object o : list) {
+            Hibernate.initialize(o);
         }
         return donationList;
     }

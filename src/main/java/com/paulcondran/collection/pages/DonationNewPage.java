@@ -113,15 +113,10 @@ public class DonationNewPage extends BasePage {
                     if (StringUtils.isNotBlank(member.getDirectDebitRef())) {
                         donationNew.getDonation().setDirectDebitRef(member.getDirectDebitRef());
                     }
-                    
-                    if (StringUtils.isNotBlank(member.getName())) {
-                        donationNew.getDonation().setName(member.getName());
-                    }
-
                     if (StringUtils.isNotBlank(member.getOrganisation())) {
                         donationNew.getDonation().setOrgChapter(member.getOrganisation());
                     }
-                    updateComponent(target, Arrays.asList("memberID", "name", "ddRef", "address1", "address2", "suburb", "state", "orgChapter"));
+                    updateComponent(target, Arrays.asList("memberID", "ddRef", "address1", "address2", "suburb", "state", "orgChapter"));
                 }
             }
         });
@@ -172,6 +167,7 @@ public class DonationNewPage extends BasePage {
 
                     if (!donationNew.getDonation().getCategoryList().contains(donationCategory)) {
                         donationNew.getDonation().getCategoryList().add(donationCategory);
+                        donationCategory.setDonation(donationNew.getDonation());
                         categoryListView.add(new CategoryPanel(categoryListView.newChildId(), null, CollectionUtil.listCategories(), this));
                         totalCategories();
                         target.add(totalField);
@@ -199,16 +195,6 @@ public class DonationNewPage extends BasePage {
         }
         if (donationNew.getDonation().getCategoryList().isEmpty()) {
             error("One or more category entries are required");
-            valid = false;
-        }
-        
-        if (StringUtils.isBlank(donationNew.getDonation().getReceiptNo())) {
-            error("Receipt No is required");
-            valid = false;
-        }
-
-        if (donationNew.getDonation().getDate() == null) {
-            error("Date is required");
             valid = false;
         }
 
@@ -303,6 +289,10 @@ public class DonationNewPage extends BasePage {
         if (memberID == null || StringUtils.isEmpty(memberID)) { return null; }
         CollectionDatabase db = CollectionDatabase.getInstance();
         Query q = db.getEntityManager().createQuery("from Member where memberID='"+memberID+"'");
+
+        if (q.getResultList().isEmpty()) {
+            return null;
+        }
         return (Member) q.getResultList().get(0);
     }
 
