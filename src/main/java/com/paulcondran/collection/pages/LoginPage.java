@@ -10,6 +10,9 @@ import org.apache.wicket.model.PropertyModel;
 
 /**
  * The Login pages
+ *
+ * Refer to the authentication library documentation
+ * http://wicket.apache.org/learn/projects/authroles.html
  */
 public class LoginPage extends BasePage {
 

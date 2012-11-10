@@ -45,7 +45,8 @@ public class DonationNewPage extends BasePage {
     private TextField totalField;
     private List<Category> availableCategories = new ArrayList<Category>();
     private FeedbackPanel feedbackPanel;
-
+    private RepeatingView categoryListView;
+    Function2Void<AjaxRequestTarget, DonationCategory> addCategoryFunction;
 
     public DonationNewPage() {
 
@@ -58,9 +59,22 @@ public class DonationNewPage extends BasePage {
     }
 
     public void setEditMode(Donation donation) {
-        Member member = findMember("["+donation.getMemberID()+"]");
+        Member member = findMember(donation.getMemberID());
         donationNew.setMember(member);
         donationNew.setDonation(donation);
+    }
+
+    @Override
+    protected void onBeforeRender() {
+        super.onBeforeRender();
+
+        for (DonationCategory donationCategory : donationNew.getDonation().getCategoryList()) {
+            categoryListView.add(new CategoryPanel(categoryListView.newChildId(), donationCategory,
+                    CollectionUtil.listCategories(), addCategoryFunction));
+        }
+
+        categoryListView.add(new CategoryPanel(categoryListView.newChildId(), null,
+                CollectionUtil.listCategories(), addCategoryFunction));
     }
 
     private void setupUserInterfaceFields() {
@@ -111,6 +125,7 @@ public class DonationNewPage extends BasePage {
         addTextField("ddRef", new PropertyModel<String>(donationNew, "donation.directDebitRef"));
         addTextField("receiptNo", new PropertyModel<String>(donationNew, "donation.receiptNo"));
         totalField = addTextField("total", new PropertyModel<String>(donationNew, "donation.total"));
+        totalField.setEnabled(false);
         addTextField("date", new PropertyModel<String>(donationNew, "donation.date"));
         addTextField("name", new PropertyModel<String>(donationNew, "donation.name"));
         addTextArea("details", new PropertyModel<String>(donationNew, "donation.details"));
@@ -135,7 +150,7 @@ public class DonationNewPage extends BasePage {
 
 
         // Category repeater
-        final RepeatingView categoryListView = new RepeatingView("categoryList");
+        categoryListView = new RepeatingView("categoryList");
         categoryListView.setOutputMarkupId(true);
 
         final WebMarkupContainer categoryListContainer = new WebMarkupContainer("categoryListContainer");
@@ -144,7 +159,7 @@ public class DonationNewPage extends BasePage {
         form.add(categoryListContainer);
 
 
-        Function2Void<AjaxRequestTarget, DonationCategory> addFunction = new Function2Void<AjaxRequestTarget, DonationCategory>() {
+        addCategoryFunction = new Function2Void<AjaxRequestTarget, DonationCategory>() {
             @Override
             public void apply(AjaxRequestTarget target, DonationCategory donationCategory) {
                 // This executes the add method
@@ -160,8 +175,6 @@ public class DonationNewPage extends BasePage {
                 }
             }
         };
-
-        categoryListView.add(new CategoryPanel(categoryListView.newChildId(), null, CollectionUtil.listCategories(), addFunction));
 
     }
 
@@ -229,9 +242,8 @@ public class DonationNewPage extends BasePage {
             for (Member member : members) {
                 StringBuilder result = new StringBuilder();
 
-                CollectionUtil.appendIfNotBlank(result, member.getName(), "%s-");
-                CollectionUtil.appendIfNotBlank(result, member.getFamilyName(), "%s-");
-                CollectionUtil.appendIfNotBlank(result, member.getSuburb(), "%s-");
+                CollectionUtil.appendIfNotBlank(result, member.getName(), "%s ");
+                CollectionUtil.appendIfNotBlank(result, member.getFamilyName(), "%s ");
                 CollectionUtil.appendIfNotBlank(result, member.getMemberID(), "[%s]");
 
                 results.add(result.toString());

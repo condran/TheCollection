@@ -5,6 +5,7 @@ import com.paulcondran.collection.model.data.DonationCategory;
 import com.paulcondran.collection.model.ui.OptionItem;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
+import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.PropertyModel;
 
@@ -32,7 +33,14 @@ public class CategoryPanel extends BasePanel {
             }
         });
 
-        addDropdownField("category", new PropertyModel(getDonationCategory(), "categoryName"), listCategories);
+        DropDownChoice category = addDropdownField("category", new PropertyModel(getDonationCategory(), "categoryName"), listCategories);
+        category.add(new AjaxFormComponentUpdatingBehavior("onchange") {
+            @Override
+            protected void onUpdate(AjaxRequestTarget target) {
+                // just update the model
+            }
+        });
+
     }
 
     public DonationCategory getDonationCategory() {
