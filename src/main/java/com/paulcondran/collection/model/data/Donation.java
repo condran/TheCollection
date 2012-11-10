@@ -26,7 +26,7 @@ public class Donation implements Serializable {
 
     private String directDebitRef;
 
-    private boolean isDirectDebit;
+    private Boolean isDirectDebit = false;
 
     private String collector;
 
@@ -82,7 +82,7 @@ public class Donation implements Serializable {
         this.directDebitRef = directDebitRef;
     }
 
-    public boolean isDirectDebit() {
+    public Boolean getDirectDebit() {
         return isDirectDebit;
     }
 

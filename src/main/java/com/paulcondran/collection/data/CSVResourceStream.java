@@ -3,7 +3,9 @@ package com.paulcondran.collection.data;
 import org.apache.wicket.util.resource.AbstractResourceStreamWriter;
 import org.supercsv.cellprocessor.ift.CellProcessor;
 import org.supercsv.io.CsvBeanWriter;
+import org.supercsv.io.CsvListWriter;
 import org.supercsv.io.ICsvBeanWriter;
+import org.supercsv.io.ICsvListWriter;
 import org.supercsv.prefs.CsvPreference;
 
 import java.io.IOException;
@@ -14,11 +16,10 @@ import java.util.List;
 /**
  * Streaming resource for exporting data to CSV
  */
-public class CSVResourceStream<T> extends AbstractResourceStreamWriter {
+public abstract class CSVResourceStream extends AbstractResourceStreamWriter {
 
     private CellProcessor[] processors;
     private String[] header;
-    private List<T> resultsList;
 
     /**
      *
@@ -27,12 +28,13 @@ public class CSVResourceStream<T> extends AbstractResourceStreamWriter {
      * @param header
      * @param resultsList
      */
-    public CSVResourceStream(CellProcessor[] processors, String[] header, List<T> resultsList) {
-        this.processors = processors;
-        this.header = header;
-        this.resultsList = resultsList;
+    public CSVResourceStream() {
     }
 
+    @Override
+    public String getContentType() {
+        return "text/csv";
+    }
 
     /**
      *
@@ -42,32 +44,33 @@ public class CSVResourceStream<T> extends AbstractResourceStreamWriter {
     @Override
     public void write(OutputStream outputStream) throws IOException {
 
-        ICsvBeanWriter beanWriter = null;
+        ICsvListWriter listWriter = null;
         try {
-            beanWriter = new CsvBeanWriter(new OutputStreamWriter(outputStream),
+            listWriter = new CsvListWriter(new OutputStreamWriter(outputStream),
                     CsvPreference.STANDARD_PREFERENCE);
 
             // write the header
-            beanWriter.writeHeader(header);
+            listWriter.writeHeader(getHeaders());
 
             // write the beans
-            for( T result : resultsList ) {
-                beanWriter.write(result, header, processors);
+            for( List<Object> results : getObjectsList() ) {
+                listWriter.write(results, getCellProcessors());
             }
 
+        }
+        catch (Exception e) {
+            e.printStackTrace();
         }
         finally {
-            if( beanWriter != null ) {
-                beanWriter.close();
+            if( listWriter != null ) {
+                listWriter.close();
             }
         }
     }
 
-    public List<T> getResultsList() {
-        return resultsList;
-    }
+    public abstract List<List<Object>> getObjectsList();
 
-    public void setResultsList(List<T> resultsList) {
-        this.resultsList = resultsList;
-    }
+    public abstract CellProcessor[] getCellProcessors();
+
+    public abstract String[] getHeaders();
 }
