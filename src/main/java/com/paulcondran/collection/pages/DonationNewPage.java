@@ -283,8 +283,9 @@ public class DonationNewPage extends BasePage {
      */
     private Member findMember(String memberSearch) {
 
+        if (memberSearch == null) { return null;}
         String memberID = StringUtils.substringBetween(memberSearch, "[", "]");
-        if (memberID == null) { return null; }
+        if (memberID == null || StringUtils.isEmpty(memberID)) { return null; }
         CollectionDatabase db = CollectionDatabase.getInstance();
         Query q = db.getEntityManager().createQuery("from Member where memberID='"+memberID+"'");
         return (Member) q.getResultList().get(0);
