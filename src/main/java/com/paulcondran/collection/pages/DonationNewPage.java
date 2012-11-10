@@ -289,6 +289,10 @@ public class DonationNewPage extends BasePage {
         if (memberID == null || StringUtils.isEmpty(memberID)) { return null; }
         CollectionDatabase db = CollectionDatabase.getInstance();
         Query q = db.getEntityManager().createQuery("from Member where memberID='"+memberID+"'");
+
+        if (q.getResultList().isEmpty()) {
+            return null;
+        }
         return (Member) q.getResultList().get(0);
     }
 
