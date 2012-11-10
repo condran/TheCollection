@@ -65,6 +65,8 @@ public class DonationSearchPage extends BasePage {
 
     private DataTable dataTable;
 
+    private CollectionDataProvider<Donation> dataProvider;
+
     private CSVResourceStream csvResourceStream;
 
     public DonationSearchPage() {
@@ -143,6 +145,8 @@ public class DonationSearchPage extends BasePage {
                 }
 
                 searchResults = db.getEntityManager().createQuery(query).getResultList();
+                dataProvider.setResults(searchResults);
+
                 target.add(dataTable);
 
 
@@ -335,7 +339,7 @@ public class DonationSearchPage extends BasePage {
             }
         });
 
-        CollectionDataProvider<Donation> dataProvider = new CollectionDataProvider<Donation>(searchResults);
+        dataProvider = new CollectionDataProvider<Donation>(searchResults);
 
         dataTable = new CollectionDataTable("searchResults", columns, dataProvider, UIConstants.MAX_RESULTS_PER_PAGE);
         dataTable.setOutputMarkupId(true);

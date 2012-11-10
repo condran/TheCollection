@@ -57,4 +57,13 @@ public class CollectionDataProvider<T extends Serializable> extends SortableData
     public IModel model(Object object) {
         return new Model((T) object);
     }
+
+
+    public List<T> getResults() {
+        return results;
+    }
+
+    public void setResults(List<T> results) {
+        this.results = results;
+    }
 }
