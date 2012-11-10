@@ -73,8 +73,8 @@ public class MenuPanel extends BasePanel {
 //        navList.add(new NavItem(navList.newChildId(), "Users", active(Arrays.asList("UserSearchPage", "UserNewPage")),
 //                redirectFunc(DonationSearchPage.class)));
 
-        navList.add(new NavItem(navList.newChildId(), "Users", active(Arrays.asList("UserSearchPage", "UserNewPage")),
-                redirectFunc(UserSearchPage.class)));
+//        navList.add(new NavItem(navList.newChildId(), "Users", active(Arrays.asList("UserSearchPage", "UserNewPage")),
+//                redirectFunc(UserSearchPage.class)));
 
         navList.add(new NavItem(navList.newChildId(), "Members", active(Arrays.asList("MemberSearchPage", "MemberNewPage")),
                 redirectFunc(MemberSearchPage.class)));

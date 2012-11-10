@@ -106,6 +106,27 @@ public class CollectionDatabase {
         transaction.commit();
     }
 
+    /**
+     * Will save an object to the database
+     *
+     * @param object
+     */
+    public void remove(Object object) {
+        connectDatabase();
+        EntityTransaction transaction = getEntityManager().getTransaction();
+        if (transaction.isActive())
+        {
+            transaction.rollback();
+        }
+        
+        transaction.begin();
+
+        getEntityManager().remove(object);
+        getEntityManager().flush();
+
+        transaction.commit();
+    }
+
     public void shutdown() {
         if (entityManager != null) {
             entityManager.close();

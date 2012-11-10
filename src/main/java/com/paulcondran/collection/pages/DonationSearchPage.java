@@ -294,7 +294,8 @@ public class DonationSearchPage extends BasePage {
 
         columns.add(new PropertyColumn<String, String>(new Model<String>("Name"), "name", "name"));
         columns.add(new PropertyColumn<String, String>(new Model<String>("Member"), "memberID", "memberID"));
-        columns.add(new PropertyColumn<String, String>(new Model<String>("Record No"), "receiptNo", "receiptNo"));
+        columns.add(new PropertyColumn<String, String>(new Model<String>("ReceiptNo"), "receiptNo", "receiptNo"));
+        columns.add(new PropertyColumn<String, String>(new Model<String>("Date"), "date", "date"));
         columns.add(new PropertyColumn(new Model<String>("Total"), "total", "total"));
         columns.add(new ViewEditDelColumn(new Model<String>(""), null) {
             @Override
@@ -332,7 +333,11 @@ public class DonationSearchPage extends BasePage {
                 AbstractLink delLink = new AjaxSubmitLink(id) {
                     @Override
                     protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
-
+                           CollectionDatabase.getInstance().remove(donation);
+//                        getRequestCycle().setResponsePage(this);
+                           searchResults.remove(donation);
+                           
+                           
                     }
                 };
                 return delLink;
