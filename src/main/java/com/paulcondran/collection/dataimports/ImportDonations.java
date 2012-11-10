@@ -161,6 +161,7 @@ public class ImportDonations {
         }
         com.paulcondran.collection.data.CollectionDatabase database = CollectionDatabase.getInstance();
         database.persist(donation);
+        donation = locateDonation(donation.getReceiptNo());
         return true;
     }
 
