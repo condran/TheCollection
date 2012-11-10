@@ -2,6 +2,8 @@ package com.paulcondran.collection.pages;
 
 import com.paulcondran.collection.components.CollectionUtil;
 import com.paulcondran.collection.data.CollectionDatabase;
+import com.paulcondran.collection.model.data.Donation;
+import com.paulcondran.collection.model.data.Member;
 import com.paulcondran.collection.model.ui.MemberNew;
 import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.form.Button;
@@ -41,6 +43,9 @@ public class MemberNewPage extends BasePage {
             }
         };
         form.add(saveButton);
+    }
+    public void setEditMode(Member member) {
+        memberNew.setMember(member);
     }
 
     private void setupUserInterfaceFields() {

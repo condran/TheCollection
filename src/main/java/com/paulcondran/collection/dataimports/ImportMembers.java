@@ -148,7 +148,7 @@ public class ImportMembers {
 
 //    Mobile	
         if (row.getCell(9).getCellType() == Cell.CELL_TYPE_NUMERIC) {
-            int mno = (int) row.getCell(9).getNumericCellValue();
+            int mno = (int) row.getCell(10).getNumericCellValue();
              member.setMobileNo(mno+"");
         }
         else
@@ -161,8 +161,8 @@ public class ImportMembers {
         member.setEmailAddress(val);
 
 // Year Of Birth
-        if (row.getCell(9).getCellType() == Cell.CELL_TYPE_NUMERIC) {
-            int mno = (int) row.getCell(9).getNumericCellValue();
+        if (row.getCell(12).getCellType() == Cell.CELL_TYPE_NUMERIC) {
+            int mno = (int) row.getCell(12).getNumericCellValue();
              member.setYearOfBirth(mno);
         }
         else
