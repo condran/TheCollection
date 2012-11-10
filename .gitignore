@@ -25,6 +25,7 @@ CVS
 # automatic backup files
 *~.nib
 *.swp
+*.log
 *~
 *(Autosaved).rtfd/
 Backup[ ]of[ ]*.pages/
