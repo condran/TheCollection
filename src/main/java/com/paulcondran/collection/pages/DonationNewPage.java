@@ -45,7 +45,8 @@ public class DonationNewPage extends BasePage {
     private TextField totalField;
     private List<Category> availableCategories = new ArrayList<Category>();
     private FeedbackPanel feedbackPanel;
-
+    private RepeatingView categoryListView;
+    Function2Void<AjaxRequestTarget, DonationCategory> addCategoryFunction;
 
     public DonationNewPage() {
 
@@ -61,6 +62,19 @@ public class DonationNewPage extends BasePage {
         Member member = findMember(donation.getMemberID());
         donationNew.setMember(member);
         donationNew.setDonation(donation);
+    }
+
+    @Override
+    protected void onBeforeRender() {
+        super.onBeforeRender();
+
+        for (DonationCategory donationCategory : donationNew.getDonation().getCategoryList()) {
+            categoryListView.add(new CategoryPanel(categoryListView.newChildId(), donationCategory,
+                    CollectionUtil.listCategories(), addCategoryFunction));
+        }
+
+        categoryListView.add(new CategoryPanel(categoryListView.newChildId(), null,
+                CollectionUtil.listCategories(), addCategoryFunction));
     }
 
     private void setupUserInterfaceFields() {
@@ -136,7 +150,7 @@ public class DonationNewPage extends BasePage {
 
 
         // Category repeater
-        final RepeatingView categoryListView = new RepeatingView("categoryList");
+        categoryListView = new RepeatingView("categoryList");
         categoryListView.setOutputMarkupId(true);
 
         final WebMarkupContainer categoryListContainer = new WebMarkupContainer("categoryListContainer");
@@ -145,7 +159,7 @@ public class DonationNewPage extends BasePage {
         form.add(categoryListContainer);
 
 
-        Function2Void<AjaxRequestTarget, DonationCategory> addFunction = new Function2Void<AjaxRequestTarget, DonationCategory>() {
+        addCategoryFunction = new Function2Void<AjaxRequestTarget, DonationCategory>() {
             @Override
             public void apply(AjaxRequestTarget target, DonationCategory donationCategory) {
                 // This executes the add method
@@ -161,8 +175,6 @@ public class DonationNewPage extends BasePage {
                 }
             }
         };
-
-        categoryListView.add(new CategoryPanel(categoryListView.newChildId(), null, CollectionUtil.listCategories(), addFunction));
 
     }
 
