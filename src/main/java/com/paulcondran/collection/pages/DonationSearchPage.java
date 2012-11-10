@@ -249,7 +249,7 @@ public class DonationSearchPage extends BasePage {
         List<String> donationCategories = new ArrayList<String>();
         for (Donation donation : searchResults) {
             for (DonationCategory donationCategory : donation.getCategoryList()) {
-                if (donationCategories.contains(donationCategory.getCategoryName())) {
+                if (!donationCategories.contains(donationCategory.getCategoryName())) {
                     donationCategories.add(donationCategory.getCategoryName());
                 }
             }
