@@ -20,6 +20,8 @@ public class User implements Serializable {
     private String mobileNo;
     
     private String emailAddress;
+    
+    private String password;
 
     public String getUserID() {
 		return userID;
@@ -60,5 +62,19 @@ public class User implements Serializable {
 	public void setEmailAddress(String emailAddress) {
 		this.emailAddress = emailAddress;
 	}
+
+    /**
+     * @return the password
+     */
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * @param password the password to set
+     */
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
 }

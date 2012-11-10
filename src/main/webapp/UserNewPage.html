@@ -71,6 +71,7 @@
             </div>
         </div>
 
+        <div wicket:id="feedbackPanel" class="span10"></div>
 
         <div class="span10">
             <form wicket:id="form" class="form-horizontal">
@@ -92,13 +93,27 @@
                         </div>
                     </div>
 
+                    <div class="control-group">
+                        <label class="control-label" for="name">Password</label>
+                        <div class="controls">
+                            <input wicket:id="password" type="password" class="input-medium"/>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="name">Verify Password</label>
+                        <div class="controls">
+                            <input wicket:id="passverify" type="password" class="input-medium"/>
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="span6">
                     <div class="control-group">
                         <label class="control-label" for="name">UserType</label>
                         <div class="controls">
-                            <select id="organisation">
+                            <select wicket:id="type">
                                 <option value="all">All</option>
                                 <option value="collector">Collector</option>
                                 <option value="admin">Admin</option>
@@ -109,7 +124,7 @@
                     <div class="control-group">
                         <label class="control-label" for="emailAddress">Email</label>
                         <div class="controls">
-                            <input wicket:id="emailAddress" type="text" class="input-small" />
+                            <input wicket:id="emailAddress" type="text" class="input-medium" />
                         </div>
                     </div>
                     <div class="control-group">

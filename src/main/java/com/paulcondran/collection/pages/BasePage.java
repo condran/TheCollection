@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.apache.wicket.markup.html.form.PasswordTextField;
 
 /**
  * Base Page
@@ -127,6 +128,14 @@ public class BasePage extends WebPage {
         return field;
     }
 
+    public PasswordTextField addPasswordText(String id, IModel model) {
+        PasswordTextField  pwd = new PasswordTextField(id, model);
+        
+        addField(pwd);
+        return pwd;
+    }
+
+    
     /**
      * Convenience mehtod to add a dropdown field to the page. If you need to set a different parent
      * set {@link setMarkupContainer(MarkupContainer) setMarkupContainer}

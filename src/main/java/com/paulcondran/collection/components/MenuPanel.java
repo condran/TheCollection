@@ -46,7 +46,10 @@ public class MenuPanel extends BasePanel {
         navList.add(new NavItem(navList.newChildId(), "Donations", active(Arrays.asList("DonationSearchPage", "DonationNewPage")),
                 redirectFunc(DonationSearchPage.class)));
 
-//        navList.add(new NavItem(navList.newChildId(), "Promises", active(Arrays.asList("PromiseSearchPage", "PromiseNewPage")),
+        navList.add(new NavItem(navList.newChildId(), "Members", active(Arrays.asList("MemberSearchPage", "MemberNewPage")),
+                redirectFunc(MemberSearchPage.class)));
+
+        //        navList.add(new NavItem(navList.newChildId(), "Promises", active(Arrays.asList("PromiseSearchPage", "PromiseNewPage")),
 //                redirectFunc(DonationSearchPage.class)));
 
 //        navList.add(new NavItem(navList.newChildId(), "User Settings", active(Arrays.asList("UserSettingsPage")),
@@ -70,14 +73,11 @@ public class MenuPanel extends BasePanel {
     private void addAdminMenu(RepeatingView navList) {
         navList.add(new NavHeader(navList.newChildId(), "Admin Menu"));
 
-//        navList.add(new NavItem(navList.newChildId(), "Users", active(Arrays.asList("UserSearchPage", "UserNewPage")),
-//                redirectFunc(DonationSearchPage.class)));
+        navList.add(new NavItem(navList.newChildId(), "Users", active(Arrays.asList("UserSearchPage", "UserNewPage")),
+                redirectFunc(UserSearchPage.class)));
 
 //        navList.add(new NavItem(navList.newChildId(), "Users", active(Arrays.asList("UserSearchPage", "UserNewPage")),
 //                redirectFunc(UserSearchPage.class)));
-
-        navList.add(new NavItem(navList.newChildId(), "Members", active(Arrays.asList("MemberSearchPage", "MemberNewPage")),
-                redirectFunc(MemberSearchPage.class)));
 
         navList.add(new NavItem(navList.newChildId(), "Import Donations", active(Arrays.asList("ImportDonationsPage")),
                 redirectFunc(ImportDonationsPage.class)));

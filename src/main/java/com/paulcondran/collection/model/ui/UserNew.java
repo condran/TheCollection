@@ -12,6 +12,8 @@ import com.paulcondran.collection.model.data.User;
 public class UserNew {
 
     private User user;
+    private String password;
+    private String passverify;
 
     public User getUser() {
         if (user == null) {
@@ -22,5 +24,33 @@ public class UserNew {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    /**
+     * @return the password
+     */
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * @param password the password to set
+     */
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    /**
+     * @return the passverify
+     */
+    public String getPassverify() {
+        return passverify;
+    }
+
+    /**
+     * @param passverify the passverify to set
+     */
+    public void setPassverify(String passverify) {
+        this.passverify = passverify;
     }
 }

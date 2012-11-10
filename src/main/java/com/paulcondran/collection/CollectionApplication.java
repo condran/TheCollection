@@ -39,6 +39,8 @@ public class CollectionApplication extends AuthenticatedWebApplication {
         mount(new MountedMapper("/DonationNewPage.html", DonationNewPage.class));
         mount(new MountedMapper("/MemberSearchPage.html", MemberSearchPage.class));
         mount(new MountedMapper("/MemberNewPage.html", MemberNewPage.class));
+        mount(new MountedMapper("/UserSearchPage.html", UserSearchPage.class));
+        mount(new MountedMapper("/UserNewPage.html", UserNewPage.class));
         mount(new MountedMapper("/ImportDonationsPage.html", ImportDonationsPage.class));
         mount(new MountedMapper("/ImportMembersPage.html", ImportMembersPage.class));
         mount(new MountedMapper("/index.html", LoginPage.class));

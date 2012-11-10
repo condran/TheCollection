@@ -49,6 +49,14 @@ public class CollectionUtil {
         return list;
     }
 
+    public static List<OptionItem> listUserTypes() {
+        List<OptionItem> list = new ArrayList<OptionItem>();
+        list.add(new OptionItem("User", "User"));
+        list.add(new OptionItem("Collector", "Collector"));
+        list.add(new OptionItem("Finance", "Finance"));
+        list.add(new OptionItem("Admin", "Admin"));
+        return list;
+    }
 
     /**
      * Calls appendIfNotBlank with the formatter of "%s "

@@ -73,7 +73,7 @@
 
 
         <div class="span10">
-            <form class="form-horizontal">
+            <form wicket:id="form" class="form-horizontal">
                 <legend>User Search</legend>
 
                 <div class="span4">
@@ -81,14 +81,14 @@
                     <div class="control-group">
                         <label class="control-label" for="userID">User ID</label>
                         <div class="controls">
-                            <input id="userID" type="text" class="input-medium" />
+                            <input wicket:id="userID" type="text" class="input-medium" />
                         </div>
                     </div>
 
                     <div class="control-group">
                         <label class="control-label" for="name">Name</label>
                         <div class="controls">
-                            <input id="name" type="text" class="input-medium"/>
+                            <input wicket:id="name" type="text" class="input-medium"/>
                         </div>
                     </div>
 
@@ -98,7 +98,7 @@
                     <div class="control-group">
                         <label class="control-label" for="name">UserType</label>
                         <div class="controls">
-                            <select id="organisation">
+                            <select wicket:id="type">
                                 <option value="all">All</option>
                                 <option value="collector">Collector</option>
                                 <option value="admin">Admin</option>
@@ -112,8 +112,8 @@
 
                 <div class="span10">
                     <div class="controls controls-row pull-right">
-                        <input type="button" class="btn" name="newPromise" value="New Promise" />
-                        <input type="button" class="btn btn-primary" name="search" value="Search" />
+                        <a href="UserNewPage.html" class="btn" id="newDonation">New User</a>
+                        <input wicket:id="search" type="button" class="btn btn-primary" name="search" value="Search" />
                     </div>
 
                 </div>
@@ -123,7 +123,7 @@
                     <h3>Results</h3>
                     <hr />
 
-                    <table id="searchResults" class="table table-striped">
+                    <table wicket:id="searchResults" class="table table-striped">
                         <thead>
                             <tr>
                                 <th>Name</th>
@@ -160,19 +160,6 @@
                             </tr>
                         </tbody>
                     </table>
-
-                    <div class="pull-right">
-                        <div class="btn-group">
-                            <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="#">
-                                Export
-                                <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">CSV</a></li>
-                                <li><a href="#">Excel</a></li>
-                            </ul>
-                        </div>
-                    </div>
 
                     <div class="pagination pagination-centered">
                         <ul>
