@@ -1,0 +1,17 @@
+# Set default text behaviour
+* text=auto
+
+# Native line endings
+*.java text
+*.xml text
+*.html text
+*.js text
+*.css text
+
+
+# Binary files
+*.xls
+*.xlsx
+*.png
+*.gif
+*.jpg
