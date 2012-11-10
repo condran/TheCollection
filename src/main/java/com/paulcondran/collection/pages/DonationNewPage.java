@@ -113,10 +113,15 @@ public class DonationNewPage extends BasePage {
                     if (StringUtils.isNotBlank(member.getDirectDebitRef())) {
                         donationNew.getDonation().setDirectDebitRef(member.getDirectDebitRef());
                     }
+                    
+                    if (StringUtils.isNotBlank(member.getName())) {
+                        donationNew.getDonation().setName(member.getName());
+                    }
+
                     if (StringUtils.isNotBlank(member.getOrganisation())) {
                         donationNew.getDonation().setOrgChapter(member.getOrganisation());
                     }
-                    updateComponent(target, Arrays.asList("memberID", "ddRef", "address1", "address2", "suburb", "state", "orgChapter"));
+                    updateComponent(target, Arrays.asList("memberID", "name", "ddRef", "address1", "address2", "suburb", "state", "orgChapter"));
                 }
             }
         });
