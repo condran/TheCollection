@@ -167,6 +167,7 @@ public class DonationNewPage extends BasePage {
 
                     if (!donationNew.getDonation().getCategoryList().contains(donationCategory)) {
                         donationNew.getDonation().getCategoryList().add(donationCategory);
+                        donationCategory.setDonation(donationNew.getDonation());
                         categoryListView.add(new CategoryPanel(categoryListView.newChildId(), null, CollectionUtil.listCategories(), this));
                         totalCategories();
                         target.add(totalField);
