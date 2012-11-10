@@ -59,7 +59,7 @@ public class DonationNewPage extends BasePage {
     }
 
     public void setEditMode(Donation donation) {
-        Member member = findMember(donation.getMemberID());
+        Member member = findMember("["+donation.getMemberID()+"]");
         donationNew.setMember(member);
         donationNew.setDonation(donation);
     }
@@ -242,8 +242,9 @@ public class DonationNewPage extends BasePage {
             for (Member member : members) {
                 StringBuilder result = new StringBuilder();
 
-                CollectionUtil.appendIfNotBlank(result, member.getName(), "%s ");
-                CollectionUtil.appendIfNotBlank(result, member.getFamilyName(), "%s ");
+                CollectionUtil.appendIfNotBlank(result, member.getName(), "%s-");
+                CollectionUtil.appendIfNotBlank(result, member.getFamilyName(), "%s-");
+                CollectionUtil.appendIfNotBlank(result, member.getSuburb(), "%s-");
                 CollectionUtil.appendIfNotBlank(result, member.getMemberID(), "[%s]");
 
                 results.add(result.toString());
