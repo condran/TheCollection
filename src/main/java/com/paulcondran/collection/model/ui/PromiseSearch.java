@@ -1,5 +1,13 @@
 package com.paulcondran.collection.model.ui;
 
+import com.paulcondran.collection.model.data.Promise;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Created with IntelliJ IDEA.
  * User: paul
@@ -54,4 +62,40 @@ public class PromiseSearch {
     public void setOrganisation(String organisation) {
         this.organisation = organisation;
     }
+    
+        public List<Predicate> listPredicates(Root<Promise> promiseRoot, CriteriaBuilder builder) {
+        List<Predicate> predicateList = new ArrayList<Predicate>();
+
+        if (StringUtils.isNotBlank(getMemberID())) {
+            Predicate memberID = builder.like(
+                    builder.lower(promiseRoot.<String>get("memberID")), "%" + getMemberID().toLowerCase() + "%");
+            predicateList.add(memberID);
+        }
+
+        if (StringUtils.isNotBlank(getName())) {
+            Predicate memberID = builder.like(builder.lower(promiseRoot.<String>get("name")), "%" + getName().toLowerCase() + "%");
+            predicateList.add(memberID);
+        }
+
+        if (StringUtils.isNotBlank(getFinYear())) {
+            Predicate memberID = builder.equal(
+                    builder.lower(promiseRoot.<String>get("financialYear")), getFinYear());
+            predicateList.add(memberID);
+        }
+
+        if (StringUtils.isNotBlank(getDdt())) {
+            Predicate memberID = builder.like(
+                    builder.lower(promiseRoot.<String>get("directDebitRef")), "%" + getDdt().toLowerCase() + "%");
+            predicateList.add(memberID);
+        }
+
+        if (StringUtils.isNotBlank(getOrganisation())) {
+            Predicate memberID = builder.like(
+                    builder.lower(promiseRoot.<String>get("organisation")), "%" + getDdt().toLowerCase() + "%");
+            predicateList.add(memberID);
+        }
+
+        return predicateList;
+    }
+
 }

@@ -99,30 +99,26 @@
                     </div>
 
                     <div class="control-group">
-                        <label class="control-label" for="memberID">Member Name</label>
+                        <label class="control-label" for="name">Member Name</label>
                         <div class="controls">
                             <input wicket:id="name" type="text" class="input-medium" />
                         </div>
                     </div>
-
+                    
                     <div class="control-group">
-                        <label class="control-label" for="orgChapter">Org Chapter</label>
+                        <label class="control-label" for="suburb">Suburb</label>
                         <div class="controls">
-                            <select wicket:id="organisation" type="text" class="input-medium"></select>
+                            <input wicket:id="suburb" type="text" class="input-medium" />
                         </div>
                     </div>
-
                     <div class="control-group">
                         <label class="control-label" for="ddRef">DD Ref</label>
                         <div class="controls">
                             <input wicket:id="ddRef" type="text" class="input-medium" />
                         </div>
                     </div>
-
-
                 </div>
-
-                <div class="span6">
+               <div class="span6">
                     <div class="control-group">
                         <label class="control-label" for="address1">Address</label>
                         <div class="controls">
@@ -136,12 +132,6 @@
                         </div>
                     </div>
 
-                    <div class="control-group">
-                        <label class="control-label" for="suburb">Suburb</label>
-                        <div class="controls">
-                            <input wicket:id="suburb" type="text" class="input-medium" />
-                        </div>
-                    </div>
 
                     <div class="control-group">
                         <label class="control-label" for="state">State</label>
@@ -150,29 +140,13 @@
                         </div>
                     </div>
 
-                </div>
-
-                <legend>Donation Details</legend>
-
-                <div class="span4">
 
                     <div class="control-group">
-                        <label class="control-label" for="date">Date</label>
+                        <label class="control-label" for="orgChapter">Organisation</label>
                         <div class="controls">
-                            <input wicket:id="date" type="text" class="input-medium datepicker" />
+                            <select wicket:id="organisation" type="text" class="input-medium"></select>
                         </div>
                     </div>
-
-                </div>
-
-                <div class="span4">
-                    <div class="control-group">
-                        <label class="control-label" for="receiptNo">Receipt No</label>
-                        <div class="controls">
-                            <input wicket:id="receiptNo" type="text" class="input-medium"/>
-                        </div>
-                    </div>
-
                     <div class="control-group">
                         <label class="control-label" for="total">Total</label>
                         <div class="controls">
@@ -181,14 +155,19 @@
                     </div>
 
                 </div>
-                <div class="span10">
+
+                <div class="span6">
+
                     <div class="control-group">
-                        <label class="control-label" for="details">Details</label>
+                        <label class="control-label" for="address1">Financial Year</label>
                         <div class="controls">
-                            <textarea wicket:id="details" class="input-xxlarge" rows="2" cols="80"></textarea>
+                            <input wicket:id="financialYear" type="text" class="input-small" />
                         </div>
                     </div>
+                    
                 </div>
+
+                <legend>Promises Details</legend>
 
                 <div wicket:id="categoryListContainer" class="span10">
                     <div wicket:id="categoryList" class="control-group"></div>
@@ -196,7 +175,7 @@
 
                 <div class="span10">
                     <div class="controls controls-row pull-right">
-                        <a href="DonationSearchPage.html" class="btn" id="cancel">Cancel</a>
+                        <a href="PromiseSearchPage.html" class="btn" id="cancel">Cancel</a>
                         <input wicket:id="save" type="submit" class="btn btn-success" value="Save" />
                     </div>
 

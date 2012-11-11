@@ -49,10 +49,10 @@ public class MenuPanel extends BasePanel {
         navList.add(new NavItem(navList.newChildId(), "Members", active(Arrays.asList("MemberSearchPage", "MemberNewPage")),
                 redirectFunc(MemberSearchPage.class)));
 
-        //        navList.add(new NavItem(navList.newChildId(), "Promises", active(Arrays.asList("PromiseSearchPage", "PromiseNewPage")),
-//                redirectFunc(DonationSearchPage.class)));
+        navList.add(new NavItem(navList.newChildId(), "Promises", active(Arrays.asList("PromiseSearchPage", "PromiseNewPage")),
+                redirectFunc(PromiseSearchPage.class)));
 
-//        navList.add(new NavItem(navList.newChildId(), "User Settings", active(Arrays.asList("UserSettingsPage")),
+        //        navList.add(new NavItem(navList.newChildId(), "User Settings", active(Arrays.asList("UserSettingsPage")),
 //                redirectFunc(DonationSearchPage.class)));
 
         navList.add(new NavItem(navList.newChildId(), "Logout", false, new Function1Void<AjaxRequestTarget>() {
@@ -75,9 +75,6 @@ public class MenuPanel extends BasePanel {
 
         navList.add(new NavItem(navList.newChildId(), "Users", active(Arrays.asList("UserSearchPage", "UserNewPage")),
                 redirectFunc(UserSearchPage.class)));
-
-//        navList.add(new NavItem(navList.newChildId(), "Users", active(Arrays.asList("UserSearchPage", "UserNewPage")),
-//                redirectFunc(UserSearchPage.class)));
 
         navList.add(new NavItem(navList.newChildId(), "Import Donations", active(Arrays.asList("ImportDonationsPage")),
                 redirectFunc(ImportDonationsPage.class)));

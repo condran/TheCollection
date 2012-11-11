@@ -2,13 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>The Collection</title>
+    <title>The Collections</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
 
     <!-- Le styles -->
     <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/datepicker.css" rel="stylesheet">
     <style type="text/css">
         body {
             padding-top: 60px;
@@ -71,23 +72,9 @@
             </div>
         </div>
 
-        <div wicket:id="feedbackPanel" class="span10"></div>
-
         <div class="span10">
             <form wicket:id="form" class="form-horizontal">
-                <legend>Donor Details</legend>
-
-                <div class="span10">
-                    <div class="control-group">
-                        <div class="controls">
-                            <div class="input-append">
-                                <input wicket:id="memberSearch" type="text" class="input-xxlarge ajax-typeahead"
-                                       placeholder="Member search" />
-                                <button type="submit" class="btn">Find</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <legend>Promises Search</legend>
 
                 <div class="span4">
 
@@ -99,109 +86,104 @@
                     </div>
 
                     <div class="control-group">
-                        <label class="control-label" for="memberID">Member Name</label>
+                        <label class="control-label" for="name">Name</label>
                         <div class="controls">
-                            <input wicket:id="name" type="text" class="input-medium" />
+                            <input wicket:id="name" type="text" class="input-medium"/>
                         </div>
                     </div>
 
                     <div class="control-group">
-                        <label class="control-label" for="orgChapter">Org Chapter</label>
+                        <label class="control-label" for="name">Organisation</label>
                         <div class="controls">
-                            <select wicket:id="organisation" type="text" class="input-medium"></select>
+                            <select wicket:id="organisation">
+                                <option value="abc">ABC</option>
+                                <option value="mcdonalds">McDonalds</option>
+                            </select>
                         </div>
                     </div>
-
-                    <div class="control-group">
-                        <label class="control-label" for="ddRef">DD Ref</label>
-                        <div class="controls">
-                            <input wicket:id="ddRef" type="text" class="input-medium" />
-                        </div>
-                    </div>
-
-
                 </div>
 
                 <div class="span6">
                     <div class="control-group">
-                        <label class="control-label" for="address1">Address</label>
+                        <label class="control-label" for="receipt">Financial Year</label>
                         <div class="controls">
-                            <input wicket:id="address1" type="text" class="input-large" />
+                            <input wicket:id="finYear" type="text" class="input-medium" />
                         </div>
                     </div>
 
                     <div class="control-group">
+                        <label class="control-label" for="name">DDT</label>
                         <div class="controls">
-                            <input wicket:id="address2" type="text" class="input-large"/>
+                            <input wicket:id="ddt" type="text" class="input-medium"/>
                         </div>
                     </div>
 
-                    <div class="control-group">
-                        <label class="control-label" for="suburb">Suburb</label>
-                        <div class="controls">
-                            <input wicket:id="suburb" type="text" class="input-medium" />
-                        </div>
-                    </div>
-
-                    <div class="control-group">
-                        <label class="control-label" for="state">State</label>
-                        <div class="controls">
-                            <input wicket:id="state" type="text" class="input-small" />
-                        </div>
-                    </div>
-
-                </div>
-
-                <legend>Donation Details</legend>
-
-                <div class="span4">
-
-                    <div class="control-group">
-                        <label class="control-label" for="date">Date</label>
-                        <div class="controls">
-                            <input wicket:id="date" type="text" class="input-medium datepicker" />
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="span4">
-                    <div class="control-group">
-                        <label class="control-label" for="receiptNo">Receipt No</label>
-                        <div class="controls">
-                            <input wicket:id="receiptNo" type="text" class="input-medium"/>
-                        </div>
-                    </div>
-
-                    <div class="control-group">
-                        <label class="control-label" for="total">Total</label>
-                        <div class="controls">
-                            <input wicket:id="total" type="text" class="input-medium" />
-                        </div>
-                    </div>
-
-                </div>
-                <div class="span10">
-                    <div class="control-group">
-                        <label class="control-label" for="details">Details</label>
-                        <div class="controls">
-                            <textarea wicket:id="details" class="input-xxlarge" rows="2" cols="80"></textarea>
-                        </div>
-                    </div>
-                </div>
-
-                <div wicket:id="categoryListContainer" class="span10">
-                    <div wicket:id="categoryList" class="control-group"></div>
                 </div>
 
                 <div class="span10">
                     <div class="controls controls-row pull-right">
-                        <a href="DonationSearchPage.html" class="btn" id="cancel">Cancel</a>
-                        <input wicket:id="save" type="submit" class="btn btn-success" value="Save" />
+                        <a href="PromiseNewPage.html" class="btn" id="newDonation">New Promise</a>
+                        <input wicket:id="search" type="button" class="btn btn-primary" name="search" value="Search" />
                     </div>
 
                 </div>
 
+
+                <div class="span10">
+                    <legend>Results</legend>
+
+                    <table wicket:id="searchResults" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Member</th>
+                                <th>Record No</th>
+                                <th>Total</th>
+                                <th class="span1">&nbsp;</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Name 1</td>
+                                <td>#7767-90</td>
+                                <td>#1001</td>
+                                <td>$1,200.88</td>
+                                <td><a class="btn btn-mini" href="#" title="Edit"><i class="icon-edit"></i></a>
+                                    <a class="btn btn-mini" href="#" title="Delete"><i class="icon-trash"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Name 2</td>
+                                <td>#7767-90</td>
+                                <td>#1001</td>
+                                <td>$1,200.88</td>
+                                <td><a class="btn btn-mini" href="#"><i class="icon-edit"></i></a>
+                                    <a class="btn btn-mini" href="#"><i class="icon-trash"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Name 2</td>
+                                <td>#7767-90</td>
+                                <td>#1001</td>
+                                <td>$1,200.88</td>
+                                <td><a class="btn btn-mini" href="#"><i class="icon-edit"></i></a>
+                                    <a class="btn btn-mini" href="#"><i class="icon-trash"></i></a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="pull-right">
+                        <div class="btn-group">
+                            <a class="btn btn-small dropdown-toggle" data-toggle="dropdown" href="#">
+                                Export
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a wicket:id="csvExport" href="#">CSV</a></li>
+                                <li><a href="#">Excel</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
             </form>
         </div>
 

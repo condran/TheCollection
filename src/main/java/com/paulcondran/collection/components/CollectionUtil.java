@@ -25,6 +25,14 @@ public class CollectionUtil {
         return list;
     }
 
+    public static List<OptionItem> listPromiseCategories() {
+        List<OptionItem> list = new ArrayList<OptionItem>();
+        list.add(new OptionItem("P001", "Flood fund"));
+        list.add(new OptionItem("P002", "Orphans fund"));
+        list.add(new OptionItem("P003", "Family fund"));
+        return list;
+    }
+
     public static List<OptionItem> listCollectors() {
         List<OptionItem> list = new ArrayList<OptionItem>();
         list.add(new OptionItem("CL01", "Bart Simpson"));

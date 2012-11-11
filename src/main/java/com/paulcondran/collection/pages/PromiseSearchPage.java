@@ -8,13 +8,12 @@ import com.paulcondran.collection.components.ViewEditDelColumn;
 import com.paulcondran.collection.data.CSVResourceStream;
 import com.paulcondran.collection.data.CollectionDatabase;
 import com.paulcondran.collection.model.data.Donation;
-import com.paulcondran.collection.model.data.DonationCategory;
-import com.paulcondran.collection.model.ui.DonationSearch;
+import com.paulcondran.collection.model.data.Promise;
+import com.paulcondran.collection.model.data.PromiseCategory;
+import com.paulcondran.collection.model.ui.OptionItem;
+import com.paulcondran.collection.model.ui.PromiseSearch;
 import java.math.BigDecimal;
-import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
-import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
 import org.apache.wicket.authroles.authorization.strategies.role.annotations.AuthorizeInstantiation;
@@ -38,7 +37,6 @@ import org.supercsv.cellprocessor.FmtNumber;
 import org.supercsv.cellprocessor.Optional;
 import org.supercsv.cellprocessor.constraint.NotNull;
 import org.supercsv.cellprocessor.ift.CellProcessor;
-import org.supercsv.util.CsvContext;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -47,7 +45,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -56,25 +53,25 @@ import java.util.List;
  * @author Paul Condran
  */
 @AuthorizeInstantiation("user")
-public class DonationSearchPage extends BasePage {
+public class PromiseSearchPage extends BasePage {
 
-    private DonationSearch donationSearch = new DonationSearch();
+    private PromiseSearch promiseSearch = new PromiseSearch();
 
-    private List<Donation> searchResults = null;
+    private List<Promise> searchResults = null;
 
     private Form form;
 
     private DataTable dataTable;
 
-    private CollectionDataProvider<Donation> dataProvider;
+    private CollectionDataProvider<Promise> dataProvider;
 
     private CSVResourceStream csvResourceStream;
 
-    public DonationSearchPage() {
+    public PromiseSearchPage() {
 
         setupUserInterfaceFields();
 
-        searchResults = recentDonations();
+        searchResults = recentPromises();
 
         setupResultsTable();
 
@@ -91,40 +88,13 @@ public class DonationSearchPage extends BasePage {
         setMarkupContainer(form);
 
 
-        addTextField("memberID", new PropertyModel<String>(donationSearch, "memberID"));
-        addTextField("name", new PropertyModel<String>(donationSearch, "name"));
-        addTextField("receipt", new PropertyModel<String>(donationSearch, "receipt"));
-        addTextField("ddt", new PropertyModel<String>(donationSearch, "ddt"));
-        addTextField("dateFrom", new PropertyModel<String>(donationSearch, "dateFrom"));
-        addTextField("dateTo", new PropertyModel<String>(donationSearch, "dateTo"));
+        addTextField("memberID", new PropertyModel<String>(promiseSearch, "memberID"));
+        addTextField("name", new PropertyModel<String>(promiseSearch, "name"));
+        addTextField("finYear", new PropertyModel<String>(promiseSearch, "finYear"));
+        addTextField("ddt", new PropertyModel<String>(promiseSearch, "ddt"));
 
         final DropDownChoice organisation = addDropdownField("organisation",
-                new PropertyModel<String>(donationSearch, "organisation"), CollectionUtil.listEmptyList());
-
-
-        DropDownChoice collector = addDropdownField("collector", new PropertyModel<String>(donationSearch, "collector"),
-                CollectionUtil.listCollectors());
-        // Logic to determine list based on collector
-        collector.add(new AjaxFormComponentUpdatingBehavior("onchange") {
-            @Override
-            protected void onUpdate(AjaxRequestTarget target) {
-
-                if (donationSearch.getCollector() != null) {
-                    if ("CL01".equals(donationSearch.getCollector())) {
-                        organisation.setChoices(CollectionUtil.listOrganisations());
-                    }
-                    else {
-                        organisation.setChoices(CollectionUtil.listOrganisations2());
-                    }
-                } else {
-                    organisation.setChoices(CollectionUtil.listEmptyList());
-                }
-
-
-                target.add(organisation);
-            }
-        });
-
+                new PropertyModel<String>(promiseSearch, "organisation"), CollectionUtil.listEmptyList());
 
 
         // Hook into the search behaviour
@@ -134,11 +104,11 @@ public class DonationSearchPage extends BasePage {
 
                 CollectionDatabase db = CollectionDatabase.getInstance();
                 CriteriaBuilder builder = db.getEntityManager().getCriteriaBuilder();
-                CriteriaQuery<Donation> query = builder.createQuery(Donation.class);
-                Root<Donation> donationRoot = query.from(Donation.class);
-                query.select(donationRoot);
+                CriteriaQuery<Promise> query = builder.createQuery(Promise.class);
+                Root<Promise> promiseRoot = query.from(Promise.class);
+                query.select(promiseRoot);
 
-                List<Predicate> predicateList = donationSearch.listPredicates(donationRoot, builder);
+                List<Predicate> predicateList = promiseSearch.listPredicates(promiseRoot, builder);
 
                 if (!predicateList.isEmpty()) {
                     Predicate[] predicates = predicateList.toArray(new Predicate[predicateList.size()]);
@@ -166,34 +136,30 @@ public class DonationSearchPage extends BasePage {
             @Override
             public List<List<Object>> getObjectsList() {
                 List<List<Object>> objectsList = new ArrayList<List<Object>>();
-                List<String> donationCategoryHeaders = getDonationCategoryHeaders();
+                List<String> primiseCategoryHeaders = getPromiseCategoryHeaders();
 
-                for (Donation donation : searchResults) {
-                    List<Object> donationObjects = new ArrayList<Object>();
-                    donationObjects.add(donation.getMemberID());
-                    donationObjects.add(donation.getName());
-                    donationObjects.add(donation.getReceiptNo());
-                    donationObjects.add(donation.getDirectDebit());
-                    donationObjects.add(donation.getDirectDebitRef());
-                    donationObjects.add(donation.getCollector());
-                    donationObjects.add(donation.getOrgChapter());
-                    donationObjects.add(donation.getDate());
-                    donationObjects.add(donation.getTotal());
-                    donationObjects.add(donation.getDetails());
-                    for (String categoryHeader : donationCategoryHeaders) {
+                for (Promise promise : searchResults) {
+                    List<Object> promiseObjects = new ArrayList<Object>();
+                    promiseObjects.add(promise.getMemberID());
+                    promiseObjects.add(promise.getName());
+                    promiseObjects.add(promise.getOrganisation());
+                    promiseObjects.add(promise.getFinancialYear());
+                    promiseObjects.add(promise.getDirectDebitRef());
+                    promiseObjects.add(promise.getTotal());
+                    for (String categoryHeader : primiseCategoryHeaders) {
                         boolean itemAdded = false;
-                        for (DonationCategory donationCategory : donation.getCategoryList()) {
-                            if (categoryHeader.equals(donationCategory.getCategoryName())) {
-                                donationObjects.add(donationCategory.getAmount());
+                        for (PromiseCategory promiseCategory : promise.getCategoryList()) {
+                            if (categoryHeader.equals(promiseCategory.getCategoryName())) {
+                                promiseObjects.add(promiseCategory.getAmount());
                                 itemAdded = true;
                             }
                         }
                         if (!itemAdded) {
-                            donationObjects.add(BigDecimal.ZERO);
+                            promiseObjects.add(BigDecimal.ZERO);
                         }
                     }
 
-                    objectsList.add(donationObjects);
+                    objectsList.add(promiseObjects);
                 }
                 return objectsList;
             }
@@ -203,15 +169,11 @@ public class DonationSearchPage extends BasePage {
                 List<CellProcessor> processorList = new ArrayList<CellProcessor>();
                 processorList.add(new NotNull());             // memberID
                 processorList.add(new Optional());            //name
-                processorList.add(new NotNull());             // recieptNo
-                processorList.add(new FmtBool("Y","N"));      // isDirectDebit
+                processorList.add(new NotNull());             // org
+                processorList.add(new NotNull());      // finyear
                 processorList.add(new Optional());            // directDebitRef
-                processorList.add(new Optional());            // collector
-                processorList.add(new Optional());            // orgChapter
-                processorList.add(new FmtDate("dd/MM/yyyy")); // date
                 processorList.add(new FmtNumber((DecimalFormat)DecimalFormat.getCurrencyInstance())); // total
-                processorList.add(new Optional());
-                int headersLength = getDonationCategoryHeaders().size();
+                int headersLength = getPromiseCategoryHeaders().size();
                 for (int i=0; i < headersLength; i++) {
                     // Donation Category amount fields
                     processorList.add(new FmtNumber((DecimalFormat)DecimalFormat.getCurrencyInstance()));
@@ -228,7 +190,7 @@ public class DonationSearchPage extends BasePage {
         };
         ResourceStreamResource resourceStream =new ResourceStreamResource(csvResourceStream);
         resourceStream.setContentDisposition(ContentDisposition.ATTACHMENT);
-        resourceStream.setFileName("Donations.csv");
+        resourceStream.setFileName("Promises.csv");
         resourceStream.setCacheDuration(Duration.NONE);
 
         form.add(new ResourceLink("csvExport", resourceStream));
@@ -240,9 +202,8 @@ public class DonationSearchPage extends BasePage {
      */
     protected List<String> getCSVHeaders() {
         List<String> headers = new ArrayList<String>();
-        headers.addAll(Arrays.asList("memberID", "name", "receiptNo", "directDebit", "directDebitRef",
-                "collector", "orgChapter", "date", "total", "details"));
-        headers.addAll(getDonationCategoryHeaders());
+        headers.addAll(Arrays.asList("memberID", "name", "organisation", "finYear","directDebitref", "total"));
+        headers.addAll(getPromiseCategoryHeaders());
         return headers;
     }
 
@@ -251,35 +212,31 @@ public class DonationSearchPage extends BasePage {
      *
      * @return
      */
-    protected List<String> getDonationCategoryHeaders() {
-        List<String> donationCategories = new ArrayList<String>();
-        for (Donation donation : searchResults) {
-            for (DonationCategory donationCategory : donation.getCategoryList()) {
-                if (!donationCategories.contains(donationCategory.getCategoryName())) {
-                    donationCategories.add(donationCategory.getCategoryName());
-                }
-            }
+    protected List<String> getPromiseCategoryHeaders() {
+        List<String> promiseCategories = new ArrayList<String>();
+        for (OptionItem promiseCategory : CollectionUtil.listPromiseCategories()) {
+                promiseCategories.add(promiseCategory.getDescription());
         }
-        return donationCategories;
+        return promiseCategories;
     }
 
 
-    private List<Donation> recentDonations() {
-        List<Donation> donationList = new ArrayList<Donation>();
+    private List<Promise> recentPromises() {
+        List<Promise> promiseList = new ArrayList<Promise>();
         CollectionDatabase db = CollectionDatabase.getInstance();
         EntityManager em = db.getEntityManager();
 
-        Query q = em.createQuery("from Donation order by date desc");
+        Query q = em.createQuery("from Promise order by financialYear desc");
         q.setMaxResults(UIConstants.MAX_RECENT_RESULTS);
 
         List list = q.getResultList();
         if (!list.isEmpty()) {
-            donationList = list;
+            promiseList = list;
         }
         for (Object o : list) {
             Hibernate.initialize(o);
         }
-        return donationList;
+        return promiseList;
     }
 
     /**
@@ -295,13 +252,13 @@ public class DonationSearchPage extends BasePage {
 
         columns.add(new PropertyColumn<String, String>(new Model<String>("Name"), "name", "name"));
         columns.add(new PropertyColumn<String, String>(new Model<String>("Member"), "memberID", "memberID"));
-        columns.add(new PropertyColumn<String, String>(new Model<String>("ReceiptNo"), "receiptNo", "receiptNo"));
-        columns.add(new PropertyColumn<String, String>(new Model<String>("Date"), "date", "date"));
+        columns.add(new PropertyColumn<String, String>(new Model<String>("FinancialYear"), "financialYear", "financialYear"));
+        columns.add(new PropertyColumn<String, String>(new Model<String>("Organisation"), "organisation", "organisation"));
         columns.add(new PropertyColumn(new Model<String>("Total"), "total", "total"));
         columns.add(new ViewEditDelColumn(new Model<String>(""), null) {
             @Override
             public AbstractLink createViewLink(String id, IModel rowModel) {
-                final Donation donation = (Donation) rowModel.getObject();
+                final Promise promise = (Promise) rowModel.getObject();
                 AbstractLink viewLink = new AjaxSubmitLink(id) {
                     @Override
                     protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
@@ -316,13 +273,13 @@ public class DonationSearchPage extends BasePage {
 
             @Override
             public AbstractLink createEditLink(String id, IModel rowModel) {
-                final Donation donation = (Donation) rowModel.getObject();
+                final Promise promise = (Promise) rowModel.getObject();
                 AbstractLink editLink = new AjaxSubmitLink(id) {
                     @Override
                     protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
-                        DonationNewPage donationNewPage = new DonationNewPage();
-                        donationNewPage.setEditMode(donation);
-                        getRequestCycle().setResponsePage(donationNewPage);
+                        PromiseNewPage promiseNewPage = new PromiseNewPage();
+                        promiseNewPage.setEditMode(promise);
+                        getRequestCycle().setResponsePage(promiseNewPage);
                     }
                 };
                 return editLink;
@@ -330,22 +287,20 @@ public class DonationSearchPage extends BasePage {
 
             @Override
             public AbstractLink createDeleteLink(String id, IModel rowModel) {
-                final Donation donation = (Donation) rowModel.getObject();
+                final Promise promise = (Promise) rowModel.getObject();
                 AbstractLink delLink = new AjaxSubmitLink(id) {
                     @Override
                     protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
-                           CollectionDatabase.getInstance().remove(donation);
+                           CollectionDatabase.getInstance().remove(promise);
 //                        getRequestCycle().setResponsePage(this);
-                           searchResults.remove(donation);
-                           
-                           
+                           searchResults.remove(promise);
                     }
                 };
                 return delLink;
             }
         });
 
-        dataProvider = new CollectionDataProvider<Donation>(searchResults);
+        dataProvider = new CollectionDataProvider<Promise>(searchResults);
 
         dataTable = new CollectionDataTable("searchResults", columns, dataProvider, UIConstants.MAX_RESULTS_PER_PAGE);
         dataTable.setOutputMarkupId(true);
