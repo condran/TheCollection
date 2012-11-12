@@ -6,6 +6,7 @@ import com.paulcondran.collection.pages.*;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.authentication.IAuthenticationStrategy;
 import org.apache.wicket.authroles.authorization.strategies.role.Roles;
+import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.repeater.RepeatingView;
 import org.apache.wicket.request.component.IRequestablePage;
 
@@ -36,6 +37,9 @@ public class MenuPanel extends BasePanel {
         if (roles.hasRole(UIConstants.ADMIN_ROLE)) {
             addAdminMenu(navList);
         }
+
+        // Add the logo
+        add(new Image("logo", "img/save_the_children.gif"));
 
     }
 
