@@ -151,14 +151,16 @@ public class ImportDonations {
                         dc.setCategoryName("DonationCategory "+(i-7));
                         dc.setAmount(d);
                         dcList.add(dc);
+                        dc.setDonation(donation);
+                        
                     }
                 }
             } catch (Exception ex) {
                 System.out.println(" Error trying to read category "+ (i-7));
                 ex.printStackTrace();
             }
-            donation.setDetails(sb.toString());
         }
+        donation.setDetails(sb.toString());
         com.paulcondran.collection.data.CollectionDatabase database = CollectionDatabase.getInstance();
         database.persist(donation);
         donation = locateDonation(donation.getReceiptNo());
