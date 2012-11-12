@@ -62,4 +62,16 @@ public class AppProperties {
     public String getDatabaseConfig() {
         return properties.getProperty("database-config", "database-config");
     }
+
+    public String getLogoURL() {
+        return properties.getProperty("logo-url", "img/save_the_children.gif");
+    }
+
+    public String getSiteTitle() {
+        return properties.getProperty("site-title", "The Collections");
+    }
+
+    public String getBrandTitle() {
+        return properties.getProperty("brand-title", "Save The Children");
+    }
 }

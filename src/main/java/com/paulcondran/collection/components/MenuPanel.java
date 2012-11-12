@@ -1,5 +1,6 @@
 package com.paulcondran.collection.components;
 
+import com.paulcondran.collection.AppProperties;
 import com.paulcondran.collection.UIConstants;
 import com.paulcondran.collection.functional.Function1Void;
 import com.paulcondran.collection.pages.*;
@@ -39,7 +40,7 @@ public class MenuPanel extends BasePanel {
         }
 
         // Add the logo
-        add(new Image("logo", "img/save_the_children.gif"));
+        add(new StaticImage("logo", AppProperties.getInstance().getLogoURL()));
 
     }
 

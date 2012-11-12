@@ -1,5 +1,6 @@
 package com.paulcondran.collection.pages;
 
+import com.paulcondran.collection.AppProperties;
 import com.paulcondran.collection.SessionBean;
 import com.paulcondran.collection.UIConstants;
 import com.paulcondran.collection.components.ChoicePropertyModel;
@@ -46,8 +47,12 @@ public class BasePage extends WebPage {
         super.onBeforeRender();
         // Add common page components, such as the menu and user links
         if (addCommonComponents) {
+            // Site title
+            addOrReplace(new Label("title", AppProperties.getInstance().getSiteTitle()));
             // Navigation menu
             addOrReplace(new MenuPanel("menu"));
+            // Brand title
+            addOrReplace(new Label("brand", AppProperties.getInstance().getBrandTitle()));
             // Footer & Copyright
             Label footer = new Label("footer", UIConstants.FOOTER_TEXT);
             footer.setEscapeModelStrings(false);
