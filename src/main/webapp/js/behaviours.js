@@ -26,4 +26,10 @@ $(function() {
             });
         }
     });
+
+    $('#modalDelete').modal({
+        keyboard: false,
+        show: false
+    });
+
 });

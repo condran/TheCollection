@@ -76,6 +76,20 @@
             <form wicket:id="form" class="form-horizontal">
                 <legend>Donations Search</legend>
 
+                <!-- Delete confirm -->
+                <div id="modalDelete" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-header">
+                        <h3 id="myModalLabel">Confirm Delete</h3>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you should you wish to delete the record?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                        <button wicket:id="deleteConfirm" data-dismiss="modal" class="btn btn-danger">Delete</button>
+                    </div>
+                </div>
+
                 <div class="span4">
 
                     <div class="control-group">

@@ -1,10 +1,7 @@
 package com.paulcondran.collection.pages;
 
 import com.paulcondran.collection.UIConstants;
-import com.paulcondran.collection.components.CollectionDataProvider;
-import com.paulcondran.collection.components.CollectionDataTable;
-import com.paulcondran.collection.components.CollectionUtil;
-import com.paulcondran.collection.components.ViewEditDelColumn;
+import com.paulcondran.collection.components.*;
 import com.paulcondran.collection.data.CSVResourceStream;
 import com.paulcondran.collection.data.CollectionDatabase;
 import com.paulcondran.collection.model.data.Donation;
@@ -12,6 +9,7 @@ import com.paulcondran.collection.model.data.DonationCategory;
 import com.paulcondran.collection.model.ui.DonationSearch;
 import java.math.BigDecimal;
 import org.apache.commons.lang3.time.DateFormatUtils;
+import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
@@ -21,6 +19,7 @@ import org.apache.wicket.authroles.authorization.strategies.role.annotations.Aut
 import org.apache.wicket.extensions.markup.html.repeater.data.table.DataTable;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
+import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.link.AbstractLink;
@@ -69,6 +68,7 @@ public class DonationSearchPage extends BasePage {
     private CollectionDataProvider<Donation> dataProvider;
 
     private CSVResourceStream csvResourceStream;
+    private Donation deletionCandidate = null;
 
     public DonationSearchPage() {
 
@@ -153,6 +153,22 @@ public class DonationSearchPage extends BasePage {
 
             }
         });
+
+        Button deleteRecord = new AjaxButton("deleteConfirm") {
+            @Override
+            protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+                if (deletionCandidate != null) {
+                    CollectionDatabase.getInstance().remove(deletionCandidate);
+                    searchResults.remove(deletionCandidate);
+                    deletionCandidate = null;
+
+                    target.add(dataTable);
+                }
+                target.appendJavaScript("$('#modalDelete').modal('hide')");
+            }
+        };
+        form.add(deleteRecord);
+
 
         addCSVExportControls();
     }
@@ -298,6 +314,50 @@ public class DonationSearchPage extends BasePage {
         columns.add(new PropertyColumn<String, String>(new Model<String>("ReceiptNo"), "receiptNo", "receiptNo"));
         columns.add(new PropertyColumn<String, String>(new Model<String>("Date"), "date", "date"));
         columns.add(new PropertyColumn(new Model<String>("Total"), "total", "total"));
+        columns.add(new CategoryColumn(new Model<String>("Categories"), null, "categoryList") {
+            @Override
+            public String processCategoriesSummary(IModel rowModel) {
+                StringBuilder categories = new StringBuilder();
+                Donation donation = (Donation)rowModel.getObject();
+                for(int i=0; i < 3; i++) {
+                    if (i < donation.getCategoryList().size()) {
+                        DonationCategory donationCategory = donation.getCategoryList().get(i);
+                        categories.append(donationCategory.getCategoryName());
+                        categories.append(": ");
+                        categories.append(DecimalFormat.getCurrencyInstance().format(donationCategory.getAmount()));
+                        categories.append("<br>");
+                    }
+                }
+
+                return categories.toString();
+            }
+
+            @Override
+            public boolean showLong(IModel rowModel) {
+                Donation donation = (Donation)rowModel.getObject();
+                if (donation.getCategoryList().size() > 3) {
+                    return true;
+                }
+                return false;
+            }
+
+            @Override
+            public String processCategoriesLong(IModel rowModel) {
+                StringBuilder categories = new StringBuilder();
+                Donation donation = (Donation)rowModel.getObject();
+                for(int i=0; i < 5; i++) {
+                    if (i < donation.getCategoryList().size()) {
+                        DonationCategory donationCategory = donation.getCategoryList().get(i);
+                        categories.append(donationCategory.getCategoryName());
+                        categories.append(": ");
+                        categories.append(DecimalFormat.getCurrencyInstance().format(donationCategory.getAmount()));
+                        categories.append("<br>");
+                    }
+                }
+
+                return categories.toString();
+            }
+        });
         columns.add(new ViewEditDelColumn(new Model<String>(""), null) {
             @Override
             public AbstractLink createViewLink(String id, IModel rowModel) {
@@ -334,11 +394,8 @@ public class DonationSearchPage extends BasePage {
                 AbstractLink delLink = new AjaxSubmitLink(id) {
                     @Override
                     protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
-                           CollectionDatabase.getInstance().remove(donation);
-//                        getRequestCycle().setResponsePage(this);
-                           searchResults.remove(donation);
-                           
-                           
+                        deletionCandidate = donation;
+                        target.appendJavaScript("$('#modalDelete').modal('show')");
                     }
                 };
                 return delLink;
