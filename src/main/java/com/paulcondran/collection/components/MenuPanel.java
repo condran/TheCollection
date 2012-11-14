@@ -4,6 +4,7 @@ import com.paulcondran.collection.AppProperties;
 import com.paulcondran.collection.UIConstants;
 import com.paulcondran.collection.functional.Function1Void;
 import com.paulcondran.collection.pages.*;
+import com.paulcondran.collection.reports.ReportMemberDonationHistory;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.authentication.IAuthenticationStrategy;
 import org.apache.wicket.authroles.authorization.strategies.role.Roles;
@@ -33,6 +34,10 @@ public class MenuPanel extends BasePanel {
 
         if (roles.hasRole(UIConstants.USER_ROLE)) {
             addUserMenu(navList);
+        }
+
+        if (roles.hasRole(UIConstants.USER_ROLE)) {
+            addReportsMenu(navList);
         }
 
         if (roles.hasRole(UIConstants.ADMIN_ROLE)) {
@@ -73,6 +78,13 @@ public class MenuPanel extends BasePanel {
                 getRequestCycle().setResponsePage(LoginPage.class);
             }
         }));
+    }
+
+    private void addReportsMenu(RepeatingView navList) {
+        navList.add(new NavHeader(navList.newChildId(), "Reports"));
+
+        navList.add(new NavItem(navList.newChildId(), "Member History", active(Arrays.asList("MemberDonationHistory")),
+                redirectFunc(ReportMemberDonationHistory.class)));
     }
 
     private void addAdminMenu(RepeatingView navList) {

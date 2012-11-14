@@ -7,6 +7,7 @@ This is a basic application to allow charities to manage their donations and col
 The application is written in Java and is based on Twitter Bootstrap. Maven is used for project management and builds. The application is designed to be easily deployed to Heroku.  A list of components follows.
 
 * [Twitter Bootstrap] (http://twitter.github.com/bootstrap/)
+* [jquery-ui-bootstrap] (https://github.com/addyosmani/jquery-ui-bootstrap)
 * [jQuery] (http://jquery.com)
 * [Apache Wicket] (http://wicket.apache.org)
 * [Hibernate] (http://www.hibernate.org)
