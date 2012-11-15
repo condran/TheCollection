@@ -4,6 +4,7 @@ import com.paulcondran.collection.components.BootstrapFeedbackPanel;
 import com.paulcondran.collection.components.BootstrapTypeAheadBehaviour;
 import com.paulcondran.collection.components.CollectionUtil;
 import com.paulcondran.collection.data.CollectionDatabase;
+import com.paulcondran.collection.data.DBUtil;
 import com.paulcondran.collection.functional.Function2Void;
 import com.paulcondran.collection.model.data.Category;
 import com.paulcondran.collection.model.data.Donation;
@@ -59,7 +60,7 @@ public class DonationNewPage extends BasePage {
     }
 
     public void setEditMode(Donation donation) {
-        Member member = findMember("["+donation.getMemberID()+"]");
+        Member member = DBUtil.findMember("[" + donation.getMemberID() + "]");
         donationNew.setMember(member);
         donationNew.setDonation(donation);
     }
@@ -94,7 +95,7 @@ public class DonationNewPage extends BasePage {
         memberSearch.add(new BootstrapTypeAheadBehaviour() {
 
             public List<String> getChoices(String search) {
-                return searchMembers(search);
+                return DBUtil.searchMembers(search);
             }
         });
 
@@ -103,7 +104,7 @@ public class DonationNewPage extends BasePage {
             @Override
             protected void onUpdate(AjaxRequestTarget target) {
                 // Populate the member fields
-                Member member = findMember(donationNew.getMemberSearch());
+                Member member = DBUtil.findMember(donationNew.getMemberSearch());
 
                 if (member != null) {
                     donationNew.setMember(member);
@@ -238,67 +239,6 @@ public class DonationNewPage extends BasePage {
             }
         }
         return false;
-    }
-
-    private List<String> searchMembers(String search) {
-        List<String> results = new ArrayList<String>();
-
-        List<Member> members = performMemberQuery(search);
-        if (members != null) {
-            for (Member member : members) {
-                StringBuilder result = new StringBuilder();
-
-                CollectionUtil.appendIfNotBlank(result, member.getName(), "%s-");
-                CollectionUtil.appendIfNotBlank(result, member.getFamilyName(), "%s-");
-                CollectionUtil.appendIfNotBlank(result, member.getSuburb(), "%s-");
-                CollectionUtil.appendIfNotBlank(result, member.getMemberID(), "[%s]");
-
-                results.add(result.toString());
-            }
-        }
-
-        return results;
-    }
-
-
-    /**
-     * Queries the Member database to fill out the member details
-     */
-    private List<Member> performMemberQuery(String search) {
-        
-        try {
-       
-
-        CollectionDatabase db = CollectionDatabase.getInstance();
-        String query = "from Member where memberID='"+search+"' or name like '%"+search+"%'";
-        Query q = db.getEntityManager().createQuery(query);
-
-        return q.getResultList();
-        
-        } catch (Exception ee)
-        {
-            ee.printStackTrace();
-            return null;
-        }
-    }
-
-    /**
-     * Finds the exact member based on type ahead query
-     * @param memberSearch
-     * @return
-     */
-    private Member findMember(String memberSearch) {
-
-        if (memberSearch == null) { return null;}
-        String memberID = StringUtils.substringBetween(memberSearch, "[", "]");
-        if (memberID == null || StringUtils.isEmpty(memberID)) { return null; }
-        CollectionDatabase db = CollectionDatabase.getInstance();
-        Query q = db.getEntityManager().createQuery("from Member where memberID='"+memberID+"'");
-
-        if (q.getResultList().isEmpty()) {
-            return null;
-        }
-        return (Member) q.getResultList().get(0);
     }
 
 }

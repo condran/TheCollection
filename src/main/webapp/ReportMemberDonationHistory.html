@@ -9,7 +9,7 @@
 
     <!-- Le styles -->
     <link href="css/bootstrap.css" rel="stylesheet">
-    <link href="css/custom-theme/jquery-ui-1.8.16.custom.css" rel="stylesheet">
+    <link href="css/custom-theme/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
     <style type="text/css">
         body {
             padding-top: 60px;
@@ -67,81 +67,85 @@
             </div>
         </div>
 
-        <div wicket:id="feedbackPanel" class="span10"></div>
+        <form wicket:id="form" class="form-horizontal" autocomplete="off">
+            <legengd></legengd>
+            <div class="span10">
+                <legend>Report: Member Donations History</legend>
 
-        <div class="span10">
-            <form wicket:id="form" class="form-horizontal">
-                <legend>User Details</legend>
-
-                <div class="span4">
-
-                    <div class="control-group">
-                        <label class="control-label" for="userID">User ID</label>
-                        <div class="controls">
-                            <input wicket:id="userID" type="text" class="input-medium" />
+                <div class="control-group">
+                    <div class="controls">
+                        <div class="input-append">
+                            <input wicket:id="memberSearch" type="text" class="input-xxlarge ajax-typeahead"
+                                   placeholder="Member search" />
+                            <button type="submit" class="btn">Find</button>
                         </div>
                     </div>
-
-                    <div class="control-group">
-                        <label class="control-label" for="name">Name</label>
-                        <div class="controls">
-                            <input wicket:id="name" type="text" class="input-medium"/>
-                        </div>
-                    </div>
-
-                    <div class="control-group">
-                        <label class="control-label" for="name">Password</label>
-                        <div class="controls">
-                            <input wicket:id="password" type="password" class="input-medium"/>
-                        </div>
-                    </div>
-
-                    <div class="control-group">
-                        <label class="control-label" for="name">Verify Password</label>
-                        <div class="controls">
-                            <input wicket:id="passverify" type="password" class="input-medium"/>
-                        </div>
-                    </div>
-
                 </div>
 
-                <div class="span6">
-                    <div class="control-group">
-                        <label class="control-label" for="name">UserType</label>
-                        <div class="controls">
-                            <select wicket:id="type">
-                                <option value="all">All</option>
-                                <option value="collector">Collector</option>
-                                <option value="admin">Admin</option>
-                                <option value="finance">Finance</option>
-                            </select>
-                        </div>
+                <div class="control-group">
+                    <label class="control-label" for="dateFrom">Date</label>
+                    <div class="controls controls-row">
+                        <input wicket:id="dateFrom" type="text" placeholder="From" class="input-small datepicker"
+                               data-date-format="dd/mm/yyyy" />
+                        <input wicket:id="dateTo" type="text" placeholder="To" class="input-small datepicker"
+                               data-date-format="dd/mm/yyyy" />
                     </div>
-                    <div class="control-group">
-                        <label class="control-label" for="emailAddress">Email</label>
-                        <div class="controls">
-                            <input wicket:id="emailAddress" type="text" class="input-medium" />
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label" for="mobileNo">MobileNo</label>
-                        <div class="controls">
-                            <input wicket:id="mobileNo" type="text" class="input-small" />
-                        </div>
-                    </div>
-
                 </div>
 
-                <div class="span10">
-                    <div class="controls controls-row pull-right">
-                        <a href="UserSearchPage.html" class="btn" id="cancel">Cancel</a>
-                        <input wicket:id="save" type="submit" class="btn btn-success" value="Save" />
-                    </div>
+            </div>
 
+            <div class="span10">
+                <div class="controls controls-row pull-right">
+                    <input wicket:id="search" type="button" class="btn btn-primary" name="search" value="Search" />
                 </div>
 
-            </form>
-        </div>
+            </div>
+
+
+
+            <div class="span10">
+                <legend>Results</legend>
+
+                <table wicket:id="searchResults" class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Member</th>
+                        <th>Record No</th>
+                        <th>Total</th>
+                        <th class="span1">&nbsp;</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Name 1</td>
+                        <td>#7767-90</td>
+                        <td>#1001</td>
+                        <td>$1,200.88</td>
+                        <td><a class="btn btn-mini" href="#" title="Edit"><i class="icon-edit"></i></a>
+                            <a class="btn btn-mini" href="#" title="Delete"><i class="icon-trash"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>Name 2</td>
+                        <td>#7767-90</td>
+                        <td>#1001</td>
+                        <td>$1,200.88</td>
+                        <td><a class="btn btn-mini" href="#"><i class="icon-edit"></i></a>
+                            <a class="btn btn-mini" href="#"><i class="icon-trash"></i></a></td>
+                    </tr>
+                    <tr>
+                        <td>Name 2</td>
+                        <td>#7767-90</td>
+                        <td>#1001</td>
+                        <td>$1,200.88</td>
+                        <td><a class="btn btn-mini" href="#"><i class="icon-edit"></i></a>
+                            <a class="btn btn-mini" href="#"><i class="icon-trash"></i></a></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </form>
 
     </div>
 

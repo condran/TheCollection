@@ -2,6 +2,7 @@ package com.paulcondran.collection;
 
 import com.paulcondran.collection.data.CollectionDatabase;
 import com.paulcondran.collection.pages.*;
+import com.paulcondran.collection.reports.ReportMemberDonationHistory;
 import org.apache.wicket.Page;
 import org.apache.wicket.authroles.authentication.AbstractAuthenticatedWebSession;
 import org.apache.wicket.authroles.authentication.AuthenticatedWebApplication;
@@ -45,6 +46,7 @@ public class CollectionApplication extends AuthenticatedWebApplication {
         mount(new MountedMapper("/UserNewPage.html", UserNewPage.class));
         mount(new MountedMapper("/ImportDonationsPage.html", ImportDonationsPage.class));
         mount(new MountedMapper("/ImportMembersPage.html", ImportMembersPage.class));
+        mount(new MountedMapper("/ReportMemberDonationHistory.html", ReportMemberDonationHistory.class));
         mount(new MountedMapper("/index.html", LoginPage.class));
 
     }
