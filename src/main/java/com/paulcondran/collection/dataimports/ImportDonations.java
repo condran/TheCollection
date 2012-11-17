@@ -5,6 +5,7 @@
 package com.paulcondran.collection.dataimports;
 
 
+import com.paulcondran.collection.components.CollectionUtil;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -17,8 +18,10 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import com.paulcondran.collection.data.CollectionDatabase;
+import com.paulcondran.collection.model.data.CategoryDef;
 import com.paulcondran.collection.model.data.Donation;
 import com.paulcondran.collection.model.data.DonationCategory;
+import com.paulcondran.collection.model.ui.OptionItem;
 import java.sql.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -89,8 +92,9 @@ public class ImportDonations {
     }
     protected boolean readRow(Row row) {
         boolean rowRead = false;
+        List<OptionItem> cDefList = CollectionUtil.listCategories();
 
-        int cellCount = row.getPhysicalNumberOfCells();
+        int cellCount = row.getLastCellNum();
 
         Donation donation = null;
         List<DonationCategory> dcList = null;
@@ -112,7 +116,6 @@ public class ImportDonations {
             dcList = donation.getCategoryList();
             dcList.clear();
         }
-        donation.setOrgChapter(organisation);
         // Date
         if (HSSFDateUtil.isCellDateFormatted(row.getCell(1))) {
             double dv = row.getCell(1).getNumericCellValue();
@@ -122,25 +125,31 @@ public class ImportDonations {
             donation.setDate(sqldate);
         }
 
+        // organisation
+        donation.setOrgChapter(StringUtils.deleteWhitespace(row.getCell(2).getStringCellValue()));
         // collector
-        donation.setCollector(StringUtils.deleteWhitespace(row.getCell(2).getStringCellValue()));
+        donation.setCollector(StringUtils.deleteWhitespace(row.getCell(3).getStringCellValue()));
         // memberId
-        val = getCellValueAsString(row.getCell(3));
+        val = getCellValueAsString(row.getCell(4));
         donation.setMemberID(val);
         // DDref
-        val = getCellValueAsString(row.getCell(4));
+        val = getCellValueAsString(row.getCell(5));
         donation.setDirectDebitRef(val);
         // title
         // Name
-        val = getCellValueAsString(row.getCell(6));
+        val = getCellValueAsString(row.getCell(7));
         donation.setName(val);
         // total
-        donation.setTotal(getCellValueAsDecimal(row.getCell(7)));
+        donation.setTotal(getCellValueAsDecimal(row.getCell(8)));
         // Cat 1
         // Cat 23
         StringBuffer sb = new StringBuffer();
-        for (Integer i =8; i<cellCount-1; i++) {
+        for (Integer i =9; i<cellCount; i++) {
             try {
+                if (row.getCell(i)  == null ) {
+                    continue;
+                }
+                int cellPos = row.getCell(i).getColumnIndex();
                 if (row.getCell(i).getCellType() == Cell.CELL_TYPE_STRING) {
                     sb.append(getCellValueAsString(row.getCell(i))+", ");
                 }
@@ -148,7 +157,7 @@ public class ImportDonations {
                     BigDecimal d = getCellValueAsDecimal(row.getCell(i));
                     if (d.doubleValue() > 0) {
                         DonationCategory dc = new DonationCategory();
-                        dc.setCategoryName("DonationCategory "+(i-7));
+                        dc.setCategoryName(cDefList.get(cellPos-9).getCode());
                         dc.setAmount(d);
                         dcList.add(dc);
                         dc.setDonation(donation);
@@ -156,7 +165,7 @@ public class ImportDonations {
                     }
                 }
             } catch (Exception ex) {
-                System.out.println(" Error trying to read category "+ (i-7));
+                System.out.println(" Error trying to read category columnIDx="+ i);
                 ex.printStackTrace();
             }
         }
@@ -178,7 +187,7 @@ public class ImportDonations {
 
         int rowIndex = 1;
         while (true) {
-//            output("processing Row = " + rowIndex);
+            System.err.println("processing Row = " + rowIndex);
             Row row = sheet.getRow(rowIndex);
 
             if (row == null)

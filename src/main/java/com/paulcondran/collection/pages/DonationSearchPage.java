@@ -126,7 +126,6 @@ public class DonationSearchPage extends BasePage {
         });
 
 
-
         // Hook into the search behaviour
         form.add(new AjaxButton("search") {
             @Override

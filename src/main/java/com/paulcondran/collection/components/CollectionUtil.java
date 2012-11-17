@@ -1,11 +1,16 @@
 package com.paulcondran.collection.components;
 
 
+import com.paulcondran.collection.UIConstants;
+import com.paulcondran.collection.data.CollectionDatabase;
+import com.paulcondran.collection.model.data.CategoryDef;
 import com.paulcondran.collection.model.ui.OptionItem;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 /**
  * Just some useful utility methods
@@ -19,17 +24,33 @@ public class CollectionUtil {
 
     public static List<OptionItem> listCategories() {
         List<OptionItem> list = new ArrayList<OptionItem>();
-        list.add(new OptionItem("C001", "Flood fund"));
-        list.add(new OptionItem("C002", "Orphans fund"));
-        list.add(new OptionItem("C003", "Family fund"));
+        CollectionDatabase db = CollectionDatabase.getInstance();
+        EntityManager em = db.getEntityManager();
+
+        Query q = em.createQuery("from CategoryDef");
+        q.setMaxResults(UIConstants.MAX_RECENT_RESULTS);
+
+        List<CategoryDef> catList = q.getResultList();
+        for (CategoryDef def : catList)
+        {
+            list.add(new OptionItem(def.getCategoryID(), def.getName()));
+        }
         return list;
     }
 
     public static List<OptionItem> listPromiseCategories() {
         List<OptionItem> list = new ArrayList<OptionItem>();
-        list.add(new OptionItem("P001", "Flood fund"));
-        list.add(new OptionItem("P002", "Orphans fund"));
-        list.add(new OptionItem("P003", "Family fund"));
+        CollectionDatabase db = CollectionDatabase.getInstance();
+        EntityManager em = db.getEntityManager();
+
+        Query q = em.createQuery("from CategoryDef where isPromise='true'");
+        q.setMaxResults(UIConstants.MAX_RECENT_RESULTS);
+
+        List<CategoryDef> catList = q.getResultList();
+        for (CategoryDef def : catList)
+        {
+            list.add(new OptionItem(def.getCategoryID(), def.getName()));
+        }
         return list;
     }
 
@@ -43,9 +64,7 @@ public class CollectionUtil {
 
     public static List<OptionItem> listOrganisations() {
         List<OptionItem> list = new ArrayList<OptionItem>();
-        list.add(new OptionItem("ORG 1", "American Express"));
-        list.add(new OptionItem("ORG 2", "McDonalds"));
-        list.add(new OptionItem("ORG 3", "Woolworths"));
+        list.add(new OptionItem("Alsadaqat", "Alsadaqat"));
         return list;
     }
 

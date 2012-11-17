@@ -36,6 +36,7 @@ public class ImportMembersPage extends BasePage {
                                 di.processWorksheet(uploadedFile.getInputStream());
                                 info("saved file: " + uploadedFile.getClientFileName());
                         } catch (Exception e) {
+                            e.printStackTrace();
                                 throw new IllegalStateException("Error");
                         }
                 }

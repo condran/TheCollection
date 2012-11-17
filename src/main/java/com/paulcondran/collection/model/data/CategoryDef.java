@@ -8,73 +8,102 @@ import java.io.Serializable;
  * User database entity model.
  */
 @Entity
-public class User implements Serializable {
+public class CategoryDef implements Serializable {
 
     @Id
-    private String userID;
+    private String categoryID;
     
-	private String name;
+    private String name;
     
-    private String type;
+    private boolean promiseCategory;
     
-    private String mobileNo;
-    
-    private String emailAddress;
-    
-    private String password;
+    private boolean belongsToGroup1;
 
-    public String getUserID() {
-		return userID;
-	}
-
-	public void setUserID(String userID) {
-		this.userID = userID;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	public String getMobileNo() {
-		return mobileNo;
-	}
-
-	public void setMobileNo(String mobileNo) {
-		this.mobileNo = mobileNo;
-	}
-
-	public String getEmailAddress() {
-		return emailAddress;
-	}
-
-	public void setEmailAddress(String emailAddress) {
-		this.emailAddress = emailAddress;
-	}
+    private boolean belongsToGroup2;
 
     /**
-     * @return the password
+     * @return the categoryID
      */
-    public String getPassword() {
-        return password;
+    public String getCategoryID() {
+        return categoryID;
     }
 
     /**
-     * @param password the password to set
+     * @param categoryID the categoryID to set
      */
-    public void setPassword(String password) {
-        this.password = password;
+    public void setCategoryID(String categoryID) {
+        this.categoryID = categoryID;
     }
+
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * @return the promiseCategory
+     */
+    public boolean isPromiseCategory() {
+        return promiseCategory;
+    }
+
+    /**
+     * @param promiseCategory the promiseCategory to set
+     */
+    public void setPromiseCategory(boolean promiseCategory) {
+        this.promiseCategory = promiseCategory;
+    }
+
+    /**
+     * @return the promiseCategory
+     */
+    public boolean getIsPromiseCategory() {
+        return promiseCategory;
+    }
+
+    /**
+     * @param promiseCategory the promiseCategory to set
+     */
+    public void setIsPromiseCategory(boolean promiseCategory) {
+        this.promiseCategory = promiseCategory;
+    }
+
+    /**
+     * @return the belongsToGroup1
+     */
+    public boolean isBelongsToGroup1() {
+        return belongsToGroup1;
+    }
+
+    /**
+     * @param belongsToGroup1 the belongsToGroup1 to set
+     */
+    public void setBelongsToGroup1(boolean belongsToGroup1) {
+        this.belongsToGroup1 = belongsToGroup1;
+    }
+
+    /**
+     * @return the belongsToGroup2
+     */
+    public boolean isBelongsToGroup2() {
+        return belongsToGroup2;
+    }
+
+    /**
+     * @param belongsToGroup2 the belongsToGroup2 to set
+     */
+    public void setBelongsToGroup2(boolean belongsToGroup2) {
+        this.belongsToGroup2 = belongsToGroup2;
+    }
+
 
 }

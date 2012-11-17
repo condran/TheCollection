@@ -71,35 +71,28 @@
 
         <div class="span10">
             <form wicket:id="form" class="form-horizontal">
-                <legend>User Details</legend>
+                <legend>Donation Category Details</legend>
 
                 <div class="span4">
 
                     <div class="control-group">
-                        <label class="control-label" for="userID">User ID</label>
+                        <label class="control-label" for="categoryID">Category ID</label>
                         <div class="controls">
-                            <input wicket:id="userID" type="text" class="input-medium" />
+                            <input wicket:id="categoryID" type="text" class="input-medium" />
                         </div>
                     </div>
 
                     <div class="control-group">
-                        <label class="control-label" for="name">Name</label>
+                        <label class="control-label" for="promise">Promise Category?</label>
                         <div class="controls">
-                            <input wicket:id="name" type="text" class="input-medium"/>
+                            <input wicket:id="promiseCategory" type="checkbox" class="input-medium"/>
                         </div>
                     </div>
 
                     <div class="control-group">
-                        <label class="control-label" for="name">Password</label>
+                        <label class="control-label" for="catg2">Include in Group 2</label>
                         <div class="controls">
-                            <input wicket:id="password" type="password" class="input-medium"/>
-                        </div>
-                    </div>
-
-                    <div class="control-group">
-                        <label class="control-label" for="name">Verify Password</label>
-                        <div class="controls">
-                            <input wicket:id="passverify" type="password" class="input-medium"/>
+                            <input wicket:id="belongsToGroup2" type="checkbox" class="input-medium"/>
                         </div>
                     </div>
 
@@ -107,29 +100,17 @@
 
                 <div class="span6">
                     <div class="control-group">
-                        <label class="control-label" for="name">UserType</label>
+                        <label class="control-label" for="name">Category Name</label>
                         <div class="controls">
-                            <select wicket:id="type">
-                                <option value="all">All</option>
-                                <option value="collector">Collector</option>
-                                <option value="admin">Admin</option>
-                                <option value="finance">Finance</option>
-                            </select>
+                            <input wicket:id="name" type="text" class="input-medium"/>
                         </div>
                     </div>
                     <div class="control-group">
-                        <label class="control-label" for="emailAddress">Email</label>
+                        <label class="control-label" for="catg1">Include in Group1</label>
                         <div class="controls">
-                            <input wicket:id="emailAddress" type="text" class="input-medium" />
+                            <input wicket:id="belongsToGroup1" type="checkbox" class="input-medium"/>
                         </div>
                     </div>
-                    <div class="control-group">
-                        <label class="control-label" for="mobileNo">MobileNo</label>
-                        <div class="controls">
-                            <input wicket:id="mobileNo" type="text" class="input-small" />
-                        </div>
-                    </div>
-
                 </div>
 
                 <div class="span10">

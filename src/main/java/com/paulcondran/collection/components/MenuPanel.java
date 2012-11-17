@@ -21,7 +21,7 @@ import java.util.List;
 public class MenuPanel extends BasePanel {
 
     List<String> userPages = Arrays.asList("DonationSearchPage", "PromisesSearchPage", "UserSettingsPage");
-    List<String> adminPages = Arrays.asList("usersPage", "membersPage", "importDonations", "importMembers");
+    List<String> adminPages = Arrays.asList("usersPage", "membersPage", "categoryPage", "importDonations", "importMembers");
 
 
     public MenuPanel(String id) {
@@ -92,6 +92,9 @@ public class MenuPanel extends BasePanel {
 
         navList.add(new NavItem(navList.newChildId(), "Users", active(Arrays.asList("UserSearchPage", "UserNewPage")),
                 redirectFunc(UserSearchPage.class)));
+
+        navList.add(new NavItem(navList.newChildId(), "Donation Category", active(Arrays.asList("CategorySearchPage", "categoryNewPage")),
+                redirectFunc(CategorySearchPage.class)));
 
         navList.add(new NavItem(navList.newChildId(), "Import Donations", active(Arrays.asList("ImportDonationsPage")),
                 redirectFunc(ImportDonationsPage.class)));

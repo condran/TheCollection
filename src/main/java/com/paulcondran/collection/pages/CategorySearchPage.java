@@ -6,7 +6,7 @@ import com.paulcondran.collection.components.CollectionDataTable;
 import com.paulcondran.collection.components.CollectionUtil;
 import com.paulcondran.collection.components.ViewEditDelColumn;
 import com.paulcondran.collection.data.CollectionDatabase;
-import com.paulcondran.collection.model.data.Donation;
+import com.paulcondran.collection.model.data.CategoryDef;
 import com.paulcondran.collection.model.data.User;
 import com.paulcondran.collection.model.ui.UserSearch;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -37,80 +37,39 @@ import java.util.List;
  * @author Paul Condran
  */
 @AuthorizeInstantiation("admin")
-public class UserSearchPage extends BasePage {
+public class CategorySearchPage extends BasePage {
 
-    private UserSearch userSearch = new UserSearch();
-
-    private List<User> searchResults = null;
+    private List<CategoryDef> searchResults = null;
 
     private Form form;
 
     private DataTable dataTable;
 
-    private CollectionDataProvider<User> dataProvider;
+    private CollectionDataProvider<CategoryDef> dataProvider;
 
 
-    public UserSearchPage() {
-
+    public CategorySearchPage() {
         setupUserInterfaceFields();
 
-        searchResults = listUsers();
+        searchResults = listCategories();
 
         setupResultsTable();
 
     }
 
-    /**
-     * This method creates the Wicket user interface fields and binds to the model object.
-     */
     private void setupUserInterfaceFields() {
 
         form = new Form("form");
         form.setOutputMarkupId(true);
         add(form);
         setMarkupContainer(form);
-
-
-        addTextField("userID", new PropertyModel<String>(userSearch, "userID"));
-        addTextField("name", new PropertyModel<String>(userSearch, "name"));
-
-        final DropDownChoice userType = addDropdownField("type",
-                new PropertyModel<String>(userSearch, "type"), CollectionUtil.listUserTypes());
-
-
-        // Hook into the search behaviour
-        form.add(new AjaxButton("search") {
-            @Override
-            protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
-
-                CollectionDatabase db = CollectionDatabase.getInstance();
-                CriteriaBuilder builder = db.getEntityManager().getCriteriaBuilder();
-                CriteriaQuery<User> query = builder.createQuery(User.class);
-                Root<User> userRoot = query.from(User.class);
-                query.select(userRoot);
-
-                List<Predicate> predicateList = userSearch.listPredicates(userRoot, builder);
-
-                if (!predicateList.isEmpty()) {
-                    Predicate[] predicates = predicateList.toArray(new Predicate[predicateList.size()]);
-                    query.where(predicates);
-                }
-
-                searchResults = db.getEntityManager().createQuery(query).getResultList();
-                dataProvider.setResults(searchResults);
-
-                target.add(dataTable);
-            }
-        });
-
     }
-
-    private List<User> listUsers() {
-        List<User> userList = new ArrayList<User>();
+    private List<CategoryDef> listCategories() {
+        List<CategoryDef> userList = new ArrayList<CategoryDef>();
         CollectionDatabase db = CollectionDatabase.getInstance();
         EntityManager em = db.getEntityManager();
 
-        Query q = em.createQuery("from User order by type");
+        Query q = em.createQuery("from CategoryDef");
         q.setMaxResults(UIConstants.MAX_RECENT_RESULTS);
 
         List list = q.getResultList();
@@ -134,13 +93,13 @@ public class UserSearchPage extends BasePage {
 
         List<IColumn> columns = new ArrayList<IColumn>();
 
-        columns.add(new PropertyColumn<String, String>(new Model<String>("Name"), "name", "name"));
-        columns.add(new PropertyColumn<String, String>(new Model<String>("UserID"), "userID", "userID"));
-        columns.add(new PropertyColumn<String, String>(new Model<String>("Role"), "type", "type"));
+        columns.add(new PropertyColumn<String, String>(new Model<String>("CategoryID"), "categoryID", "categoryID"));
+        columns.add(new PropertyColumn<String, String>(new Model<String>("Category Name"), "name", "name"));
+        columns.add(new PropertyColumn<String, String>(new Model<String>("Promise?"), "promiseCategory", "promiseCategory"));
         columns.add(new ViewEditDelColumn(new Model<String>(""), null) {
             @Override
             public AbstractLink createViewLink(String id, IModel rowModel) {
-                final User user = (User) rowModel.getObject();
+                final CategoryDef def = (CategoryDef) rowModel.getObject();
                 AbstractLink viewLink = new AjaxSubmitLink(id) {
                     @Override
                     protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
@@ -155,13 +114,13 @@ public class UserSearchPage extends BasePage {
 
             @Override
             public AbstractLink createEditLink(String id, IModel rowModel) {
-                final User user = (User) rowModel.getObject();
+                final CategoryDef def = (CategoryDef) rowModel.getObject();
                 AbstractLink editLink = new AjaxSubmitLink(id) {
                     @Override
                     protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
-                        UserNewPage userNewPage = new UserNewPage();
-                        userNewPage.setEditMode(user);
-                        getRequestCycle().setResponsePage(userNewPage);
+                        CategoryNewPage catNewPage = new CategoryNewPage();
+                        catNewPage.setEditMode(def);
+                        getRequestCycle().setResponsePage(catNewPage);
                     }
                 };
                 return editLink;
@@ -169,22 +128,20 @@ public class UserSearchPage extends BasePage {
 
             @Override
             public AbstractLink createDeleteLink(String id, IModel rowModel) {
-                final User user = (User) rowModel.getObject();
+                final CategoryDef def = (CategoryDef) rowModel.getObject();
                 AbstractLink delLink = new AjaxSubmitLink(id) {
                     @Override
                     protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
-                           CollectionDatabase.getInstance().remove(user);
+                           CollectionDatabase.getInstance().remove(def);
 //                        getRequestCycle().setResponsePage(this);
-                           searchResults.remove(user);
-                           
-                           
+                           searchResults.remove(def);
                     }
                 };
                 return delLink;
             }
         });
 
-        dataProvider = new CollectionDataProvider<User>(searchResults);
+        dataProvider = new CollectionDataProvider<CategoryDef>(searchResults);
 
         dataTable = new CollectionDataTable("searchResults", columns, dataProvider, UIConstants.MAX_RESULTS_PER_PAGE);
         dataTable.setOutputMarkupId(true);

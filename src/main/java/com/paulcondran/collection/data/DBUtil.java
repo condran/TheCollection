@@ -67,7 +67,7 @@ public class DBUtil {
     public static Member findMember(String memberSearch) {
 
         if (memberSearch == null) { return null;}
-        String memberID = memberSearch.replace("[","").replace("]",""); //StringUtils.substringBetween(memberSearch, "[", "]");
+        String memberID = StringUtils.substringBetween(memberSearch, "[", "]"); //memberSearch.replace("[","").replace("]","");
         if (memberID == null || StringUtils.isEmpty(memberID)) { return null; }
         CollectionDatabase db = CollectionDatabase.getInstance();
         Query q = db.getEntityManager().createQuery("from Member where memberID='"+memberID+"'");

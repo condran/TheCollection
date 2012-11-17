@@ -154,7 +154,6 @@ public class DonationNewPage extends BasePage {
         };
         form.add(saveButton);
 
-
         // Category repeater
         categoryListView = new RepeatingView("categoryList");
         categoryListView.setOutputMarkupId(true);

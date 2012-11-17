@@ -292,27 +292,6 @@ public class MemberSearchPage extends BasePage {
         });
         
 
-        SortableDataProvider dataProvider = new SortableDataProvider() {
-            @Override
-            public Iterator iterator(long l, long l1) {
-                List newList = new ArrayList();
-                for (long i = l; i < l+l1; i++) {
-                    newList.add(searchResults.get((int)i));
-                }
-                return newList.iterator();
-            }
-
-            @Override
-            public long size() {
-                return searchResults.size();
-            }
-
-            @Override
-            public IModel model(Object o) {
-                return new Model((Member)o);
-            }
-        };
-
         dataProvider = new CollectionDataProvider<Member>(searchResults);
 
         dataTable = new CollectionDataTable("searchResults", columns, dataProvider, UIConstants.MAX_RESULTS_PER_PAGE);

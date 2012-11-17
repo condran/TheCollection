@@ -29,6 +29,7 @@ import javax.persistence.Query;
  */
 public class ImportMembers {
     public String organisation;
+    public int tbaCounter = -1;
         protected String getCellValueAsString(Cell cell) {
         String value = "";
 
@@ -86,6 +87,20 @@ public class ImportMembers {
 
     }
 
+    private int getMemberCount() {
+        CollectionDatabase database = CollectionDatabase.getInstance();
+        EntityManager em = database.getEntityManager();
+
+        Long count = (Long)em.createQuery("SELECT COUNT(m) FROM Member m").getSingleResult();
+        return count.intValue();
+    }
+            
+    private String allocateNextMemberID() {
+        if (tbaCounter < 0) {
+            tbaCounter = getMemberCount();
+        }
+        return "TBA"+this.tbaCounter++;
+    }
     protected boolean readRow(Row row) {
         boolean rowRead = false;
 
@@ -97,17 +112,23 @@ public class ImportMembers {
         String val = null;
         // val = getCellValueAsString(val);
         if (row.getCell(0) == null ||
-                StringUtils.isEmpty(row.getCell(0).getStringCellValue()) ||
-                cellCount <13)
+                StringUtils.isEmpty(row.getCell(0).getStringCellValue()))
         {
             return false;
         }
 
         val = getCellValueAsString(row.getCell(2));
-        member = locateMember(val);
-        if (member == null ) {
-            member = new Member();
-            member.setMemberID(val);
+        if (StringUtils.isBlank(val)) {
+            val = allocateNextMemberID();
+                member = new Member();
+                member.setMemberID(val);
+        }
+        else {
+            member = locateMember(val);
+            if (member == null ) {
+                member = new Member();
+                member.setMemberID(val);
+            }
         }
         // Org
         val = getCellValueAsString(row.getCell(0));
@@ -123,6 +144,9 @@ public class ImportMembers {
         
 //    Member Name
         val = getCellValueAsString(row.getCell(4));
+        if (StringUtils.isBlank(val)) {
+            return false;
+        }
         member.setName(val);
         
 //    Street Address
@@ -168,7 +192,9 @@ public class ImportMembers {
         else
         {
             val = getCellValueAsString(row.getCell(12));
-            member.setYearOfBirth(Integer.valueOf(val));
+            if (StringUtils.isNotBlank(val)) {
+                member.setYearOfBirth(Integer.valueOf(val));
+            }
         }
 
         com.paulcondran.collection.data.CollectionDatabase database = CollectionDatabase.getInstance();
@@ -187,7 +213,7 @@ public class ImportMembers {
 
         int rowIndex = 0;
         while (true) {
-//            output("processing Row = " + rowIndex);
+            System.err.println("processing Row = " + rowIndex);
             Row row = sheet.getRow(rowIndex);
 
             if (row == null)
