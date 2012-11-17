@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title wicket:id="title">The Collection</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/custom-theme/jquery-ui-1.8.16.custom.css" rel="stylesheet">
+    <style type="text/css">
+        body {
+            padding-top: 60px;
+            padding-bottom: 40px;
+        }
+        .sidebar-nav {
+            padding: 9px 0;
+        }
+    </style>
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="../assets/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
+</head>
+
+<body>
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container-fluid">
+            <span wicket:id="brand" class="brand">Save The Children</span>
+            <div class="nav-collapse collapse">
+                <p class="navbar-text pull-right">
+                    Logged in as <a wicket:id="userLink" href="#" class="navbar-link"><span wicket:id="userName">Username</span></a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div wicket:id="menu" class="span2">
+            <div class="well sidebar-nav">
+                <ul class="nav nav-list">
+                    <li class="nav-header">Actions Menu</li>
+                    <li><a href="#">Dashboard</a></li>
+                    <li class="active"><a href="DonationSearchPage.html">Donations</a></li>
+                    <li><a href="PromisesSearchPage.html">Promises</a></li>
+                    <li><a href="#">User Settings</a></li>
+                    <li class="nav-header">Admin Menu</li>
+                    <li><a href="UserSearchPage.html">Users</a></li>
+                    <li><a href="MemberSearchPage.html">Members</a></li>
+                    <li><a href="ImportDonationsPage.html">Import Donations</a></li>
+                    <li><a href="ImportMembersPage.html">Import Members</a></li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="span10">
+            <form wicket:id="form" class="form-horizontal">
+                <legend>User Search</legend>
+
+                <div class="span4">
+
+                    <div class="control-group">
+                        <label class="control-label" for="userID">User ID</label>
+                        <div class="controls">
+                            <input wicket:id="userID" type="text" class="input-medium" />
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="name">Name</label>
+                        <div class="controls">
+                            <input wicket:id="name" type="text" class="input-medium"/>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="span6">
+                    <div class="control-group">
+                        <label class="control-label" for="name">UserType</label>
+                        <div class="controls">
+                            <select wicket:id="type">
+                                <option value="all">All</option>
+                                <option value="collector">Collector</option>
+                                <option value="admin">Admin</option>
+                                <option value="finance">Finance</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="span10">
+                    <div class="controls controls-row pull-right">
+                        <a href="UserNewPage.html" class="btn" id="newDonation">New User</a>
+                        <input wicket:id="search" type="button" class="btn btn-primary" name="search" value="Search" />
+                    </div>
+
+                </div>
+
+
+                <div class="span10">
+                    <h3>Results</h3>
+                    <hr />
+
+                    <table wicket:id="searchResults" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>UserID</th>
+                                <th>email</th>
+                                <th>UserType</th>
+                                <th class="span1">&nbsp;</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Joe Bloe</td>
+                                <td>joeb</td>
+                                <td>job@gmail.com</td>
+                                <td>Collector</td>
+                                <td><a class="btn btn-mini" href="#" title="Edit"><i class="icon-edit"></i></a>
+                                    <a class="btn btn-mini" href="#" title="Delete"><i class="icon-trash"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Joe Bloe</td>
+                                <td>joeb</td>
+                                <td>job@gmail.com</td>
+                                <td>Finance</td>
+                                <td><a class="btn btn-mini" href="#" title="Edit"><i class="icon-edit"></i></a>
+                                    <a class="btn btn-mini" href="#" title="Delete"><i class="icon-trash"></i></a></td>
+                            </tr>
+                            <tr>
+                                <td>Joe Bloe</td>
+                                <td>joeb</td>
+                                <td>job@gmail.com</td>
+                                <td>Admin</td>
+                                <td><a class="btn btn-mini" href="#" title="Edit"><i class="icon-edit"></i></a>
+                                    <a class="btn btn-mini" href="#" title="Delete"><i class="icon-trash"></i></a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="pagination pagination-centered">
+                        <ul>
+                            <li><a href="#"><i class="icon-chevron-left" ></i></a></li>
+                            <li><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#"><i class="icon-chevron-right"></i></a></li>
+                        </ul>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+    <hr>
+
+    <footer wicket:id="footer">
+        <p>Copyright &copy; 2012. MIT License, code available at <a href="http://github.com/condran/TheCollection">github</a></p>
+    </footer>
+
+</div>
+
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="js/jquery-1.8.2.min.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/jquery-ui-1.8.16.custom.min.js"></script>
+<script src="js/behaviours.js"></script>
+</body>
+</html>
