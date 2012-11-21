@@ -4,10 +4,7 @@ import com.paulcondran.collection.UIConstants;
 import com.paulcondran.collection.components.*;
 import com.paulcondran.collection.data.CollectionDatabase;
 import com.paulcondran.collection.data.DBUtil;
-import com.paulcondran.collection.model.data.Category;
-import com.paulcondran.collection.model.data.Donation;
-import com.paulcondran.collection.model.data.DonationCategory;
-import com.paulcondran.collection.model.data.Member;
+import com.paulcondran.collection.model.data.*;
 import com.paulcondran.collection.model.ui.CategoryReportItem;
 import com.paulcondran.collection.model.ui.OptionItem;
 import com.paulcondran.collection.model.ui.ReportMemberHistory;
@@ -28,6 +25,7 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -47,6 +45,7 @@ public class ReportMemberDonationHistory extends BasePage {
     private ReportMemberHistory reportFields = new ReportMemberHistory();
 
     private List<Donation> searchResults = new ArrayList<Donation>();
+    private Promise promise;
     private List<OptionItem> categories;
     private DataTable dataTable;
     private CollectionDataProvider<Donation> dataProvider;
@@ -114,6 +113,11 @@ public class ReportMemberDonationHistory extends BasePage {
                 }
 
                 searchResults = db.getEntityManager().createQuery(query).getResultList();
+
+                Query promiseQuery = db.getEntityManager().createQuery("from Promise where memberID = ?");
+                promiseQuery.setParameter(1, reportFields.getMemberID());
+                promise = (Promise)promiseQuery.getSingleResult();
+
                 setupResultsTable(target);
 
             }
@@ -154,10 +158,15 @@ public class ReportMemberDonationHistory extends BasePage {
         columns.add(new PropertyColumn<String, String>(new Model<String>("Date"), "date", "date"));
 
         // add a total row
+        BigDecimal total = new BigDecimal(0);
         Donation totalRow = new Donation();
         totalRow.setReceiptNo("Total");
-        searchResults.add(totalRow);
 
+        // add promise row
+        Donation promiseRow = new Donation();
+        promiseRow.setReceiptNo("Promise");
+
+        // Create category columns
         List<CategoryReportItem> categoryHeaders = listCategoryItems();
         for (CategoryReportItem cat : categoryHeaders) {
             columns.add(new CategoryReportColumn(new Model<String>(cat.getCategoryName()), cat.getCategoryCode(), cat.getCategoryCode(),
@@ -166,6 +175,28 @@ public class ReportMemberDonationHistory extends BasePage {
             donationCategory.setAmount(cat.getCategoryTotal());
             donationCategory.setCategoryName(cat.getCategoryCode());
             totalRow.getCategoryList().add(donationCategory);
+            total = total.add(cat.getCategoryTotal());
+
+            // Fill the promise row
+            DonationCategory promiseCategory = new DonationCategory();
+            promiseCategory.setCategoryName(cat.getCategoryCode());
+            if (promise != null) {
+                for(PromiseCategory promCategory : promise.getCategoryList()) {
+                    if (promCategory.getCategoryName().equals(cat.getCategoryCode())) {
+                        promiseCategory.setAmount(promCategory.getAmount());
+                    }
+                }
+            }
+            promiseRow.getCategoryList().add(promiseCategory);
+        }
+
+        if (!categoryHeaders.isEmpty()) {
+            totalRow.setTotal(total);
+            searchResults.add(totalRow);
+        }
+        if (promise != null) {
+            promiseRow.setTotal(promise.getTotal());
+            searchResults.add(promiseRow);
         }
 
 
@@ -183,7 +214,9 @@ public class ReportMemberDonationHistory extends BasePage {
 
         dataProvider = new CollectionDataProvider<Donation>(searchResults);
 
-        DataTable newDataTable = new CollectionDataTable("searchResults", columns, dataProvider, UIConstants.MAX_RESULTS_PER_PAGE);
+        int itemsPerPage = searchResults.size() > 0 ? searchResults.size() : UIConstants.MAX_RESULTS_PER_PAGE;
+
+        DataTable newDataTable = new CollectionDataTable("searchResults", columns, dataProvider, itemsPerPage);
         newDataTable.setOutputMarkupId(true);
 
         if (categoryHeaders.size() > 3) {

@@ -43,7 +43,7 @@ public class CollectionUtil {
         CollectionDatabase db = CollectionDatabase.getInstance();
         EntityManager em = db.getEntityManager();
 
-        Query q = em.createQuery("from CategoryDef where isPromise='true'");
+        Query q = em.createQuery("from CategoryDef where promiseCategory='true'");
         q.setMaxResults(UIConstants.MAX_RECENT_RESULTS);
 
         List<CategoryDef> catList = q.getResultList();
