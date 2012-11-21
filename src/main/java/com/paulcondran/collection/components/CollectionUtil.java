@@ -110,4 +110,21 @@ public class CollectionUtil {
         }
         return builder;
     }
+
+    public static boolean isOptionCodeInList(String code, List<OptionItem> list) {
+        for (OptionItem optionItem : list) {
+            if (optionItem.getCode().equals(code))
+                return true;
+        }
+        return false;
+    }
+
+    public static OptionItem findOption(String code, List<OptionItem> options) {
+        for (OptionItem optionItem : options) {
+            if (optionItem.getCode().equals(code)) {
+                return optionItem;
+            }
+        }
+        return new OptionItem();
+    }
 }
