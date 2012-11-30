@@ -116,7 +116,11 @@ public class ReportMemberDonationHistory extends BasePage {
 
                 Query promiseQuery = db.getEntityManager().createQuery("from Promise where memberID = ?");
                 promiseQuery.setParameter(1, reportFields.getMemberID());
-                promise = (Promise)promiseQuery.getSingleResult();
+                List<Promise> list = promiseQuery.getResultList();
+                if (!list.isEmpty()) {
+                    promise = list.get(0);
+                }
+//                promise = (Promise)promiseQuery.getSingleResult();
 
                 setupResultsTable(target);
 

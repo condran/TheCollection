@@ -3,6 +3,8 @@ package com.paulcondran.collection.model.data;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.io.Serializable;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 /**
  * User database entity model.
@@ -13,7 +15,7 @@ public class User implements Serializable {
     @Id
     private String userID;
     
-	private String name;
+    private String name;
     
     private String type;
     
@@ -22,6 +24,10 @@ public class User implements Serializable {
     private String emailAddress;
     
     private String password;
+
+    private String organisation;
+    
+    private String collectorCode;
 
     public String getUserID() {
 		return userID;
@@ -75,6 +81,34 @@ public class User implements Serializable {
      */
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    /**
+     * @return the organisation
+     */
+    public String getOrganisation() {
+        return organisation;
+    }
+
+    /**
+     * @param organisation the organisation to set
+     */
+    public void setOrganisation(String organisation) {
+        this.organisation = organisation;
+    }
+
+    /**
+     * @return the collectorCode
+     */
+    public String getCollectorCode() {
+        return collectorCode;
+    }
+
+    /**
+     * @param collectorCode the collectorCode to set
+     */
+    public void setCollectorCode(String collectorCode) {
+        this.collectorCode = collectorCode;
     }
 
 }

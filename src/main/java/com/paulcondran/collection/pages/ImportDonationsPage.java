@@ -19,7 +19,7 @@ import org.apache.wicket.markup.html.form.DropDownChoice;
  *
  * @author Paul Condran
  */
-@AuthorizeInstantiation("admin")
+@AuthorizeInstantiation("Admin")
 public class ImportDonationsPage extends BasePage {
 
     private FileUploadField fileUpload;

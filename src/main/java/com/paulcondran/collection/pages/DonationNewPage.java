@@ -38,7 +38,7 @@ import java.util.List;
  *
  * @author Paul Condran
  */
-@AuthorizeInstantiation("user")
+@AuthorizeInstantiation("User")
 public class DonationNewPage extends BasePage {
 
     private DonationNew donationNew = new DonationNew();
@@ -48,13 +48,33 @@ public class DonationNewPage extends BasePage {
     private FeedbackPanel feedbackPanel;
     private RepeatingView categoryListView;
     Function2Void<AjaxRequestTarget, DonationCategory> addCategoryFunction;
+    DropDownChoice collector;
+
 
     public DonationNewPage() {
 
         setupUserInterfaceFields();
         final DropDownChoice organisation = addDropdownField("orgChapter",
                 new PropertyModel<String>(donationNew, "donation.orgChapter"), CollectionUtil.listOrganisations());
+        organisation.add(new AjaxFormComponentUpdatingBehavior("onchange") {
+            @Override
+            protected void onUpdate(AjaxRequestTarget target) {
 
+                if (donationNew.getDonation().getOrgChapter() != null) {
+                    collector.setChoices(CollectionUtil.listCollectors(donationNew.getDonation().getOrgChapter()));
+                } else {
+                    collector.setChoices(CollectionUtil.listEmptyList());
+                }
+
+
+                target.add(collector);
+            }
+        });
+
+        collector = addDropdownField("collector",
+            new PropertyModel<String>(donationNew, "donation.collector"), CollectionUtil.listEmptyList());
+
+        
         listCategories();
 
     }
@@ -136,7 +156,7 @@ public class DonationNewPage extends BasePage {
         addTextField("name", new PropertyModel<String>(donationNew, "donation.name"));
         addTextArea("details", new PropertyModel<String>(donationNew, "donation.details"));
         addTextField("address1", new PropertyModel<String>(donationNew, "member.address1"));
-        addTextField("address2", new PropertyModel<String>(donationNew, "member.address2"));
+//        addTextField("address2", new PropertyModel<String>(donationNew, "member.address2"));
         addTextField("suburb", new PropertyModel<String>(donationNew, "member.suburb"));
         addTextField("state", new PropertyModel<String>(donationNew, "member.state"));
         

@@ -67,24 +67,25 @@
             </div>
         </div>
 
+        <div wicket:id="feedbackPanel" class="span10"></div>
 
         <div class="span10">
             <form wicket:id="form" class="form-horizontal">
-                <legend>User Search</legend>
+                <legend>Monthly Deposit Details</legend>
 
                 <div class="span4">
 
                     <div class="control-group">
-                        <label class="control-label" for="userID">User ID</label>
+                        <label class="control-label" for="orgChapter">Organisation</label>
                         <div class="controls">
-                            <input wicket:id="userID" type="text" class="input-medium" />
+                            <select wicket:id="organisation" type="text" class="input-medium"></select>
                         </div>
                     </div>
 
                     <div class="control-group">
-                        <label class="control-label" for="name">Name</label>
+                        <label class="control-label" for="date">Month (YYYY/MM)</label>
                         <div class="controls">
-                            <input wicket:id="name" type="text" class="input-medium"/>
+                             <input wicket:id="depositPeriod" type="text" class="input-medium" />
                         </div>
                     </div>
 
@@ -92,73 +93,60 @@
 
                 <div class="span6">
                     <div class="control-group">
-                        <label class="control-label" for="name">UserType</label>
+                        <label class="control-label" for="collector">Collector</label>
                         <div class="controls">
-                            <select wicket:id="type">
-                                <option value="all">All</option>
-                                <option value="collector">Collector</option>
-                                <option value="admin">Admin</option>
-                                <option value="finance">Finance</option>
+                            <select wicket:id="collector">
+                                <option>Collector 1</option>
+                                <option>Collector 2</option>
                             </select>
                         </div>
                     </div>
+                </div>
 
+               <legend>Individual Deposit Details</legend>
+                <div class="span4">
+                    <div class="control-group">
+                        <label class="control-label" for="date">Deposit Date</label>
+                        <div class="controls">
+                            <input wicket:id="date1" type="text" class="input-medium datepicker" />
+                            <input wicket:id="date2" type="text" class="input-medium datepicker" />
+                            <input wicket:id="date3" type="text" class="input-medium datepicker" />
+                            <input wicket:id="date4" type="text" class="input-medium datepicker" />
+                            <input wicket:id="date5" type="text" class="input-medium datepicker" />
+                            <input wicket:id="date6" type="text" class="input-medium datepicker" />
+                        </div>
+                    </div>
 
                 </div>
+                <div class="span4">
+                    <div class="control-group">
+                        <label class="control-label" for="amount">Deposit Amount</label>
+                        <div class="controls">
+                            <input wicket:id="amount1" type="text" class="input-medium" />
+                            <input wicket:id="amount2" type="text" class="input-medium" />
+                            <input wicket:id="amount3" type="text" class="input-medium" />
+                            <input wicket:id="amount4" type="text" class="input-medium" />
+                            <input wicket:id="amount5" type="text" class="input-medium" />
+                            <input wicket:id="amount6" type="text" class="input-medium" />
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="total">Total</label>
+                        <div class="controls">
+                            <input wicket:id="total" type="text" class="input-medium" />
+                        </div>
+                    </div>
+                </div>
+               
 
                 <div class="span10">
                     <div class="controls controls-row pull-right">
-                        <a href="UserNewPage.html" class="btn" id="newDonation">New User</a>
-                        <input wicket:id="search" type="button" class="btn btn-primary" name="search" value="Search" />
+                        <a href="DepositSearch.html" class="btn" id="cancel">Cancel</a>
+                        <input wicket:id="save" type="submit" class="btn btn-success" value="Save" />
                     </div>
 
                 </div>
 
-
-                <div class="span10">
-                    <h3>Results</h3>
-                    <hr />
-
-                    <table wicket:id="searchResults" class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>UserID</th>
-                                <th>email</th>
-                                <th>UserType</th>
-                                <th class="span1">&nbsp;</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Joe Bloe</td>
-                                <td>joeb</td>
-                                <td>job@gmail.com</td>
-                                <td>Collector</td>
-                                <td><a class="btn btn-mini" href="#" title="Edit"><i class="icon-edit"></i></a>
-                                    <a class="btn btn-mini" href="#" title="Delete"><i class="icon-trash"></i></a></td>
-                            </tr>
-                            <tr>
-                                <td>Joe Bloe</td>
-                                <td>joeb</td>
-                                <td>job@gmail.com</td>
-                                <td>Finance</td>
-                                <td><a class="btn btn-mini" href="#" title="Edit"><i class="icon-edit"></i></a>
-                                    <a class="btn btn-mini" href="#" title="Delete"><i class="icon-trash"></i></a></td>
-                            </tr>
-                            <tr>
-                                <td>Joe Bloe</td>
-                                <td>joeb</td>
-                                <td>job@gmail.com</td>
-                                <td>Admin</td>
-                                <td><a class="btn btn-mini" href="#" title="Edit"><i class="icon-edit"></i></a>
-                                    <a class="btn btn-mini" href="#" title="Delete"><i class="icon-trash"></i></a></td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-
-                </div>
             </form>
         </div>
 

@@ -3,7 +3,9 @@ package com.paulcondran.collection.components;
 
 import com.paulcondran.collection.UIConstants;
 import com.paulcondran.collection.data.CollectionDatabase;
+import com.paulcondran.collection.model.data.AppConfig;
 import com.paulcondran.collection.model.data.CategoryDef;
+import com.paulcondran.collection.model.data.User;
 import com.paulcondran.collection.model.ui.OptionItem;
 import org.apache.commons.lang3.StringUtils;
 
@@ -44,7 +46,6 @@ public class CollectionUtil {
         EntityManager em = db.getEntityManager();
 
         Query q = em.createQuery("from CategoryDef where promiseCategory='true'");
-        q.setMaxResults(UIConstants.MAX_RECENT_RESULTS);
 
         List<CategoryDef> catList = q.getResultList();
         for (CategoryDef def : catList)
@@ -53,38 +54,89 @@ public class CollectionUtil {
         }
         return list;
     }
+    public static User loadUser(String username) {
+        
+        CollectionDatabase db = CollectionDatabase.getInstance();
+        EntityManager em = db.getEntityManager();
 
-    public static List<OptionItem> listCollectors() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("from User where userID='"+username+"'");
+        
+        Query q = em.createQuery(sb.toString());
+
+        List<User> catList = q.getResultList();
+        if (catList.size() >0) {
+            return catList.get(0);
+        } else
+        return null;
+    }
+
+    public static List<AppConfig> loadConfigData(String key1, String key2, String key3) {
+        
+        CollectionDatabase db = CollectionDatabase.getInstance();
+        EntityManager em = db.getEntityManager();
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("from AppConfig where key1='"+key1+"'");
+        if (!StringUtils.isBlank(key2)) {
+            sb.append (" and key2='"+key2+"'");
+        }
+                
+        if (!StringUtils.isBlank(key3)) {
+            sb.append (" and key3='"+key3+"'");
+        }
+        
+        Query q = em.createQuery(sb.toString());
+
+        List<AppConfig> catList = q.getResultList();
+        return catList;
+    }
+    public static List<OptionItem> listCollectors(String organisation) {
         List<OptionItem> list = new ArrayList<OptionItem>();
-        list.add(new OptionItem("CL01", "Bart Simpson"));
-        list.add(new OptionItem("CL02", "Fred Flintsone"));
-        list.add(new OptionItem("CL03", "Eric Cartman"));
+        List<AppConfig> cList = loadConfigData("Collector", organisation, null);
+        for ( AppConfig conf : cList) {
+            list.add(new OptionItem(conf.getValue(), conf.getValue()));
+        }
         return list;
     }
 
     public static List<OptionItem> listOrganisations() {
         List<OptionItem> list = new ArrayList<OptionItem>();
-        list.add(new OptionItem("Alsadaqat", "Alsadaqat"));
+
+        List<AppConfig> cList = loadConfigData("Organisation", null, null);
+        for ( AppConfig conf : cList) {
+            list.add(new OptionItem(conf.getValue(), conf.getValue()));
+        }
+        
         return list;
     }
 
-    public static List<OptionItem> listOrganisations2() {
+    public static List<OptionItem> listConfigKeys() {
         List<OptionItem> list = new ArrayList<OptionItem>();
-        list.add(new OptionItem("ORG01", "Bakers Delight"));
-        list.add(new OptionItem("ORG02", "Burger King"));
-        list.add(new OptionItem("ORG03", "Coles"));
+        list.add(new OptionItem("Organisation", "Organisation"));
+        list.add(new OptionItem("Collector", "Collector"));
         return list;
     }
+
 
     public static List<OptionItem> listUserTypes() {
         List<OptionItem> list = new ArrayList<OptionItem>();
-        list.add(new OptionItem("User", "User"));
-        list.add(new OptionItem("Collector", "Collector"));
-        list.add(new OptionItem("Finance", "Finance"));
-        list.add(new OptionItem("Admin", "Admin"));
+        list.add(new OptionItem(UIConstants.ROLE_USER, UIConstants.ROLE_USER));
+        list.add(new OptionItem(UIConstants.ROLE_COLLECTOR, UIConstants.ROLE_COLLECTOR));
+        list.add(new OptionItem(UIConstants.ROLE_FINANCE, UIConstants.ROLE_FINANCE));
+        list.add(new OptionItem(UIConstants.ROLE_CENTRAL_FINANCE, UIConstants.ROLE_CENTRAL_FINANCE));
+        list.add(new OptionItem(UIConstants.ROLE_ADMIN, UIConstants.ROLE_ADMIN));
         return list;
     }
-
+    
+    public static <E extends Enum<E>> List<OptionItem> convertToOptionList(List<E> aList) {
+        List<OptionItem> oList = new ArrayList<OptionItem>();
+        for (Enum optValue : aList) {
+            oList.add(new OptionItem(optValue.toString(), optValue.toString()));            
+        }
+            
+         return oList;   
+    }
     /**
      * Calls appendIfNotBlank with the formatter of "%s "
      */

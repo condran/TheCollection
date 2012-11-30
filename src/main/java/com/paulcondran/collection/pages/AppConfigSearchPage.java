@@ -6,9 +6,9 @@ import com.paulcondran.collection.components.CollectionDataTable;
 import com.paulcondran.collection.components.CollectionUtil;
 import com.paulcondran.collection.components.ViewEditDelColumn;
 import com.paulcondran.collection.data.CollectionDatabase;
-import com.paulcondran.collection.model.data.CategoryDef;
+import com.paulcondran.collection.model.data.AppConfig;
 import com.paulcondran.collection.model.data.User;
-import com.paulcondran.collection.model.ui.UserSearch;
+import com.paulcondran.collection.model.ui.AppConfigSearch;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.form.AjaxButton;
 import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
@@ -37,39 +37,77 @@ import java.util.List;
  * @author Paul Condran
  */
 @AuthorizeInstantiation("Admin")
-public class CategorySearchPage extends BasePage {
+public class AppConfigSearchPage extends BasePage {
 
-    private List<CategoryDef> searchResults = null;
+    private AppConfigSearch confSearch = new AppConfigSearch();
+
+    private List<AppConfig> searchResults = null;
 
     private Form form;
 
     private DataTable dataTable;
 
-    private CollectionDataProvider<CategoryDef> dataProvider;
+    private CollectionDataProvider<AppConfig> dataProvider;
 
 
-    public CategorySearchPage() {
+    public AppConfigSearchPage() {
+
         setupUserInterfaceFields();
 
-        searchResults = listCategories();
+        searchResults = listConfig();
 
         setupResultsTable();
 
     }
 
+    /**
+     * This method creates the Wicket user interface fields and binds to the model object.
+     */
     private void setupUserInterfaceFields() {
 
         form = new Form("form");
         form.setOutputMarkupId(true);
         add(form);
         setMarkupContainer(form);
+
+
+        final DropDownChoice key1 = addDropdownField("key1",
+                new PropertyModel<String>(confSearch, "key1"), CollectionUtil.listConfigKeys());
+
+
+        // Hook into the search behaviour
+        form.add(new AjaxButton("search") {
+            @Override
+            protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
+
+                CollectionDatabase db = CollectionDatabase.getInstance();
+                CriteriaBuilder builder = db.getEntityManager().getCriteriaBuilder();
+                CriteriaQuery<AppConfig> query = builder.createQuery(AppConfig.class);
+                Root<AppConfig> confRoot = query.from(AppConfig.class);
+                query.select(confRoot);
+
+                List<Predicate> predicateList = confSearch.listPredicates(confRoot, builder);
+
+                if (!predicateList.isEmpty()) {
+                    Predicate[] predicates = predicateList.toArray(new Predicate[predicateList.size()]);
+                    query.where(predicates);
+                }
+
+                searchResults = db.getEntityManager().createQuery(query).getResultList();
+                dataProvider.setResults(searchResults);
+
+                target.add(dataTable);
+            }
+        });
+
     }
-    private List<CategoryDef> listCategories() {
-        List<CategoryDef> userList = new ArrayList<CategoryDef>();
+
+    private List<AppConfig> listConfig() {
+        List<AppConfig> userList = new ArrayList<AppConfig>();
         CollectionDatabase db = CollectionDatabase.getInstance();
         EntityManager em = db.getEntityManager();
 
-        Query q = em.createQuery("from CategoryDef");
+        Query q = em.createQuery("from AppConfig order by key1");
         q.setMaxResults(UIConstants.MAX_RECENT_RESULTS);
 
         List list = q.getResultList();
@@ -93,13 +131,14 @@ public class CategorySearchPage extends BasePage {
 
         List<IColumn> columns = new ArrayList<IColumn>();
 
-        columns.add(new PropertyColumn<String, String>(new Model<String>("CategoryID"), "categoryID", "categoryID"));
-        columns.add(new PropertyColumn<String, String>(new Model<String>("Category Name"), "name", "name"));
-        columns.add(new PropertyColumn<String, String>(new Model<String>("Promise?"), "promiseCategory", "promiseCategory"));
+        columns.add(new PropertyColumn<String, String>(new Model<String>("Key1"), "key1", "key1"));
+        columns.add(new PropertyColumn<String, String>(new Model<String>("Key2"), "key2", "key2"));
+        columns.add(new PropertyColumn<String, String>(new Model<String>("Key3"), "key3", "key3"));
+        columns.add(new PropertyColumn<String, String>(new Model<String>("Value"), "value", "value"));
         columns.add(new ViewEditDelColumn(new Model<String>(""), null) {
             @Override
             public AbstractLink createViewLink(String id, IModel rowModel) {
-                final CategoryDef def = (CategoryDef) rowModel.getObject();
+                final AppConfig conf = (AppConfig) rowModel.getObject();
                 AbstractLink viewLink = new AjaxSubmitLink(id) {
                     @Override
                     protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
@@ -114,13 +153,13 @@ public class CategorySearchPage extends BasePage {
 
             @Override
             public AbstractLink createEditLink(String id, IModel rowModel) {
-                final CategoryDef def = (CategoryDef) rowModel.getObject();
+                final AppConfig conf = (AppConfig) rowModel.getObject();
                 AbstractLink editLink = new AjaxSubmitLink(id) {
                     @Override
                     protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
-                        CategoryNewPage catNewPage = new CategoryNewPage();
-                        catNewPage.setEditMode(def);
-                        getRequestCycle().setResponsePage(catNewPage);
+                        AppConfigNewPage appConfigNewPage = new AppConfigNewPage();
+                        appConfigNewPage.setEditMode(conf);
+                        getRequestCycle().setResponsePage(appConfigNewPage);
                     }
                 };
                 return editLink;
@@ -128,20 +167,22 @@ public class CategorySearchPage extends BasePage {
 
             @Override
             public AbstractLink createDeleteLink(String id, IModel rowModel) {
-                final CategoryDef def = (CategoryDef) rowModel.getObject();
+                final AppConfig conf = (AppConfig) rowModel.getObject();
                 AbstractLink delLink = new AjaxSubmitLink(id) {
                     @Override
                     protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
-                           CollectionDatabase.getInstance().remove(def);
+                           CollectionDatabase.getInstance().remove(conf);
 //                        getRequestCycle().setResponsePage(this);
-                           searchResults.remove(def);
+                           searchResults.remove(conf);
+                           
+                           
                     }
                 };
                 return delLink;
             }
         });
 
-        dataProvider = new CollectionDataProvider<CategoryDef>(searchResults);
+        dataProvider = new CollectionDataProvider<AppConfig>(searchResults);
 
         dataTable = new CollectionDataTable("searchResults", columns, dataProvider, UIConstants.MAX_RESULTS_PER_PAGE);
         dataTable.setOutputMarkupId(true);

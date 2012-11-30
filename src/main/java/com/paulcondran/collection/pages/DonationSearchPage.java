@@ -7,6 +7,7 @@ import com.paulcondran.collection.data.CollectionDatabase;
 import com.paulcondran.collection.model.data.Donation;
 import com.paulcondran.collection.model.data.DonationCategory;
 import com.paulcondran.collection.model.ui.DonationSearch;
+import com.paulcondran.collection.model.ui.OptionItem;
 import java.math.BigDecimal;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.wicket.AttributeModifier;
@@ -50,11 +51,12 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author Paul Condran
  */
-@AuthorizeInstantiation("user")
+@AuthorizeInstantiation("User")
 public class DonationSearchPage extends BasePage {
 
     private DonationSearch donationSearch = new DonationSearch();
@@ -69,8 +71,17 @@ public class DonationSearchPage extends BasePage {
 
     private CSVResourceStream csvResourceStream;
     private Donation deletionCandidate = null;
-
+    DropDownChoice organisation;
+    DropDownChoice collector;
+    
     public DonationSearchPage() {
+        
+        if (StringUtils.isNotBlank(getSessionBean().getOrganisation())) {
+            donationSearch.setOrganisation(getSessionBean().getOrganisation());
+        }
+        if (StringUtils.isNotBlank(getSessionBean().getCollectorCode())) {
+            donationSearch.setCollector(getSessionBean().getCollectorCode());
+        }
 
         setupUserInterfaceFields();
 
@@ -97,31 +108,46 @@ public class DonationSearchPage extends BasePage {
         addTextField("ddt", new PropertyModel<String>(donationSearch, "ddt"));
         addTextField("dateFrom", new PropertyModel<String>(donationSearch, "dateFrom"));
         addTextField("dateTo", new PropertyModel<String>(donationSearch, "dateTo"));
-
-        final DropDownChoice organisation = addDropdownField("organisation",
-                new PropertyModel<String>(donationSearch, "organisation"), CollectionUtil.listEmptyList());
+        addCheckboxField("unclosed", new PropertyModel<Boolean>(donationSearch, "unclosed"));
 
 
-        DropDownChoice collector = addDropdownField("collector", new PropertyModel<String>(donationSearch, "collector"),
-                CollectionUtil.listCollectors());
+        if (StringUtils.isNotBlank(getSessionBean().getOrganisation())) {
+            organisation = addDropdownField("organisation",
+                    new PropertyModel<String>(this, "donationSearch.organisation"), Arrays.asList(new OptionItem( getSessionBean().getOrganisation(), getSessionBean().getOrganisation())));
+        } else {
+            organisation = addDropdownField("organisation",
+                    new PropertyModel<String>(this, "donationSearch.organisation"), CollectionUtil.listOrganisations());
+        }
+
+        // set collector code from user information, or set it to the list for an organisation, or to empty 
+        if (StringUtils.isNotBlank(getSessionBean().getCollectorCode())) {
+            collector = addDropdownField("collector",
+                    new PropertyModel<String>(this, "donationSearch.collector"), Arrays.asList(new OptionItem( getSessionBean().getCollectorCode(), getSessionBean().getCollectorCode())));
+        } else {
+             if (StringUtils.isNotBlank(getSessionBean().getOrganisation())) {
+                collector = addDropdownField("collector",
+                    new PropertyModel<String>(this, "donationSearch.collector"), CollectionUtil.listCollectors(getSessionBean().getOrganisation()));
+             } else {
+                collector = addDropdownField("collector",
+                    new PropertyModel<String>(this, "donationSearch.collector"), CollectionUtil.listEmptyList());
+             }
+                 
+        }
+
         // Logic to determine list based on collector
-        collector.add(new AjaxFormComponentUpdatingBehavior("onchange") {
+        organisation.add(new AjaxFormComponentUpdatingBehavior("onchange") {
             @Override
             protected void onUpdate(AjaxRequestTarget target) {
 
-                if (donationSearch.getCollector() != null) {
-                    if ("CL01".equals(donationSearch.getCollector())) {
-                        organisation.setChoices(CollectionUtil.listOrganisations());
-                    }
-                    else {
-                        organisation.setChoices(CollectionUtil.listOrganisations2());
-                    }
+                if (donationSearch.getOrganisation() != null) {
+                    collector.setChoices(CollectionUtil.listCollectors(donationSearch.getOrganisation()));
                 } else {
-                    organisation.setChoices(CollectionUtil.listEmptyList());
+                    collector.setChoices(CollectionUtil.listEmptyList());
+                    donationSearch.setCollector(null);
                 }
 
 
-                target.add(organisation);
+                target.add(collector);
             }
         });
 
@@ -318,7 +344,7 @@ public class DonationSearchPage extends BasePage {
             public String processCategoriesSummary(IModel rowModel) {
                 StringBuilder categories = new StringBuilder();
                 Donation donation = (Donation)rowModel.getObject();
-                for(int i=0; i < 3; i++) {
+                for(int i=0; i < 1; i++) {
                     if (i < donation.getCategoryList().size()) {
                         DonationCategory donationCategory = donation.getCategoryList().get(i);
                         categories.append(donationCategory.getCategoryName());
@@ -334,7 +360,7 @@ public class DonationSearchPage extends BasePage {
             @Override
             public boolean showLong(IModel rowModel) {
                 Donation donation = (Donation)rowModel.getObject();
-                if (donation.getCategoryList().size() > 3) {
+                if (donation.getCategoryList().size() > 1) {
                     return true;
                 }
                 return false;

@@ -36,8 +36,12 @@ public class CollectionApplication extends AuthenticatedWebApplication {
 
         // Mount the pages to paths
         //mount(new QueryStringUrlCodingStrategy("/search", TransactionSearch.class));
+        mount(new MountedMapper("/AppConfigSearchPage.html", AppConfigSearchPage.class));
+        mount(new MountedMapper("/AppConfigNewPage.html", AppConfigNewPage.class));
         mount(new MountedMapper("/DonationSearchPage.html", DonationSearchPage.class));
         mount(new MountedMapper("/DonationNewPage.html", DonationNewPage.class));
+        mount(new MountedMapper("/DepositeSearchPage.html", DepositeSearchPage.class));
+        mount(new MountedMapper("/DepositeNewPage.html", DepositeNewPage.class));
         mount(new MountedMapper("/MemberSearchPage.html", MemberSearchPage.class));
         mount(new MountedMapper("/MemberNewPage.html", MemberNewPage.class));
         mount(new MountedMapper("/PromiseSearchPage.html", PromiseSearchPage.class));

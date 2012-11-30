@@ -38,7 +38,7 @@ import java.util.List;
  *
  * @author Paul Condran
  */
-@AuthorizeInstantiation("user")
+@AuthorizeInstantiation("User")
 public class PromiseNewPage extends BasePage {
 
     private PromiseNew promiseNew = new PromiseNew();

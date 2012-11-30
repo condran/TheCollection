@@ -1,5 +1,6 @@
 package com.paulcondran.collection.model.data;
 
+import com.paulcondran.collection.DonationStatus;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -37,6 +38,9 @@ public class Donation implements Serializable {
     private BigDecimal total;
     
     private String details;
+    
+    @Enumerated(EnumType.STRING) 
+    private DonationStatus donationStatus = DonationStatus.Initial;
 
 //    @ElementCollection
     @OneToMany(mappedBy = "donation", cascade = {CascadeType.ALL})  
@@ -145,5 +149,19 @@ public class Donation implements Serializable {
      */
     public void setDetails(String details) {
         this.details = details;
+    }
+
+    /**
+     * @return the donationStatus
+     */
+    public DonationStatus getDonationStatus() {
+        return donationStatus;
+    }
+
+    /**
+     * @param donationStatus the donationStatus to set
+     */
+    public void setDonationStatus(DonationStatus donationStatus) {
+        this.donationStatus = donationStatus;
     }
 }

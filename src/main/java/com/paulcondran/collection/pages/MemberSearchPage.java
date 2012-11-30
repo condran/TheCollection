@@ -51,7 +51,7 @@ import org.supercsv.cellprocessor.ift.CellProcessor;
 /**
  * @author Paul Condran
  */
-@AuthorizeInstantiation("admin")
+@AuthorizeInstantiation("Admin")
 public class MemberSearchPage extends BasePage {
 
     private MemberSearch memberSearch = new MemberSearch();

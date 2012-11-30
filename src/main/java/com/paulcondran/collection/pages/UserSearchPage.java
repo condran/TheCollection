@@ -36,7 +36,7 @@ import java.util.List;
 /**
  * @author Paul Condran
  */
-@AuthorizeInstantiation("admin")
+@AuthorizeInstantiation("User")
 public class UserSearchPage extends BasePage {
 
     private UserSearch userSearch = new UserSearch();
@@ -144,7 +144,7 @@ public class UserSearchPage extends BasePage {
                 AbstractLink viewLink = new AjaxSubmitLink(id) {
                     @Override
                     protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
-
+                        getSessionBean().switchUser(user);
                     }
                 };
                 // Don't show a view link for now.

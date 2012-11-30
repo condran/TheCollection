@@ -32,15 +32,15 @@ public class MenuPanel extends BasePanel {
 
         Roles roles = getSessionBean().getRoles();
 
-        if (roles.hasRole(UIConstants.USER_ROLE)) {
+        if (roles.hasRole(UIConstants.ROLE_USER)) {
             addUserMenu(navList);
         }
 
-        if (roles.hasRole(UIConstants.USER_ROLE)) {
+        if (roles.hasRole(UIConstants.ROLE_USER)) {
             addReportsMenu(navList);
         }
 
-        if (roles.hasRole(UIConstants.ADMIN_ROLE)) {
+        if (roles.hasRole(UIConstants.ROLE_ADMIN)) {
             addAdminMenu(navList);
         }
 
@@ -61,6 +61,9 @@ public class MenuPanel extends BasePanel {
 
         navList.add(new NavItem(navList.newChildId(), "Promises", active(Arrays.asList("PromiseSearchPage", "PromiseNewPage")),
                 redirectFunc(PromiseSearchPage.class)));
+
+        navList.add(new NavItem(navList.newChildId(), "Deposits", active(Arrays.asList("DepositeSearchPage", "DepositeNewPage")),
+                redirectFunc(DepositeSearchPage.class)));
 
         //        navList.add(new NavItem(navList.newChildId(), "User Settings", active(Arrays.asList("UserSettingsPage")),
 //                redirectFunc(DonationSearchPage.class)));
@@ -102,6 +105,8 @@ public class MenuPanel extends BasePanel {
         navList.add(new NavItem(navList.newChildId(), "Import Members", active(Arrays.asList("ImportMembersPage")),
                 redirectFunc(ImportMembersPage.class)));
 
+        navList.add(new NavItem(navList.newChildId(), "Manage Configuration", active(Arrays.asList("AppConfigSearcgPage", "AppConfigNewPage")),
+                redirectFunc(AppConfigSearchPage.class)));
     }
 
     /**

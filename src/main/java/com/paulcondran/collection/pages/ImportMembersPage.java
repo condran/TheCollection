@@ -14,7 +14,7 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
  *
  * @author Paul Condran
  */
-@AuthorizeInstantiation("admin")
+@AuthorizeInstantiation("Admin")
 public class ImportMembersPage extends BasePage {
 
     private FileUploadField fileUpload;

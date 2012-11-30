@@ -5,6 +5,7 @@
 package com.paulcondran.collection.dataimports;
 
 
+import com.paulcondran.collection.DonationStatus;
 import com.paulcondran.collection.components.CollectionUtil;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -108,6 +109,7 @@ public class ImportDonations {
         donation = locateDonation(val);
         if (donation == null ) {
             donation = new Donation();
+            donation.setDonationStatus(DonationStatus.Initial);
             donation.setReceiptNo(val);
             dcList = donation.getCategoryList();
         }

@@ -20,6 +20,8 @@ public class UserSearch {
     private String userID;
     private String name;
     private String type;
+    private String organisation;
+    
 
     public String getType() {
 		return type;
@@ -64,6 +66,20 @@ public class UserSearch {
             predicateList.add(type);
         }
         return predicateList;
+    }
+
+    /**
+     * @return the organisation
+     */
+    public String getOrganisation() {
+        return organisation;
+    }
+
+    /**
+     * @param organisation the organisation to set
+     */
+    public void setOrganisation(String organisation) {
+        this.organisation = organisation;
     }
 
 }

@@ -69,7 +69,7 @@
 
         <div class="span10">
             <form wicket:id="form" class="form-horizontal">
-                <legend>Donations Search</legend>
+                <legend>Deposit Search</legend>
 
                 <!-- Delete confirm -->
                 <div id="modalDelete" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -87,78 +87,50 @@
 
                 <div class="span4">
 
-                    <div class="control-group">
-                        <label class="control-label" for="memberID">Member ID</label>
+                     <div class="control-group">
+                        <label class="control-label" for="organisation">Organisation</label>
                         <div class="controls">
-                            <input wicket:id="memberID" type="text" class="input-medium" />
+                            <select wicket:id="organisation" type="text" class="input-medium"></select>
                         </div>
                     </div>
 
                     <div class="control-group">
-                        <label class="control-label" for="name">Name</label>
+                        <label class="control-label" for="date">Period (YYYY/MM)</label>
                         <div class="controls">
-                            <input wicket:id="name" type="text" class="input-medium"/>
-                        </div>
-                    </div>
-
-                    <div class="control-group">
-                        <label class="control-label" for="collector">Organisation</label>
-                        <div class="controls">
-                            <select wicket:id="organisation">
-                                <option>Collector 1</option>
-                                <option>Collector 2</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="control-group">
-                        <label class="control-label" for="name">Collector</label>
-                        <div class="controls">
-                            <select wicket:id="collector">
-                                <option value="abc">ABC</option>
-                                <option value="mcdonalds">McDonalds</option>
-                            </select>
+                             <input wicket:id="month" type="text" class="input-small" />
                         </div>
                     </div>
                 </div>
 
                 <div class="span6">
                     <div class="control-group">
-                        <label class="control-label" for="receipt">Receipt</label>
+                        <label class="control-label" for="collector">Collector</label>
                         <div class="controls">
-                            <input wicket:id="receipt" type="text" class="input-medium" />
+                            <select wicket:id="collector">
+                                <option>Collector 1</option>
+                                <option>Collector 2</option>
+                            </select>
                         </div>
                     </div>
-
-                    <div class="control-group">
-                        <label class="control-label" for="name">DDT</label>
+                    
+                     <div class="control-group">
+                        <label class="control-label" for="depositstatus">Deposit Status</label>
                         <div class="controls">
-                            <input wicket:id="ddt" type="text" class="input-medium"/>
-                        </div>
-                    </div>
-
-                    <div class="control-group">
-                        <label class="control-label" for="dateFrom">Date</label>
-                        <div class="controls controls-row">
-                            <input wicket:id="dateFrom" type="text" placeholder="From" class="input-small datepicker"
-                                   data-date-format="dd/mm/yyyy" />
-                            <input wicket:id="dateTo" type="text" placeholder="To" class="input-small datepicker"
-                                   data-date-format="dd/mm/yyyy" />
+                            <select wicket:id="depositStatus" type="text" class="input-medium"></select>
                         </div>
                     </div>
                     <div class="control-group">
-                        <label class="control-label" for="catg2"></label>
-                        <div class="controls-row">
-                            <label class="control-label" for="catg2">Show all unclosed?</label>
+                        <label class="control-label" for="catg2">Show all unclosed?</label>
+                        <div class="controls">
                             <input wicket:id="unclosed" type="checkbox" class="input-medium"/>
                         </div>
                     </div>
-
+                    
                 </div>
 
                 <div class="span10">
                     <div class="controls controls-row pull-right">
-                        <a href="DonationNewPage.html" class="btn" id="newDonation">New Donation</a>
+                        <a href="DepositeNewPage.html" class="btn" id="newDonation">New Deposit</a>
                         <input wicket:id="search" type="button" class="btn btn-primary" name="search" value="Search" />
                     </div>
 
@@ -171,37 +143,23 @@
                     <table wicket:id="searchResults" class="table table-striped">
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Member</th>
-                                <th>Record No</th>
+                                <th>Organisation</th>
+                                <th>Collector</th>
+                                <th>Period</th>
+                                <th>DepositStatus</th>
                                 <th>Total</th>
                                 <th class="span1">&nbsp;</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Name 1</td>
-                                <td>#7767-90</td>
-                                <td>#1001</td>
-                                <td>$1,200.88</td>
+                                <td>Org 1</td>
+                                <td>Collector 1</td>
+                                <td>2012/07</td>
+                                <td>Initial</td>
+                                <td>123.70</td>
                                 <td><a class="btn btn-mini" href="#" title="Edit"><i class="icon-edit"></i></a>
                                     <a class="btn btn-mini" href="#" title="Delete"><i class="icon-trash"></i></a></td>
-                            </tr>
-                            <tr>
-                                <td>Name 2</td>
-                                <td>#7767-90</td>
-                                <td>#1001</td>
-                                <td>$1,200.88</td>
-                                <td><a class="btn btn-mini" href="#"><i class="icon-edit"></i></a>
-                                    <a class="btn btn-mini" href="#"><i class="icon-trash"></i></a></td>
-                            </tr>
-                            <tr>
-                                <td>Name 2</td>
-                                <td>#7767-90</td>
-                                <td>#1001</td>
-                                <td>$1,200.88</td>
-                                <td><a class="btn btn-mini" href="#"><i class="icon-edit"></i></a>
-                                    <a class="btn btn-mini" href="#"><i class="icon-trash"></i></a></td>
                             </tr>
                         </tbody>
                     </table>

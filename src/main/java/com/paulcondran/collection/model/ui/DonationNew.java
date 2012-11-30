@@ -1,5 +1,6 @@
 package com.paulcondran.collection.model.ui;
 
+import com.paulcondran.collection.DonationStatus;
 import com.paulcondran.collection.model.data.Donation;
 import com.paulcondran.collection.model.data.Member;
 
@@ -29,6 +30,7 @@ public class DonationNew {
     public Donation getDonation() {
         if (donation == null) {
             donation = new Donation();
+            donation.setDonationStatus(DonationStatus.Initial);
         }
         return donation;
     }

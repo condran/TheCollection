@@ -1,5 +1,6 @@
 package com.paulcondran.collection.model.ui;
 
+import com.paulcondran.collection.DonationStatus;
 import com.paulcondran.collection.model.data.Donation;
 import org.apache.commons.lang3.StringUtils;
 
@@ -27,6 +28,7 @@ public class DonationSearch {
     private String ddt;
     private String collector;
     private String organisation;
+    private boolean unclosed;
 
     public String getMemberID() {
         return memberID;
@@ -95,6 +97,13 @@ public class DonationSearch {
 
     public List<Predicate> listPredicates(Root<Donation> donationRoot, CriteriaBuilder builder) {
         List<Predicate> predicateList = new ArrayList<Predicate>();
+        if (unclosed) {
+            Predicate depStattus = builder.notEqual(builder.lower(donationRoot.<String>get("donationStatus")), DonationStatus.Closed);
+            predicateList.add(depStattus);
+            depStattus = builder.notEqual(builder.lower(donationRoot.<String>get("donationStatus")), DonationStatus.AdjustedPostClosing);
+            predicateList.add(depStattus);
+            
+        }
 
         if (StringUtils.isNotBlank(getMemberID())) {
             Predicate memberID = builder.like(
@@ -110,6 +119,18 @@ public class DonationSearch {
         if (StringUtils.isNotBlank(getReceipt())) {
             Predicate memberID = builder.like(
                     builder.lower(donationRoot.<String>get("receiptNo")), "%" + getReceipt().toLowerCase() + "%");
+            predicateList.add(memberID);
+        }
+
+        if (StringUtils.isNotBlank(getOrganisation())) {
+            Predicate memberID = builder.like(
+                    builder.lower(donationRoot.<String>get("orgChapter")), "%" + getOrganisation().toLowerCase() + "%");
+            predicateList.add(memberID);
+        }
+
+        if (StringUtils.isNotBlank(getCollector())) {
+            Predicate memberID = builder.like(
+                    builder.lower(donationRoot.<String>get("collector")), "%" + getCollector().toLowerCase() + "%");
             predicateList.add(memberID);
         }
 
@@ -130,5 +151,19 @@ public class DonationSearch {
         }
 
         return predicateList;
+    }
+
+    /**
+     * @return the unclosed
+     */
+    public boolean getUnclosed() {
+        return unclosed;
+    }
+
+    /**
+     * @param unclosed the unclosed to set
+     */
+    public void setUnclosed(boolean unclosed) {
+        this.unclosed = unclosed;
     }
 }

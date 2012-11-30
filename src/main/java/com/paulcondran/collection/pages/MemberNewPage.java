@@ -22,7 +22,7 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
  *
  * @author Paul Condran
  */
-@AuthorizeInstantiation("admin")
+@AuthorizeInstantiation("Admin")
 public class MemberNewPage extends BasePage {
 
     private MemberNew memberNew = new MemberNew();
