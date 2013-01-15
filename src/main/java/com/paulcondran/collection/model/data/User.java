@@ -1,15 +1,13 @@
 package com.paulcondran.collection.model.data;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 
 /**
  * User database entity model.
  */
 @Entity
+@Table(name = "AppUsers")
 public class User implements Serializable {
 
     @Id

@@ -1,12 +1,14 @@
 package com.paulcondran.collection.data;
 
 import com.paulcondran.collection.AppProperties;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.net.URI;
 
 /**
  * This class manages the database connection, saving, updating, and searching entities.
@@ -71,8 +73,23 @@ public class CollectionDatabase {
                     String persistenceUnit = persistenceUnitName == null ? AppProperties.getInstance().getDatabaseConfig() : persistenceUnitName;
                     entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnit);
                 }
-                entityManager = entityManagerFactory.createEntityManager();
                 currentlyConnectedUnitName = persistenceUnitName;
+
+                // Check for environment URL from Heroku
+                String databaseURL = System.getenv("DATABASE_URL");
+                if (StringUtils.isNotBlank(databaseURL)) {
+                    URI dbUri = new URI(databaseURL);
+
+                    String username = dbUri.getUserInfo().split(":")[0];
+                    String password = dbUri.getUserInfo().split(":")[1];
+                    String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + "/" + dbUri.getPath();
+
+                    entityManagerFactory.getProperties().put("javax.persistence.jdbc.url", dbUrl);
+                    entityManagerFactory.getProperties().put("javax.persistence.jdbc.user", username);
+                    entityManagerFactory.getProperties().put("javax.persistence.jdbc.password", password);
+                }
+                entityManager = entityManagerFactory.createEntityManager();
+
             }
             catch (Exception e) {
                 log.error("Could not connect to the database.", e);
