@@ -3,12 +3,14 @@ package com.paulcondran.collection.data;
 import com.paulcondran.collection.AppProperties;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.apache.poi.util.SystemOutLogger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import java.net.URI;
+import java.util.HashMap;
 
 /**
  * This class manages the database connection, saving, updating, and searching entities.
@@ -71,23 +73,34 @@ public class CollectionDatabase {
             try {
                 if (entityManagerFactory == null) {
                     String persistenceUnit = persistenceUnitName == null ? AppProperties.getInstance().getDatabaseConfig() : persistenceUnitName;
-                    entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnit);
+                    // Check for environment URL from Heroku
+                    String databaseURL = System.getenv("DATABASE_URL");
+                    if (StringUtils.isNotBlank(databaseURL)) {
+                        URI dbUri = new URI(databaseURL);
+
+                        final String username = dbUri.getUserInfo().split(":")[0];
+                        final String password = dbUri.getUserInfo().split(":")[1];
+                        final String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
+                        log.debug("DATABASE_URL = " + dbUri);
+                        log.debug("username = " + username);
+                        log.debug("password = " + password);
+                        log.debug("DB_URL = " + dbUrl);
+
+                        entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnit, new HashMap<String,String>()
+                        {{
+                                put("javax.persistence.jdbc.user", username);
+                                put("javax.persistence.jdbc.password", password);
+                                put("javax.persistence.jdbc.url", dbUrl);
+                        }}
+                        );
+
+                    } else {
+                        log.debug("DATABASE_URL is empty, using " + entityManagerFactory.getProperties().get("javax.persistence.jdbc.url"));
+                        entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnit);
+                    }
                 }
                 currentlyConnectedUnitName = persistenceUnitName;
 
-                // Check for environment URL from Heroku
-                String databaseURL = System.getenv("DATABASE_URL");
-                if (StringUtils.isNotBlank(databaseURL)) {
-                    URI dbUri = new URI(databaseURL);
-
-                    String username = dbUri.getUserInfo().split(":")[0];
-                    String password = dbUri.getUserInfo().split(":")[1];
-                    String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + "/" + dbUri.getPath();
-
-                    entityManagerFactory.getProperties().put("javax.persistence.jdbc.url", dbUrl);
-                    entityManagerFactory.getProperties().put("javax.persistence.jdbc.user", username);
-                    entityManagerFactory.getProperties().put("javax.persistence.jdbc.password", password);
-                }
                 entityManager = entityManagerFactory.createEntityManager();
 
             }
