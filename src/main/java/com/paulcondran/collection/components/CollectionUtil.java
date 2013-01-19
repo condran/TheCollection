@@ -128,6 +128,13 @@ public class CollectionUtil {
         list.add(new OptionItem(UIConstants.ROLE_ADMIN, UIConstants.ROLE_ADMIN));
         return list;
     }
+
+    public static List<OptionItem> listDepositStatus() {
+        List<OptionItem> list = new ArrayList<OptionItem>();
+        list.add(new OptionItem("P", "Pending"));
+        list.add(new OptionItem("C", "Complete"));
+        return list;
+    }
     
     public static <E extends Enum<E>> List<OptionItem> convertToOptionList(List<E> aList) {
         List<OptionItem> oList = new ArrayList<OptionItem>();

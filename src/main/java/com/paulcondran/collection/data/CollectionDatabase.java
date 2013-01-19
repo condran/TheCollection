@@ -95,8 +95,8 @@ public class CollectionDatabase {
                         );
 
                     } else {
-                        log.debug("DATABASE_URL is empty, using " + entityManagerFactory.getProperties().get("javax.persistence.jdbc.url"));
                         entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnit);
+                        log.debug("DATABASE_URL is empty, using " + entityManagerFactory.getProperties().get("javax.persistence.jdbc.url"));
                     }
                 }
                 currentlyConnectedUnitName = persistenceUnitName;

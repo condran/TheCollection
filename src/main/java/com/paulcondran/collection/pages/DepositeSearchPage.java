@@ -93,6 +93,7 @@ public class DepositeSearchPage extends BasePage {
 
         addTextField("month", new PropertyModel<String>(depositeSearch, "month"));
         addCheckboxField("unclosed", new PropertyModel<Boolean>(depositeSearch, "unclosed"));
+        addDropdownField("depositStatus", new PropertyModel(depositeSearch, "depositStatus"), CollectionUtil.listDepositStatus());
 
         organisation = addDropdownField("organisation",
                 new PropertyModel<String>(depositeSearch, "organisation"), CollectionUtil.listOrganisations());
